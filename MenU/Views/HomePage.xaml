@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.HomePage">
+    <ContentPage.Content>
+        <Grid Padding="10" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Frame Grid.Row="0" CornerRadius="30" BorderColor="#BFBFBF" Padding="20,9" HasShadow="False" >
+                <Label Text="Search" TextColor="#A8A8A8" HorizontalOptions="Start" FontSize="22"/>
+            </Frame>
+            
+            <Image Source="qr_icon.png" Grid.Row="0" Grid.Column="1" Opacity="0.5"/>
+            <StackLayout Grid.Row="1" Margin="0,30,0,0" Grid.ColumnSpan="2">
+                <Label Text="Since you liked King Meat" HorizontalOptions="Start" TextColor="Black" FontSize="22"/>
+                <CollectionView ItemsLayout="HorizontalList" >
+                    
+                </CollectionView>
+            </StackLayout>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

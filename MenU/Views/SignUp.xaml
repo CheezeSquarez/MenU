@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.SignUp">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
+                <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
+                    <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
+
+
+                </Frame>
+
+                <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="430">
+                    <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
+                        <Entry Placeholder="Username" Margin="0"/>
+                        <Entry Placeholder="Email" />
+                        <Entry Placeholder="Password" />
+                        <Entry Placeholder="Confirm Password" />
+                        <Entry Placeholder="First Name" />
+                        <Entry Placeholder="Last Name" />
+                        <DatePicker MinimumDate="01/01/2018" MaximumDate="12/31/2018" Date="06/21/2018" Margin="0,0,0,40" />
+                        <Button Text="Sign Up"  BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                       
+                    </StackLayout>
+                </Frame>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
