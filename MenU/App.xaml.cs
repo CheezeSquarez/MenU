@@ -13,6 +13,7 @@ namespace MenU
         public App()
         {
             InitializeComponent();
+            
 
             MainPage = new SignUp();
         }
