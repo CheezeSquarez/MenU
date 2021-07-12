@@ -13,16 +13,23 @@ namespace MenU.Services
     {
         private HttpClient client;
         private string baseUri;
+        private static MenUWebAPI proxy = null;
 
-        public MenUWebAPI(string baseUri)
+        public static MenUWebAPI CreateProxy()
         {
+            if (proxy == null)
+                return new MenUWebAPI();
+            return proxy;
+        }
+        public MenUWebAPI()
+        {
+            this.baseUri = "";
             //Set client handler to support cookies!!
             HttpClientHandler handler = new HttpClientHandler();
             handler.CookieContainer = new System.Net.CookieContainer();
 
             //Create client with the handler!
             this.client = new HttpClient(handler, true);
-            this.baseUri = baseUri;
         }
 
         public async Task<Account> LoginAsync(string username, string password)
@@ -146,6 +153,81 @@ namespace MenU.Services
             catch (Exception)
             {
                 return false;
+            }
+        }
+        public async Task<string> CreateToken()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/CreateToken");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    string token = JsonSerializer.Deserialize<string>(content, options);
+                    return token;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+        public async Task<string> GenerateSalt()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/GenerateSalt");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    string salt = JsonSerializer.Deserialize<string>(content, options);
+                    return salt;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+        public async Task<Dictionary<string,string>> GetSaltAndIterations(string username)
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/GetSaltAndIterations?username={username}");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    Dictionary<string,string> returnDic = JsonSerializer.Deserialize<Dictionary<string,string>>(content, options);
+                    return returnDic;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

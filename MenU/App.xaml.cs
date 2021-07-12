@@ -15,7 +15,7 @@ namespace MenU
             InitializeComponent();
             
 
-            MainPage = new SignUp();
+            MainPage = new Login();
         }
 
         protected override void OnStart()
