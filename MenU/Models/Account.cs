@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MenU.Models
 {
-    class Account
+    public class Account
     {
         public Account() { }
         public int AccountId { get; set; }

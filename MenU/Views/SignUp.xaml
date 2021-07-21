@@ -13,14 +13,14 @@
 
                 <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="430">
                     <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
-                        <Entry Placeholder="Username" Margin="0"/>
-                        <Entry Placeholder="Email" />
-                        <Entry Placeholder="Password" />
-                        <Entry Placeholder="Confirm Password" />
-                        <Entry Placeholder="First Name" />
-                        <Entry Placeholder="Last Name" />
-                        <DatePicker MinimumDate="01/01/2018" MaximumDate="12/31/2018" Date="06/21/2018" Margin="0,0,0,40" />
-                        <Button Text="Sign Up"  BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                        <Entry Placeholder="Username" Text="{Binding Username}" Margin="0"/>
+                        <Entry Placeholder="Email" Text="{Binding Email}"/>
+                        <Entry Placeholder="Password" Text="{Binding Password}"/>
+                        <Entry Placeholder="Confirm Password" Text="{Binding PasswordConfirm}"/>
+                        <Entry Placeholder="First Name" Text="{Binding FirstName}"/>
+                        <Entry Placeholder="Last Name" Text="{Binding LastName}"/>
+                        <DatePicker MinimumDate="01/01/2018" MaximumDate="12/31/2018" Date="{Binding DataOfBirth}" Margin="0,0,0,40" />
+                        <Button Text="Sign Up" Command="{Binding SignUpCommand}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
                        
                     </StackLayout>
                 </Frame>

@@ -32,11 +32,12 @@ namespace MenU.Services
             this.client = new HttpClient(handler, true);
         }
 
-        public async Task<Account> LoginAsync(string username, string password)
+        public async Task<(Account account, int StatusCode)> LoginAsync(string username, string password)
         {
+            HttpResponseMessage response;
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/LoginCredentials?username={username}&pass={password}");
+                response = await this.client.GetAsync($"{this.baseUri}/LoginCredentials?username={username}&pass={password}");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -45,19 +46,20 @@ namespace MenU.Services
                     };
                     string content = await response.Content.ReadAsStringAsync();
                     Account acc = JsonSerializer.Deserialize<Account>(content, options);
-                    return acc;
+                    (Account, int) returnTuple = (acc, (int)response.StatusCode);
+                    return returnTuple;
                 }
                 else
                 {
-                    return null;
+                    return (null, StatusCode: (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return null;
+                return (null, 409);
             }
         }
-        public async Task<Account> LoginAsync(string token)
+        public async Task<(Account account, int StatusCode)> LoginAsync(string token)
         {
             try
             {
@@ -70,36 +72,36 @@ namespace MenU.Services
                     };
                     string content = await response.Content.ReadAsStringAsync();
                     Account acc = JsonSerializer.Deserialize<Account>(content, options);
-                    return acc;
+                    return (acc, (int)response.StatusCode);
                 }
                 else
                 {
-                    return null;
+                    return (null, StatusCode: (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return null;
+                return (null, 409);
             }
         }
-        public async Task<bool> LogOutAsync()
+        public async Task<(bool isSuccess, int StatusCode)> LogOutAsync()
         {
             try
             {
                 HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/LogOut");
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+                    return (true, StatusCode: (int)response.StatusCode);
                 }
                 else
-                    return false;
+                    return (false, (int)response.StatusCode);
             }
             catch (Exception)
             {
-                return false;
+                return (false, 409);
             }
         }
-        public async Task<bool> ExistsAsync(string username, string email)
+        public async Task<(bool exists, int StatusCode)> ExistsAsync(string username, string email)
         {
             try
             {
@@ -112,19 +114,19 @@ namespace MenU.Services
                     };
                     string content = await response.Content.ReadAsStringAsync();
                     bool b = JsonSerializer.Deserialize<bool>(content, options);
-                    return b;
+                    return (b, (int)response.StatusCode);
                 }
                 else
                 {
-                    return true;
+                    return (true, (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return true;
+                return (true, 409);
             }
         }
-        public async Task<bool> SignUpAsync(Account dummyAcc)
+        public async Task<(bool isSuccess, int StatusCode)> SignUpAsync(Account dummyAcc)
         {
             try
             {
@@ -142,20 +144,20 @@ namespace MenU.Services
                     };
                     string c = await response.Content.ReadAsStringAsync();
                     bool b = JsonSerializer.Deserialize<bool>(c, options);
-                    return b;
+                    return (b, (int)response.StatusCode);
 
                 }
                 else
                 {
-                    return false;
+                    return (false, (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return false;
+                return (false, 409);
             }
         }
-        public async Task<string> CreateToken()
+        public async Task<(string token, int StatusCode)> CreateToken()
         {
             try
             {
@@ -168,19 +170,19 @@ namespace MenU.Services
                     };
                     string content = await response.Content.ReadAsStringAsync();
                     string token = JsonSerializer.Deserialize<string>(content, options);
-                    return token;
+                    return (token, (int)response.StatusCode);
                 }
                 else
                 {
-                    return "";
+                    return ("", (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return "";
+                return ("", 409);
             }
         }
-        public async Task<string> GenerateSalt()
+        public async Task<(string salt, int StatusCode)> GenerateSalt()
         {
             try
             {
@@ -193,19 +195,19 @@ namespace MenU.Services
                     };
                     string content = await response.Content.ReadAsStringAsync();
                     string salt = JsonSerializer.Deserialize<string>(content, options);
-                    return salt;
+                    return (salt, (int)response.StatusCode);
                 }
                 else
                 {
-                    return "";
+                    return ("", (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return "";
+                return ("", 409);
             }
         }
-        public async Task<Dictionary<string,string>> GetSaltAndIterations(string username)
+        public async Task<(Dictionary<string,string> returnDic, int StatusCode)> GetSaltAndIterations(string username)
         {
             try
             {
@@ -218,16 +220,16 @@ namespace MenU.Services
                     };
                     string content = await response.Content.ReadAsStringAsync();
                     Dictionary<string,string> returnDic = JsonSerializer.Deserialize<Dictionary<string,string>>(content, options);
-                    return returnDic;
+                    return (returnDic, (int)response.StatusCode);
                 }
                 else
                 {
-                    return null;
+                    return (null, (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return null;
+                return (null, 409);
             }
         }
     }
