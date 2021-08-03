@@ -1,10 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MenU.Views.ProfilePage">
-    <ContentPage.Content>
-        <StackLayout Margin="0" Padding="0">
-            
-        </StackLayout>
-    </ContentPage.Content>
+             x:Class="MenU.Views.ProfilePage"
+             NavigationPage.HasNavigationBar="False">
+    <ScrollView Margin="0" Padding="0">
+        <Grid Padding="0" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*" />
+                <RowDefinition Height="40*" />
+                <RowDefinition Height="20*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="6*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Fill="red" Grid.Row="0" Grid.RowSpan="2" Margin="0" Grid.ColumnSpan="3"/>
+            <Frame CornerRadius="25" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" IsClippedToBounds="True" Padding="0">
+                <Image Source="default_pfp.jpg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
+                    
+                </Image>
+            </Frame>
+        </Grid>
+
+    </ScrollView>
 </ContentPage>

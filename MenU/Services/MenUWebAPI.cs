@@ -23,7 +23,7 @@ namespace MenU.Services
         }
         public MenUWebAPI()
         {
-            this.baseUri = "";
+            this.baseUri = "localhost:44358";
             //Set client handler to support cookies!!
             HttpClientHandler handler = new HttpClientHandler();
             handler.CookieContainer = new System.Net.CookieContainer();
@@ -37,7 +37,7 @@ namespace MenU.Services
             HttpResponseMessage response;
             try
             {
-                response = await this.client.GetAsync($"{this.baseUri}/LoginCredentials?username={username}&pass={password}");
+                response = await this.client.GetAsync($"{this.baseUri}/accounts/LoginCredentials?username={username}&pass={password}");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -56,14 +56,14 @@ namespace MenU.Services
             }
             catch (Exception)
             {
-                return (null, 409);
+                return (null, 503);
             }
         }
         public async Task<(Account account, int StatusCode)> LoginAsync(string token)
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/TokenLogin?token={token}");
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/accounts/TokenLogin?token={token}");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -81,14 +81,14 @@ namespace MenU.Services
             }
             catch (Exception)
             {
-                return (null, 409);
+                return (null, 503);
             }
         }
         public async Task<(bool isSuccess, int StatusCode)> LogOutAsync()
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/LogOut");
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/accounts/LogOut");
                 if (response.IsSuccessStatusCode)
                 {
                     return (true, StatusCode: (int)response.StatusCode);
@@ -98,14 +98,14 @@ namespace MenU.Services
             }
             catch (Exception)
             {
-                return (false, 409);
+                return (false, 503);
             }
         }
         public async Task<(bool exists, int StatusCode)> ExistsAsync(string username, string email)
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/DoesExist?uName={username}&email={email}");
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/accounts/DoesExist?uName={username}&email={email}");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -123,7 +123,7 @@ namespace MenU.Services
             }
             catch (Exception)
             {
-                return (true, 409);
+                return (true, 503);
             }
         }
         public async Task<(bool isSuccess, int StatusCode)> SignUpAsync(Account dummyAcc)
@@ -134,7 +134,7 @@ namespace MenU.Services
 
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await this.client.PostAsync($"{this.baseUri}/SignUp", content);
+                HttpResponseMessage response = await this.client.PostAsync($"{this.baseUri}/accounts/SignUp", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -154,14 +154,14 @@ namespace MenU.Services
             }
             catch (Exception)
             {
-                return (false, 409);
+                return (false, 503);
             }
         }
         public async Task<(string token, int StatusCode)> CreateToken()
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/CreateToken");
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/accounts/CreateToken");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -179,14 +179,14 @@ namespace MenU.Services
             }
             catch (Exception)
             {
-                return ("", 409);
+                return ("", 503);
             }
         }
         public async Task<(string salt, int StatusCode)> GenerateSalt()
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/GenerateSalt");
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/accounts/GenerateSalt");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -204,14 +204,14 @@ namespace MenU.Services
             }
             catch (Exception)
             {
-                return ("", 409);
+                return ("", 503);
             }
         }
         public async Task<(Dictionary<string,string> returnDic, int StatusCode)> GetSaltAndIterations(string username)
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/GetSaltAndIterations?username={username}");
+                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/accounts/GetSaltAndIterations?username={username}");
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -227,9 +227,9 @@ namespace MenU.Services
                     return (null, (int)response.StatusCode);
                 }
             }
-            catch (Exception)
+            catch
             {
-                return (null, 409);
+                return (null, 503);
             }
         }
     }

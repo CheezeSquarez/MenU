@@ -14,7 +14,7 @@ namespace MenU
     {
         public static string ErrorHandler(int statusCode, string currentMessage)
         {
-            if (currentMessage != "")
+            if (currentMessage == "")
             {
                 string message = "";
                 ((App)App.Current).StatusCodes.TryGetValue(statusCode, out message);
@@ -36,13 +36,12 @@ namespace MenU
             StatusCodes.Add(403, "You don't have access to this. Log in or try again later");
             StatusCodes.Add(500, "We are having trouble connecting to our servers. Please try again later");
             StatusCodes.Add(409, "A user with this username or email already exists.");
+            StatusCodes.Add(204, "This content is missing from our database...");
+            StatusCodes.Add(401, "Incorrect credentials. Please try again later");
+            StatusCodes.Add(503, "We are having trouble with our web service. Please try again later");
             StatusCodes.Add(200, "");
 
-            MainPage = new NavigationPage(new StartupPage())
-            {
-                BarBackgroundColor = Color.FromHex("#000000"),
-                BarTextColor = Color.White
-            };
+            MainPage = new NavigationPage(new Login());
         }
 
         protected override void OnStart()

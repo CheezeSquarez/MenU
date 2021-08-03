@@ -14,7 +14,7 @@ namespace MenU.ViewModels
         public LoginViewModel() { proxy = MenUWebAPI.CreateProxy(); }
         public LoginViewModel(string error) : this()
         {
-            if(error != "")
+            if (error != "")
                 this.Error = error;
         }
 
@@ -67,47 +67,55 @@ namespace MenU.ViewModels
         private async void LoginMethod()
         {
             (Dictionary<string, string>, int) saltAndIts = await proxy.GetSaltAndIterations(Username); // Requests the salt and number of iterations used for the specified user
-
-            string salt;
-            saltAndIts.Item1.TryGetValue("Salt", out salt);
-            string Iterations;
-            saltAndIts.Item1.TryGetValue("Iterations", out Iterations);
-            string hashed = this.Pass + salt;
-
-            for (int i = 0; i < int.Parse(Iterations); i++) // Hashes the entered password using the user's salt
+            if (saltAndIts.Item2 == 200)
             {
-                hashed = GeneralProcessing.ComputeSha256Hash(hashed);
-            }
-            Error = App.ErrorHandler(saltAndIts.Item2, Error);
+                string salt;
+                saltAndIts.Item1.TryGetValue("Salt", out salt);
+                string Iterations;
+                saltAndIts.Item1.TryGetValue("Iterations", out Iterations);
+                string hashed = this.Pass + salt;
 
-
-            (Account, int) result = await proxy.LoginAsync(Username, hashed); // Logs in with the API
-            Account acc = result.Item1;
-
-            if (acc != null) // Checks if login was successful
-            {
-                ((App)App.Current).User = acc;
-                if (KeepLoggedIn) // Checkes if the stay logged in box was checked
+                for (int i = 0; i < int.Parse(Iterations); i++) // Hashes the entered password using the user's salt
                 {
-                    (string, int) tokenResult = await proxy.CreateToken(); // Requests a new token from the API
-                    if (tokenResult.Item2 == 200)
+                    hashed = GeneralProcessing.ComputeSha256Hash(hashed);
+                }
+
+
+                (Account, int) result = await proxy.LoginAsync(Username, hashed); // Logs in with the API
+                Account acc = result.Item1;
+
+                if (acc != null) // Checks if login was successful
+                {
+                    ((App)App.Current).User = acc;
+                    if (KeepLoggedIn) // Checkes if the stay logged in box was checked
                     {
-                        // saves token in secure storage
-                        await SecureStorage.SetAsync("auth_token", tokenResult.Item1);
+                        (string, int) tokenResult = await proxy.CreateToken(); // Requests a new token from the API
+                        if (tokenResult.Item2 == 200)
+                        {
+                            // saves token in secure storage
+                            await SecureStorage.SetAsync("auth_token", tokenResult.Item1);
+                            Push?.Invoke(new Page());
+                            return;
+                        }
+                        Error = App.ErrorHandler(tokenResult.Item2, Error);
+                    }
+                    else
+                    {
                         Push?.Invoke(new Page());
                         return;
                     }
-                    Error = App.ErrorHandler(tokenResult.Item2, Error);
+
                 }
-                else
-                {
-                    Push?.Invoke(new Page());
-                    return;
-                }
-                    
+                Error = App.ErrorHandler(result.Item2, Error);
             }
-            Error = App.ErrorHandler(result.Item2, Error);
+            else
+            {
+                Error = App.ErrorHandler(saltAndIts.Item2, Error);
+                return;
+            }
         }
+        
+            
 
         #endregion Commands and Methods
     }

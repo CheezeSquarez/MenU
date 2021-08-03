@@ -101,5 +101,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\Startup_bg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\default_pfp.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
