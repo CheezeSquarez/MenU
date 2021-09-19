@@ -23,7 +23,7 @@ namespace MenU.Services
         }
         public MenUWebAPI()
         {
-            this.baseUri = "https://localhost:44358/";
+            this.baseUri = "localhost:44358";
             //Set client handler to support cookies!!
             HttpClientHandler handler = new HttpClientHandler();
             handler.CookieContainer = new System.Net.CookieContainer();
