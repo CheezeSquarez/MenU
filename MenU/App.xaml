@@ -16,7 +16,7 @@
             <Setter Property="" Value=""/>
             <Setter Property="" Value=""/>
             <Setter Property="" Value=""/>
-            <Setter Property="" Value=""/>
+            <Setter Property="" Value=" "/>
         </Style>
     </Application.Resources>
 </Application>
