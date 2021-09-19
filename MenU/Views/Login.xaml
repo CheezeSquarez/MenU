@@ -32,7 +32,7 @@
                         <Label Text="{Binding Error}" HorizontalTextAlignment="Center" HorizontalOptions="Center" TextColor="Red" Margin="0"/>
 
                         <StackLayout Margin="0,40,0,0">
-                            <Button Text="Login" Font="Staatliches" Style="{StaticResource Btn_1}" HeightRequest="40" Command="{Binding LoginCommand}"/>
+                            <Button Text="Login" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40" Command="{Binding LoginCommand}"/>
                             <Grid Margin="0" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="45*" />
@@ -49,7 +49,7 @@
                                 <Label TranslationY="-3" Text="or" FontSize="18" Grid.Column="1" BackgroundColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
                                    Grid.Row="0" Grid.RowSpan="3"/>
                             </Grid>
-                            <Button Text="Sign Up" Font="Staatliches" Command="{Binding ToSignUpCommand}" Style="{StaticResource Btn_1}" HeightRequest="40"></Button>
+                            <Button Text="Sign Up" Command="{Binding ToSignUpCommand}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
                         </StackLayout>
                         </StackLayout>
                 </Frame>
