@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MenU.Views.ProfilePage"
              NavigationPage.HasNavigationBar="False">
-    <ScrollView Margin="0" Padding="0">
-        <Grid Padding="0" Margin="0">
+    <ScrollView Margin="0" Padding="0" >
+        <StackLayout>
+        <StackLayout Margin="0" Padding="0">
+        <Grid Padding="0" Margin="0" HeightRequest="200">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50*" />
                 <RowDefinition Height="40*" />
@@ -12,16 +14,33 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2.4*"/>
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Fill="red" Grid.Row="0" Grid.RowSpan="2" Margin="0" Grid.ColumnSpan="3"/>
-            <Frame CornerRadius="25" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" IsClippedToBounds="True" Padding="0">
+                <Rectangle Fill="#f03434" Grid.Row="0" Grid.RowSpan="2" Margin="0" Grid.ColumnSpan="3"/>
+            <Frame CornerRadius="100" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" IsClippedToBounds="True" Padding="0" HeightRequest="100" WidthRequest="100">
                 <Image Source="default_pfp.jpg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
                     
                 </Image>
             </Frame>
         </Grid>
+        </StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.15*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label FontSize="Large" Text="Ido Sadeh-Rosenfeld" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start"/>
+            </Grid>
+        
+        </StackLayout>
+
+
 
     </ScrollView>
 </ContentPage>

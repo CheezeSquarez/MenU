@@ -41,7 +41,7 @@ namespace MenU
             StatusCodes.Add(503, "We are having trouble with our web service. Please try again later");
             StatusCodes.Add(200, "");
 
-            MainPage = new NavigationPage(new Login());
+            MainPage = new NavigationPage(new ProfilePage());
         }
 
         protected override void OnStart()
