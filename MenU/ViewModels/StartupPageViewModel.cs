@@ -49,6 +49,7 @@ namespace MenU.ViewModels
             Push?.Invoke(new HomePage());
 
         }
+        public StartupPageViewModel() { proxy = MenUWebAPI.CreateProxy(); }
         #endregion
     }
 

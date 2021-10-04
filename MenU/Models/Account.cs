@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MenU.Models
 {
-    public class Account
+    public partial class Account
     {
-        public Account() { }
+        public Account()
+        {
+            AccountAuthTokens = new List<AccountAuthToken>();
+            AccountTags = new List<AccountTag>();
+            Restaurants = new List<Restaurant>();
+            Reviews = new List<Review>();
+        }
+
         public int AccountId { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }
@@ -19,5 +25,11 @@ namespace MenU.Models
         public int AccountStatus { get; set; }
         public string Salt { get; set; }
         public int Iterations { get; set; }
+        public virtual ObjectStatus AccountStatusNavigation { get; set; }
+        public virtual AccountType AccountTypeNavigation { get; set; }
+        public virtual List<AccountAuthToken> AccountAuthTokens { get; set; }
+        public virtual List<AccountTag> AccountTags { get; set; }
+        public virtual List<Restaurant> Restaurants { get; set; }
+        public virtual List<Review> Reviews { get; set; }
     }
 }

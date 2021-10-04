@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MenU.Views.ProfilePage"
              NavigationPage.HasNavigationBar="False">
-    <ScrollView Margin="0" Padding="0" >
+    <ScrollView Margin="0" Padding="0" VerticalScrollBarVisibility="Never">
         <StackLayout>
         <StackLayout Margin="0" Padding="0">
         <Grid Padding="0" Margin="0" HeightRequest="200">
@@ -28,6 +28,14 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="0.4*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="0.15*" />
+                    <RowDefinition Height="1.7" />
+                    <RowDefinition Height="0.15*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.15*" />
@@ -35,10 +43,16 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label FontSize="Large" Text="Ido Sadeh-Rosenfeld" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start"/>
+                <Label Grid.Row="0" FontSize="Large" Text="Ido Sadeh-Rosenfeld" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start"/>
+                <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="ProjectFluffy" FontSize="Medium"  />
+                <Label Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Text="Birthday: 26/07/2004" FontSize="Medium" />
+
+                <Label Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Text="70 Reviews" FontSize="Medium" />
+                <BoxView Color="LightGray" HeightRequest="1.7" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" />
+                <Label Grid.Row="8" FontSize="Large" Text="Your Reviews" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
             </Grid>
-        
         </StackLayout>
+        
 
 
 
