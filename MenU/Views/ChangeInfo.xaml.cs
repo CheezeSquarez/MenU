@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MenU.ViewModels;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MenU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ProfilePage : ContentPage
+    public partial class ChangeInfo : ContentPage
     {
-        public ProfilePage()
+        public ChangeInfo()
         {
-            ProfilePageViewModel context = new ProfilePageViewModel();
-            this.BindingContext = context;
             InitializeComponent();
         }
     }

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.ChangeInfo"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="Small" />
+            <Setter Property="TranslationY" Value="10" />
+        </Style>
+    </ContentPage.Resources>
+    <StackLayout>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
+            <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
+                <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
+
+
+            </Frame>
+
+            <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="430">
+                <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
+                    <Label TranslationY="0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Email: "/>
+                                <Span Text="{Binding Email}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label TranslationY="0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Birthday: " />
+                                <Span Text="{Binding DateOfBirth}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label Text="Username" FontSize="Small"/>
+                    <Entry Placeholder="Username" Text="{Binding Username}" Margin="0"/>
+                    <Label Text="First Name" FontSize="Small"/>
+                    <Entry Placeholder="First Name" Text="{Binding FirstName}"/>
+                    <Label Text="Last Name" FontSize="Small"/>
+                    <Entry Placeholder="Last Name" Text="{Binding LastName}"/>
+
+                    <Grid>
+                        <Button Grid.Column="0" Text="Change Password" Command="{Binding ChangePass}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                        <Button Grid.Column="1" Text="Change Profile Picture" Command="{Binding ChangePFP}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                        <Button Grid.Row="1" Grid.ColumnSpan="2" Text="Save Changes" Command="{Binding SaveChanges}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                    </Grid>
+                    
+                    
+
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </StackLayout>
+</ContentPage>

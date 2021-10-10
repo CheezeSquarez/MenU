@@ -30,6 +30,7 @@ namespace MenU
         public Dictionary<int, string> StatusCodes { get; set; }
         public App()
         {
+            User = new Account { FirstName = "Ido", LastName = "Rosenfeld-Sadeh", Username = "ProjectFluffy", DateOfBirth = DateTime.Now, Reviews = new List<Review>() };
             InitializeComponent();
             StatusCodes = new Dictionary<int, string>();
             StatusCodes.Add(404, "This page does not exist.");
@@ -41,7 +42,7 @@ namespace MenU
             StatusCodes.Add(503, "We are having trouble with our web service. Please try again later");
             StatusCodes.Add(200, "");
 
-            MainPage = new NavigationPage(new ProfilePage());
+            MainPage = new NavigationPage(new ChangeInfo());
         }
 
         protected override void OnStart()
