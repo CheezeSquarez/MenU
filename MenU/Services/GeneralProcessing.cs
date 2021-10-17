@@ -7,6 +7,7 @@ namespace MenU.Services
 {
     class GeneralProcessing
     {
+        //This method will be used to calculate a hash from a desired string
         public static string ComputeSha256Hash(string rawData)
         {
             // Create a SHA256   
@@ -23,6 +24,27 @@ namespace MenU.Services
                 }
                 return builder.ToString();
             }
+            
+        }
+
+
+        /// <summary>
+        /// Recieves the raw password, the salt and the number of hash iterations
+        /// and runs the password with the salt through the hash function, the desired amount of times (iterations)
+        /// </summary>
+        /// <param name="pass">string containing the raw password</param>
+        /// <param name="salt">string containing the salt of the logged in user</param>
+        /// <param name="iterations">int specifying how many times the password and salt should be hashed</param>
+        /// <returns>Hashed password calculated with string and hashed the desired ammount of times</returns>
+        public static string PasswordToHash(string pass, string salt, int iterations)
+        {
+            string hash = pass + salt;
+
+            for (int i = 0; i < iterations; i++)
+            {
+                hash = ComputeSha256Hash(hash);
+            }
+            return hash;
         }
     }
 }

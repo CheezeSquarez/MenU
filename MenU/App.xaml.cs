@@ -30,7 +30,7 @@ namespace MenU
         public Dictionary<int, string> StatusCodes { get; set; }
         public App()
         {
-            User = new Account { FirstName = "Ido", LastName = "Rosenfeld-Sadeh", Username = "ProjectFluffy", DateOfBirth = DateTime.Now, Reviews = new List<Review>() };
+            User = new Account { FirstName = "Ido", LastName = "Rosenfeld-Sadeh", Username = "ProjectFluffy", DateOfBirth = DateTime.Now, Reviews = new List<Review>(), Pass = "aafeeba6959ebeeb96519d5dcf0bcc069f81e4bb56c246d04872db92666e6d4b", Salt = "12345678", Iterations = 1 };
             InitializeComponent();
             StatusCodes = new Dictionary<int, string>();
             StatusCodes.Add(404, "This page does not exist.");

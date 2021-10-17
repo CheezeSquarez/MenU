@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace MenU.Services
 {
-
+    /// <summary>
+    /// Proxy method archetecture: Each method returns a tuple containing the desired return value. In addition, the tuple will contain the response code; 
+    /// this will be used to send to the error handler in order to display an appropiate error message.
+    /// Error code dictionary can be found in the app.cs file
+    /// </summary>
     class MenUWebAPI
     {
         private HttpClient client;
@@ -23,7 +27,7 @@ namespace MenU.Services
         }
         public MenUWebAPI()
         {
-            this.baseUri = "10.0.2.2:44358";
+            this.baseUri = "http://10.0.2.2:39135";
             //Set client handler to support cookies!!
             HttpClientHandler handler = new HttpClientHandler();
             handler.CookieContainer = new System.Net.CookieContainer();
@@ -211,7 +215,8 @@ namespace MenU.Services
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{this.baseUri}/accounts/GetSaltAndIterations?username={username}");
+                string uri = $"{this.baseUri}/accounts/GetSaltAndIterations?username={username}";
+                HttpResponseMessage response = await this.client.GetAsync(uri);
                 if (response.IsSuccessStatusCode)
                 {
                     JsonSerializerOptions options = new JsonSerializerOptions
@@ -227,9 +232,63 @@ namespace MenU.Services
                     return (null, (int)response.StatusCode);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return (null, 503);
+            }
+        }
+        public async Task<(bool,int)> ChangePass(string hashedPass, int id)
+        {
+            HttpResponseMessage response;
+            try
+            {
+                response = await this.client.GetAsync($"{this.baseUri}/accounts/ChangePass?id={id}&pass={hashedPass}");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    bool deserialized = JsonSerializer.Deserialize<bool>(content, options);
+                    return (deserialized, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (false, (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (false, 503);
+            }
+        }
+
+        public async Task<(bool, int)> UpdateAccountInfo(string uName, string fName, string lName)
+        {
+            HttpResponseMessage response;
+            try
+            {
+                response = await this.client.GetAsync($"{this.baseUri}/accounts/UpdateAccount?Username={uName}&FirstName={fName}&LastName={lName}");
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    string content = await response.Content.ReadAsStringAsync();
+                    bool deserialized = JsonSerializer.Deserialize<bool>(content, options);
+                    return (deserialized, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (false, (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (false, 503);
             }
         }
     }

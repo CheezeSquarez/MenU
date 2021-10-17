@@ -66,9 +66,11 @@ namespace MenU.ViewModels
 
         private async void LoginMethod()
         {
+            //Request the salt and iterations from the server - returns as a dictionary
             (Dictionary<string, string>, int) saltAndIts = await proxy.GetSaltAndIterations(Username); // Requests the salt and number of iterations used for the specified user
-            if (saltAndIts.Item2 == 200)
+            if (saltAndIts.Item2 == 200) //Checks if the server recieved and dealt with the request
             {
+                //break down the dictionary
                 string salt;
                 saltAndIts.Item1.TryGetValue("Salt", out salt);
                 string Iterations;

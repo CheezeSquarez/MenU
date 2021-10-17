@@ -41,11 +41,12 @@
                     <Entry Placeholder="First Name" Text="{Binding FirstName}"/>
                     <Label Text="Last Name" FontSize="Small"/>
                     <Entry Placeholder="Last Name" Text="{Binding LastName}"/>
+                    <Label Text="{Binding Error}" TextColor="Red" HorizontalOptions="Center"/>
 
-                    <Grid>
-                        <Button Grid.Column="0" Text="Change Password" Command="{Binding ChangePass}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
-                        <Button Grid.Column="1" Text="Change Profile Picture" Command="{Binding ChangePFP}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
-                        <Button Grid.Row="1" Grid.ColumnSpan="2" Text="Save Changes" Command="{Binding SaveChanges}" BackgroundColor="#030D30" TextColor="White" FontSize="26" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                    <Grid Margin="0,50,0,0" RowSpacing="10">
+                        <Button Grid.Column="0" Text="Change Password" Command="{Binding ChangePass}" BackgroundColor="#030D30" TextColor="White" FontSize="18" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                        <Button Grid.Column="1" Text="Change Profile Picture" Command="{Binding ChangePFP}" BackgroundColor="#030D30" TextColor="White" FontSize="18" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
+                        <Button Grid.Row="1" Grid.ColumnSpan="2" Text="Save Changes" Command="{Binding AcceptChanges}" BackgroundColor="#030D30" TextColor="White" FontSize="20" Font="Staatliches" CornerRadius="9" Padding="0" HeightRequest="40"></Button>
                     </Grid>
                     
                     
