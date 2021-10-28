@@ -14,8 +14,8 @@
 
                 <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="400">
                     <StackLayout VerticalOptions="FillAndExpand" Padding="0,20,0,0">
-                        <Entry Text="{Binding Username}" Placeholder="Username" Margin="0,0,0,20"/>
-                        <Entry Text="{Binding Pass}" Placeholder="Password" />
+                        <Entry Text="{Binding Username}" Placeholder="Username" Margin="0,0,0,20" />
+                        <Entry Text="{Binding Pass}" Placeholder="Password"/>
                         <Grid Margin="0,-10,0,0" Grid.Row="2">
                             <StackLayout Orientation="Horizontal" Grid.Column="0">
                                 <CheckBox Color="#030D30" IsChecked="{Binding KeepLoggedIn}" />
