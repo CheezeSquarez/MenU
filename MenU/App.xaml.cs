@@ -40,9 +40,9 @@ namespace MenU
             StatusCodes.Add(204, "This content is missing from our database...");
             StatusCodes.Add(401, "Incorrect credentials. Please try again later");
             StatusCodes.Add(503, "We are having trouble with our web service. Please try again later");
-            StatusCodes.Add(200, "");
+            StatusCodes.Add(200, ""); 
 
-            MainPage = new NavigationPage(new Login());
+            MainPage = new NavigationPage(new StartupPage());
         }
 
         protected override void OnStart()

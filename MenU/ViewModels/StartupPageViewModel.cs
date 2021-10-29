@@ -46,10 +46,14 @@ namespace MenU.ViewModels
 
 
             }
-            Push?.Invoke(new HomePage());
+            Push?.Invoke(new ProfilePage());
 
         }
-        public StartupPageViewModel() { proxy = MenUWebAPI.CreateProxy(); }
+        public StartupPageViewModel() 
+        { 
+            proxy = MenUWebAPI.CreateProxy();
+            this.StartUp();
+        }
         #endregion
     }
 

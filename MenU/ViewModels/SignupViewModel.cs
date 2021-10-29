@@ -78,32 +78,20 @@ namespace MenU.ViewModels
 
         private async void SignUpMethod()
         {
-            (string, int) result = await proxy.GenerateSalt(); //Gets a unique salt from the API
-            string salt = result.Item1;
-            if (salt != "") //Checks for an empty salt
-            {
-                // Hashes the password with the salt a random amount of times
-                Random rndm = new Random();
-                string hashedPass = Password + salt;
-                int iterations = rndm.Next(50000, 70000);
-                for (int i = 0; i < iterations; i++)
-                {
-                    hashedPass = GeneralProcessing.ComputeSha256Hash(hashedPass);
-                }
-
                 //Creates an Account object to send to the API
-                Account acc = new Account() { DateOfBirth = this.DateOfBirth, Email = this.Email, FirstName = this.FirstName, LastName = this.LastName, Username = this.Username, Salt = salt, Iterations = iterations, Pass = hashedPass };
+                Account acc = new Account() { DateOfBirth = this.DateOfBirth, Email = this.Email, FirstName = this.FirstName, LastName = this.LastName, Username = this.Username, Pass = this.Password};
                 
                 (bool isSuccess, int) result2 = await proxy.SignUpAsync(acc); // Signs up server side
                 if (result2.isSuccess) // Checks if the sign up was successful
                 {
+                    await App.Current.MainPage.DisplayAlert("Signup Completed Successfully!", "Your account has been created and saved on our servers.", "Login");
                     Pop?.Invoke();
                     return;
                 }
 
                 Error = App.ErrorHandler(result2.Item2, Error);
-            }
-            Error = App.ErrorHandler(result.Item2, Error);
+                Error = App.ErrorHandler(-1, Error);
+
         }
 
         public SignupViewModel() { proxy = MenUWebAPI.CreateProxy(); }

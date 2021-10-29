@@ -166,8 +166,7 @@ namespace MenU.Services
                 if (response.IsSuccessStatusCode)
                 {
                     
-                    string content = await response.Content.ReadAsStringAsync();
-                    string token = JsonConvert.DeserializeObject<string>(content);
+                    string token = await response.Content.ReadAsStringAsync();
                     return (token, (int)response.StatusCode);
                 }
                 else
@@ -175,8 +174,9 @@ namespace MenU.Services
                     return ("", (int)response.StatusCode);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return ("", 503);
             }
         }
@@ -188,8 +188,7 @@ namespace MenU.Services
                 if (response.IsSuccessStatusCode)
                 {
                     
-                    string content = await response.Content.ReadAsStringAsync();
-                    string salt = JsonConvert.DeserializeObject<string>(content);
+                    string salt = await response.Content.ReadAsStringAsync();
                     return (salt, (int)response.StatusCode);
                 }
                 else

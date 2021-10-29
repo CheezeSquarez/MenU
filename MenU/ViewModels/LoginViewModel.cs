@@ -80,14 +80,14 @@ namespace MenU.ViewModels
                     {
                         // saves token in secure storage
                         await SecureStorage.SetAsync("auth_token", tokenResult.Item1);
-                        Push?.Invoke(new Page());
+                        Push?.Invoke(new ProfilePage());
                         return;
                     }
                     Error = App.ErrorHandler(tokenResult.Item2, Error);
                 }
                 else
                 {
-                    Push?.Invoke(new Page());
+                    Push?.Invoke(new ProfilePage());
                     return;
                 }
 
