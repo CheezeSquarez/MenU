@@ -46,6 +46,14 @@ namespace MenU.ViewModels
 
 
             }
+            Device.StartTimer(new TimeSpan(0, 0, 5), () =>
+            {
+                // do something every 1 seconds
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                });
+                return false; // runs again, or false to stop
+            });
             Push?.Invoke(new ProfilePage());
 
         }
