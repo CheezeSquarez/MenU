@@ -54,7 +54,7 @@ namespace MenU.ViewModels
                 });
                 return false; // runs again, or false to stop
             });
-            Push?.Invoke(new ProfilePage());
+            App.Current.MainPage = new NavigationPage(new ProfilePage());
 
         }
         public StartupPageViewModel() 

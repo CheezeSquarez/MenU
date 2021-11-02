@@ -62,7 +62,7 @@
                                 <RowDefinition Height="0.01*" />
                             </Grid.RowDefinitions>
                             
-                            <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="0" Source="icon_user.svg" >
+                            <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="0" Source="icon_user.svg">
                                 <ff:CachedImage.Transformations>
                                     <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
                                 </ff:CachedImage.Transformations>

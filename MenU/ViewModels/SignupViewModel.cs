@@ -76,11 +76,35 @@ namespace MenU.ViewModels
 
         public ICommand SignUpCommand => new Command(SignUpMethod);
 
+
         private async void SignUpMethod()
         {
+            bool validAccount = true;
+            if(!Validation.IsUsername(Username))
+            {
+                await App.Current.MainPage.DisplayAlert("Invalid Username", $"Username cannot contain {Validation.INVALID_CHARS}, two '.' in a row, or start/end with '.'. Username cannot be empty", "OK");
+                validAccount = false;
+            }
+            if(!Validation.IsEmail(Email))
+            {
+                await App.Current.MainPage.DisplayAlert("Invalid Email", "Check email and try again", "OK");
+                validAccount = false;
+            }
+            if (!Validation.Ispassword(Password))
+            {
+                await App.Current.MainPage.DisplayAlert("Invalid Password", $"Password must contain at least one uppercase & one lowercase letter, one number and cannot contain the following characters: {Validation.INVALID_PASSWORD_CHARS}", "OK");
+                validAccount = false;
+            }
+            if (!Validation.IsOfAge(DateOfBirth))
+            {
+                await App.Current.MainPage.DisplayAlert("You are not old enough", $"You must be 16 years old or over...", "OK");
+                validAccount = false;
+            }
+            if (validAccount)
+            {
                 //Creates an Account object to send to the API
-                Account acc = new Account() { DateOfBirth = this.DateOfBirth, Email = this.Email, FirstName = this.FirstName, LastName = this.LastName, Username = this.Username, Pass = this.Password};
-                
+                Account acc = new Account() { DateOfBirth = this.DateOfBirth, Email = this.Email, FirstName = this.FirstName, LastName = this.LastName, Username = this.Username, Pass = this.Password };
+
                 (bool isSuccess, int) result2 = await proxy.SignUpAsync(acc); // Signs up server side
                 if (result2.isSuccess) // Checks if the sign up was successful
                 {
@@ -91,6 +115,9 @@ namespace MenU.ViewModels
 
                 Error = App.ErrorHandler(result2.Item2, Error);
                 Error = App.ErrorHandler(-1, Error);
+            }
+            
+            
 
         }
 

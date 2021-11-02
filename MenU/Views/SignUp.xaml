@@ -17,8 +17,8 @@
                         <Grid>
                             <Entry Grid.Row="0" Placeholder="Username" Text="{Binding Username}" Margin="0"/>
                             <Entry Grid.Row="1" Placeholder="Email" Text="{Binding Email}"/>
-                            <Entry Grid.Row="2" Placeholder="Password" Text="{Binding Password}"/>
-                            <Entry Grid.Row="3" Placeholder="Confirm Password" Text="{Binding PasswordConfirm}"/>
+                            <Entry IsPassword="True" Grid.Row="2" Placeholder="Password" Text="{Binding Password}"/>
+                            <Entry IsPassword="True" Grid.Row="3" Placeholder="Confirm Password" Text="{Binding PasswordConfirm}"/>
                             <Entry Grid.Row="4" Placeholder="First Name" Text="{Binding FirstName}"/>
                             <Entry Grid.Row="5" Placeholder="Last Name" Text="{Binding LastName}"/>
                             <DatePicker Grid.Row="6" MinimumDate="01/01/1918" MaximumDate="12/31/2018" Date="{Binding DateOfBirth}" />

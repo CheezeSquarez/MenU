@@ -28,9 +28,9 @@ namespace MenU.Services
         }
         public MenUWebAPI()
         {
-            //Set client handler to support cookies!!
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.CookieContainer = new System.Net.CookieContainer();
+            //Set client handler to support cookies!    !
+            HttpClientHandler handler = new HttpClientHandler();     
+            handler.CookieContainer = new System.Net.CookieContainer();             
             handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
             //Create client with the handler!
@@ -249,7 +249,7 @@ namespace MenU.Services
             }
         }
 
-        public async Task<(bool, int)> UpdateAccountInfo(string uName, string fName, string lName)
+        public async Task<(Account, int)> UpdateAccountInfo(string uName, string fName, string lName)
         {
             HttpResponseMessage response;
             try
@@ -259,17 +259,17 @@ namespace MenU.Services
                 {
                     
                     string content = await response.Content.ReadAsStringAsync();
-                    bool deserialized = JsonConvert.DeserializeObject<bool>(content);
+                    Account deserialized = JsonConvert.DeserializeObject<Account>(content);
                     return (deserialized, (int)response.StatusCode);
                 }
                 else
                 {
-                    return (false, (int)response.StatusCode);
+                    return (null, (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return (false, 503);
+                return (null, 503);
             }
         }
     }
