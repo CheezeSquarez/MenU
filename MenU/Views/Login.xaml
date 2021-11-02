@@ -76,7 +76,8 @@
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="10*" />
-                                <ColumnDefinition Width="90*" />
+                                <ColumnDefinition Width="80*" />
+                                <ColumnDefinition Width="10*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -88,9 +89,15 @@
                                     <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
                                 </ff:CachedImage.Transformations>
                             </ffSvg:SvgCachedImage>
+
+                            <local:CustomEntry Grid.Row="0" Grid.Column="1" IsPassword="{Binding VisibilityState}" Text="{Binding Pass}" Placeholder="Password" VerticalOptions="End"/>
                             
-                            <local:CustomEntry Grid.Row="0" Grid.Column="1" Text="{Binding Pass}" Placeholder="Password" VerticalOptions="End"/>
-                            <BoxView BackgroundColor="#808080" Grid.ColumnSpan="2" Grid.Row="1"/>
+                            <Image  Grid.Row="0" Grid.Column="2" Source="{Binding VisibilityImage}" >
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding VisibilityToggle}" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <BoxView BackgroundColor="#808080" Grid.ColumnSpan="3" Grid.Row="1"/>
                         </Grid>
                         
                         <!-- KSI Checkbox + Forgot Password -->
