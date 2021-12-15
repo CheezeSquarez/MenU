@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MenU.Views.ProfilePage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    
     <ScrollView Margin="0" Padding="0" VerticalScrollBarVisibility="Never">
         <StackLayout>
             <StackLayout Margin="0" Padding="0">
@@ -17,7 +21,7 @@
                         <ColumnDefinition Width="2.4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <Rectangle Fill="#f03434" Grid.Row="0" Grid.RowSpan="2" Margin="0" Grid.ColumnSpan="3"/>
+                    <Rectangle Fill="#f03434" Grid.Row="0" Grid.RowSpan="2" Margin="0" Grid.ColumnSpan="3" Scale="1.1" />
                     <Frame BorderColor="white"  CornerRadius="100" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" IsClippedToBounds="True" Padding="0" HeightRequest="100" WidthRequest="100">
                         <Image Source="default_pfp.jpg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
 
@@ -42,6 +46,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.1*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" FontSize="Large" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" LineBreakMode="WordWrap" >
                     <Label.FormattedText>
@@ -53,6 +58,14 @@
                     </Label.FormattedText>
                 </Label>
                 <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Username}" FontSize="Medium"  />
+                <ffSvg:SvgCachedImage Grid.Row="1" Grid.Column="3" Source="icon_edit.svg" HeightRequest="24" WidthRequest="24" Scale="1" HorizontalOptions="End">
+                    <ff:CachedImage.Transformations>
+                        <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                    </ff:CachedImage.Transformations>
+                    <ffSvg:SvgCachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChangeInfoClicked}" />
+                    </ffSvg:SvgCachedImage.GestureRecognizers>
+                </ffSvg:SvgCachedImage>
                 <Label Grid.Row="2" FontSize="Large" FontAttributes="Bold" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" LineBreakMode="WordWrap" >
                     <Label.FormattedText>
                         <FormattedString>

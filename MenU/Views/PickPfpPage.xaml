@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.PickPfpPage"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:converter="clr-namespace:MenU.Services;assembly=MenU"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            
+            <Frame BackgroundColor="White" HasShadow="True" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="240" WidthRequest="320">
+
+                <CollectionView ItemsSource="{Binding pfpSources}" x:Name="collectionView" HorizontalOptions="Center" VerticalOptions="Center">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="5" HorizontalItemSpacing="8" VerticalItemSpacing="14" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame IsClippedToBounds="True" CornerRadius="100" HasShadow="False" Padding="0">
+                                <!-- <Image Source="{Binding ImageUrl}" Scale="1.3" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/> -->
+                                <Image Source="{Binding ImageUrl}" Scale="1.3" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                            </Frame>
+                            
+                            
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </Frame>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

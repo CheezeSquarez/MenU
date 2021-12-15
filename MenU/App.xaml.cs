@@ -14,7 +14,7 @@ namespace MenU
     {
         public static string ErrorHandler(int statusCode, string currentMessage)
         {
-            if (currentMessage == "")
+            if (currentMessage == "" || currentMessage == null)
             {
                 string message = "";
                 ((App)App.Current).StatusCodes.TryGetValue(statusCode, out message);

@@ -19,8 +19,8 @@ namespace MenU.ViewModels
         }
 
         #region Attributes
-        private const string OPENEYE = "qr_icon.png";
-        private const string CLOSEDEYE = "default_pfp.jpg";
+        private const string OPENEYE = "icon_openEye.svg";
+        private const string CLOSEDEYE = "icon_closedEye.svg";
 
         private string error = "";
         private bool keepLoggedIn = false;

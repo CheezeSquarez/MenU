@@ -10,16 +10,6 @@
     
     <ContentPage.Resources>
         <ResourceDictionary>
-            <Style TargetType="Button">
-                <Setter Property="BackgroundColor" Value="#030D30" />
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="FontSize" Value="18"/>
-                <Setter Property="Font" Value="Staatliches" />
-                <Setter Property="CornerRadius" Value="9" />
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="HeightRequest" Value="40" />
-            </Style>
-            
             <Style TargetType="ffSvg:SvgCachedImage">
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="VerticalOptions" Value="End" />
@@ -61,8 +51,8 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="0.01*" />
                             </Grid.RowDefinitions>
-                            
-                            <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="0" Source="icon_user.svg">
+
+                            <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="0" Source="icon_user.svg" HeightRequest="24" WidthRequest="24" Scale="1.17">
                                 <ff:CachedImage.Transformations>
                                     <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
                                 </ff:CachedImage.Transformations>
@@ -84,19 +74,22 @@
                                 <RowDefinition Height="0.01*" />
                             </Grid.RowDefinitions>
                             
-                            <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="0" Source="icon_password.svg">
+                            <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="0" Source="icon_password.svg" HeightRequest="24" WidthRequest="24" Scale="1">
                                 <ff:CachedImage.Transformations>
                                     <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
                                 </ff:CachedImage.Transformations>
                             </ffSvg:SvgCachedImage>
 
                             <local:CustomEntry Grid.Row="0" Grid.Column="1" IsPassword="{Binding VisibilityState}" Text="{Binding Pass}" Placeholder="Password" VerticalOptions="End"/>
-                            
-                            <Image  Grid.Row="0" Grid.Column="2" Source="{Binding VisibilityImage}" >
-                                <Image.GestureRecognizers>
+
+                            <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="2" Source="{Binding VisibilityImage}" HeightRequest="24" WidthRequest="24" Scale="1">
+                                <ff:CachedImage.Transformations>
+                                    <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                </ff:CachedImage.Transformations>
+                                <ffSvg:SvgCachedImage.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding VisibilityToggle}" />
-                                </Image.GestureRecognizers>
-                            </Image>
+                                </ffSvg:SvgCachedImage.GestureRecognizers>
+                            </ffSvg:SvgCachedImage>
                             <BoxView BackgroundColor="#808080" Grid.ColumnSpan="3" Grid.Row="1"/>
                         </Grid>
                         
@@ -115,7 +108,7 @@
                         </Grid>
 
                         <!-- Error label -->
-                        <Label Grid.Row="3" Text="{Binding Error}" HorizontalTextAlignment="Center" HorizontalOptions="Center" TextColor="Red" Margin="0"/>
+                        <Label Grid.Row="3" Text="{Binding Error}" Style="{StaticResource Error_Label}"/>
 
                         <!-- Login + Signup area -->
                         <Grid Grid.Row="4" >
@@ -133,9 +126,9 @@
                                 <RowDefinition Height="0.1*" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Grid.Column="2" Grid.Row="0" Text="Login" Font="Staatliches" Command="{Binding LoginCommand}" VerticalOptions="Center"/>
+                            <Button Grid.Column="2" Grid.Row="0" Text="Login" Command="{Binding LoginCommand}" Style="{StaticResource Blue_Btn}"/>
                             <BoxView Color="#808080" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="2"/>
-                            <Button Text="Sign Up" Font="Staatliches"  Command="{Binding ToSignUpCommand}" Grid.Row="4" Grid.Column="2" VerticalOptions="Center" ></Button>
+                            <Button Text="Sign Up" Command="{Binding ToSignUpCommand}" Grid.Row="4" Grid.Column="2" Style="{StaticResource Blue_Btn}" />
                         </Grid>
                         </Grid>
                 </Frame>

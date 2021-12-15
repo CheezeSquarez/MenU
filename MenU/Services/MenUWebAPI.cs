@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace MenU.Services
 {
@@ -34,7 +35,8 @@ namespace MenU.Services
             handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
             //Create client with the handler!
-            this.client = new HttpClient(handler, true);
+            this.client = new HttpClient(handler, true) { Timeout = new TimeSpan(1000) };
+
         }
 
         public async Task<(Account account, int StatusCode)> LoginAsync(string token)
@@ -99,6 +101,7 @@ namespace MenU.Services
 
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
+                
                 HttpResponseMessage response = await this.client.PostAsync($"{BASE_URI}/accounts/SignUp", content);
 
                 if (response.IsSuccessStatusCode)
@@ -114,7 +117,7 @@ namespace MenU.Services
                     return (false, (int)response.StatusCode);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return (false, 503);
             }
@@ -265,6 +268,32 @@ namespace MenU.Services
                 else
                 {
                     return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (null, 503);
+            }
+        }
+        public async Task<(List<string>, int StatusCode)> GetDefaultPfps()
+        {
+
+            string url = $"{BASE_URI}/accounts/GetDefaultPfps";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<string> sources = Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(content);
+                    sources = sources.Select(x => BASE_URI + "/" + x).ToList();
+                    sources.Add("custom");
+                    return (sources, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, StatusCode: (int)response.StatusCode);
                 }
             }
             catch (Exception)
