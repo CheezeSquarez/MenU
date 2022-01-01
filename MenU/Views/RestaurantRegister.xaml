@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.RestaurantRegister"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
+                <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
+                    <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
+                </Frame>
+
+                <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="360">
+                    <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
+                        <Grid>
+                            <Entry Grid.Row="0" Grid.ColumnSpan="2" Placeholder="Restaurant Name" Text="{Binding RestaurantName}" Margin="0"/>
+                            <Entry Grid.Row="1" Grid.Column="0" Placeholder="Street Name" Text="{Binding StreetName}" />
+                            <Entry Grid.Row="1" Grid.Column="1" Placeholder="Street No." Text="{Binding HouseNumber}"/>
+                            <Entry Grid.Row="2" Grid.ColumnSpan="2" Placeholder="City" Text="{Binding City}"/>
+                            <Picker Grid.Row="3" Title="Add Tag" ItemsSource="{Binding TagList}" ItemDisplayBinding="{Binding TagName}" SelectedItem="{Binding CurrentTag}" />
+                            <CollectionView Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedTags}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame CornerRadius="9" BackgroundColor="LightGray">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto" />
+                                                    <ColumnDefinition Width="25" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding TagName}" />
+                                                <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="1" Source="icon_close.svg" HeightRequest="24" WidthRequest="24" Scale="1">
+                                                    <ff:CachedImage.Transformations>
+                                                        <ffTransf:TintTransformation HexColor="#000000" EnableSolidColor="True"/>
+                                                    </ff:CachedImage.Transformations>
+                                                    <ffSvg:SvgCachedImage.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding RemoveTag}" CommandParameter="{Binding}" />
+                                                    </ffSvg:SvgCachedImage.GestureRecognizers>
+                                                </ffSvg:SvgCachedImage>
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            <Button Grid.Row="5" Grid.ColumnSpan="2" Text="Add Menu" Command="{Binding RegisterRestaurant}" Style="{StaticResource Blue_Btn}" />
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

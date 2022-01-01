@@ -63,7 +63,11 @@ namespace MenU.ViewModels
 
         #region Commands and Methods
         public event Action<Page> Push;
-        public Command ChangeInfo => new Command(() => Push?.Invoke(new ChangeInfo()));
+        public Command ChangeInfoClicked => new Command(PushToChangeInfo);
+        private void PushToChangeInfo()
+        {
+            Push?.Invoke(new ChangeInfo());
+        }
         public ICommand ReviewClicked => new Command<string>((s) => Push?.Invoke(new ReviewPage(s)));
 
         #endregion

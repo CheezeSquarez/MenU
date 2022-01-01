@@ -15,6 +15,7 @@ namespace MenU.Views
         public ProfilePage()
         {
             ProfilePageViewModel context = new ProfilePageViewModel();
+            context.Push += (p) => Navigation.PushAsync(p);
             this.BindingContext = context;
             InitializeComponent();
         }

@@ -35,7 +35,7 @@ namespace MenU.Services
             handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
             //Create client with the handler!
-            this.client = new HttpClient(handler, true) { Timeout = new TimeSpan(1000) };
+            this.client = new HttpClient(handler, true) /*{ Timeout = new TimeSpan(150000) } */;
 
         }
 
@@ -228,18 +228,47 @@ namespace MenU.Services
                 return (null, 503);
             }
         }
-        public async Task<(bool,int)> ChangePass(string hashedPass, int id)
+        public async Task<(bool,int)> ChangePass(Credentials creds)
         {
             HttpResponseMessage response;
             try
             {
-                response = await this.client.GetAsync($"{BASE_URI}/accounts/ChangePass?id={id}&pass={hashedPass}");
+                string json = JsonConvert.SerializeObject(creds);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                response = await this.client.PostAsync($"{BASE_URI}/accounts/ChangePass", content);
                 if (response.IsSuccessStatusCode)
                 {
                    
-                    string content = await response.Content.ReadAsStringAsync();
-                    bool deserialized = JsonConvert.DeserializeObject<bool>(content);
+                    string c = await response.Content.ReadAsStringAsync();
+                    bool deserialized = JsonConvert.DeserializeObject<bool>(c);
                     return (deserialized, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (false, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (false, 503);
+            }
+        }
+
+        public async Task<(bool, int)> UpdateAccountInfo(Account updatedAcc)
+        {
+            HttpResponseMessage response;
+            
+            
+            try
+            {
+                string json = JsonConvert.SerializeObject(updatedAcc);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                response = await this.client.PostAsync($"{BASE_URI}/accounts/UpdateAccountInfo", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    string c = await response.Content.ReadAsStringAsync();
+                    bool b = JsonConvert.DeserializeObject<bool>(c);
+                    return (b, (int)response.StatusCode);
                 }
                 else
                 {
@@ -249,30 +278,6 @@ namespace MenU.Services
             catch (Exception)
             {
                 return (false, 503);
-            }
-        }
-
-        public async Task<(Account, int)> UpdateAccountInfo(string uName, string fName, string lName)
-        {
-            HttpResponseMessage response;
-            try
-            {
-                response = await this.client.GetAsync($"{BASE_URI}/accounts/UpdateAccount?Username={uName}&FirstName={fName}&LastName={lName}");
-                if (response.IsSuccessStatusCode)
-                {
-                    
-                    string content = await response.Content.ReadAsStringAsync();
-                    Account deserialized = JsonConvert.DeserializeObject<Account>(content);
-                    return (deserialized, (int)response.StatusCode);
-                }
-                else
-                {
-                    return (null, (int)response.StatusCode);
-                }
-            }
-            catch (Exception)
-            {
-                return (null, 503);
             }
         }
         public async Task<(List<string>, int StatusCode)> GetDefaultPfps()
@@ -290,6 +295,30 @@ namespace MenU.Services
                     sources = sources.Select(x => BASE_URI + "/" + x).ToList();
                     sources.Add("custom");
                     return (sources, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, StatusCode: (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (null, 503);
+            }
+        }
+
+        public async Task<(List<Tag>, int StatusCode)> GetAllTags()
+        {
+            string url = $"{BASE_URI}/accounts/GetAllTags";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Tag> tags = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Tag>>(content);
+                    return (tags, (int)response.StatusCode);
                 }
                 else
                 {

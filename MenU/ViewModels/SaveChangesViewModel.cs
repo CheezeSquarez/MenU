@@ -74,10 +74,11 @@ namespace MenU.ViewModels
             get => error;
             set => SetValue(ref error, value);
         }
+        public event Action<Page> Push;
         #endregion
 
         #region Commands and Methods
-        
+
         public Command ChangePass => new Command(ChangePassMethod);
         private async Task<bool> Authenticate(string message)
         {
@@ -111,11 +112,12 @@ namespace MenU.ViewModels
                     string confirmPass = await App.Current.MainPage.DisplayPromptAsync("Confirm New Password", "Confirm your new password:", "OK");
                     if (newPass == confirmPass) //Checks if new pass and confirmation match
                     {
-                        (bool, int) responseTuple = await proxy.ChangePass(newPass, ((App)App.Current).User.AccountId); //Requests to Update it via the server
+                        (bool, int) responseTuple = await proxy.ChangePass(new Credentials() { password = newPass, id = ((App)App.Current).User.AccountId }); //Requests to Update it via the server
                         if (!responseTuple.Item1) //Checks if the request went through and worked
                         {
                             Error = App.ErrorHandler(responseTuple.Item2, Error);
                         }
+                        else Error = "";
                     }
                     else
                     {
@@ -149,11 +151,16 @@ namespace MenU.ViewModels
                 bool authReturn = await Authenticate("Enter password to confirm changes");
                 if (authReturn)
                 {
-                    (Account, int) ret = await proxy.UpdateAccountInfo(Username, firstName, lastName);
-                    if (ret.Item1 != null)
+                    Account currentAcc = ((App)App.Current).User;
+                    currentAcc.Username = this.Username;
+                    currentAcc.FirstName = this.FirstName;
+                    currentAcc.LastName = this.LastName;
+                    (bool, int) ret = await proxy.UpdateAccountInfo(currentAcc);
+                    if (ret.Item1)
                     {
                         await App.Current.MainPage.DisplayAlert("Account Info Has Been Saved!", "", "OK");
-                        ((App)App.Current).User = ret.Item1;
+                        ((App)App.Current).User = currentAcc;
+                        Push?.Invoke(new ProfilePage());
                     }
                     else
                         Error = App.ErrorHandler(ret.Item2, Error);

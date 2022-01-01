@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.RestaurantOwnerMenu"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:local="clr-namespace:MenU.Refreneces.Controls;assembly=MenU"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+    
+    <ContentPage.Content>
+        <StackLayout Padding="0" Margin="0" BackgroundColor="LightGray">
+            <StackLayout VerticalOptions="Start" HeightRequest="50" BackgroundColor="White" Padding="10,2">
+                <Frame CornerRadius="100" IsClippedToBounds="True" Padding="0" HeightRequest="36" WidthRequest="36" HorizontalOptions="End" BorderColor="LightGray" VerticalOptions="CenterAndExpand">
+                    <ffSvg:SvgCachedImage Source="icon_plus.svg" HeightRequest="24" WidthRequest="24" Scale="1.17">
+                        <ff:CachedImage.Transformations>
+                            <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                        </ff:CachedImage.Transformations>
+                        <ffSvg:SvgCachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToRegisterRestaurant}" />
+                        </ffSvg:SvgCachedImage.GestureRecognizers>
+                    </ffSvg:SvgCachedImage>
+                </Frame>
+            </StackLayout>
+            <CollectionView ItemsSource="{Binding RestaurantList}" EmptyView="No Registered Restaurants">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="White" CornerRadius="9" Margin="5,10">
+                            <StackLayout Padding="0" Margin="0">
+                                <Image Source="{Binding RestaurantPicture}" />
+                                <BoxView Color="LightGray" HeightRequest="1.7" HorizontalOptions="FillAndExpand" />
+                                <Label Text="{Binding RestaurantName}" TextColor="Black" FontSize="Title" HorizontalOptions="Center" />
+                                <Grid>
+                                    <Label Grid.Row="0" FontSize="Small" FontAttributes="Bold" TextColor="Black" Grid.Column="0" HorizontalTextAlignment="Start" HorizontalOptions="Start" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Dishes.Count}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                <Span Text=" Dishes Available" FontSize="Large" FontAttributes="Bold"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="0" FontSize="Small" FontAttributes="Bold" TextColor="Black" Grid.Column="1" HorizontalTextAlignment="End" HorizontalOptions="End" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Rating}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                <Span Text=" Dishes Available" FontSize="Large" FontAttributes="Bold"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="1" FontSize="Small" FontAttributes="Bold" TextColor="Black" Grid.Column="0" HorizontalTextAlignment="Start" HorizontalOptions="Start" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Dishes.Reviews.Count}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                <Span Text=" Dishes Available" FontSize="Large" FontAttributes="Bold"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="1" FontSize="Small" FontAttributes="Bold" TextColor="Black" Grid.Column="1" HorizontalTextAlignment="End" HorizontalOptions="End" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Opinion}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                <Span Text=" Dishes Available" FontSize="Large" FontAttributes="Bold"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
