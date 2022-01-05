@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace MenU.ViewModels
 {
     //This VM will act as a base for all child classes. The class inherits INPC and has an additional method for setting a value
-    abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

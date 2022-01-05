@@ -10,14 +10,10 @@ using Xamarin.Forms.Xaml;
 namespace MenU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RestaurantRegister : ContentPage
+    public partial class PickTagsModal : ContentPage
     {
-        public RestaurantRegister()
+        public PickTagsModal(RegisterRestaurantViewModel context)
         {
-            RegisterRestaurantViewModel context = new RegisterRestaurantViewModel();
-            context.PushModal += (p) => Navigation.PushModalAsync(p);
-            context.Push += (p) => Navigation.PushAsync(p);
-            context.PopModal += () => Navigation.PopModalAsync();
             this.BindingContext = context;
             InitializeComponent();
         }

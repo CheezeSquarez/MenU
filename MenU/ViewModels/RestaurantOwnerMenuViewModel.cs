@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace MenU.ViewModels
 {
-    class RestaurantOwnerMenuViewModel : BaseViewModel
+    public class RestaurantOwnerMenuViewModel : BaseViewModel
     {
         #region Properties And Events
         public event Action<Page> Push;

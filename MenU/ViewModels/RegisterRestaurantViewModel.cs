@@ -7,22 +7,24 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
-using MenU.Models;
+using System.Threading.Tasks;
 using System.Linq;
+
 
 
 namespace MenU.ViewModels
 {
-    class RegisterRestaurantViewModel : BaseViewModel
+    public class RegisterRestaurantViewModel : BaseViewModel
     {
+
         private string restaurantName;
         private string streetName;
         private string city;
         private string houseNo;
         private MenUWebAPI proxy;
-        public ObservableCollection<Tag> TagList;
-        public ObservableCollection<Tag> SelectedTags;
-        private Tag currentTag;
+
+        public ObservableCollection<Tag> TagsList { get; set; }
+        public ObservableCollection<Tag> SelectedTags { get; set; }
 
         public string RestaurantName
         {
@@ -44,24 +46,28 @@ namespace MenU.ViewModels
             get => city;
             set => SetValue(ref city, value);
         }
-        public Tag CurrentTag
-        {
-            get => currentTag;
-            set
-            {
-                SetValue(ref currentTag, value);
-                TagSelected();
-            }
-        }
+        public event Action<Page> PushModal;
+        public event Action PopModal;
+        public event Action<Page> Push;
 
-        private void TagSelected()
-        {
-            SelectedTags.Add(CurrentTag);
-            CurrentTag = null;
-        }
         public Command<Tag> RemoveTag => new Command<Tag>(RemoveTagMethod);
+        public Command AddTagClicked => new Command(() => PushModal?.Invoke(new PickTagsModal(this)));
         private void RemoveTagMethod(Tag toRemove) => this.SelectedTags.Remove(toRemove);
         public Command RegisterRestaurant => new Command(RegisterRestaurantMethod);
+        public Command ConfirmTags => new Command(() => PopModal?.Invoke());
+        public Command<object> TagsSelectionChanged => new Command<object>(TagsSelectionChangedMethod);
+        private void TagsSelectionChangedMethod(object tagsList)
+        {
+            SelectedTags.Clear();
+            if(tagsList is IList<object>)
+            {
+                List<object> tags = ((IList<object>)tagsList).ToList();
+                foreach(object t in tags)
+                {
+                    SelectedTags.Add((Tag)t);
+                }
+            }
+        }
         private void RegisterRestaurantMethod()
         {
 
@@ -72,10 +78,21 @@ namespace MenU.ViewModels
             streetName = "";
             houseNo = "";
             city = "";
-            currentTag = null;
             SelectedTags = new ObservableCollection<Tag>();
-            (List<Tag>, int) proxyResult = await proxy.GetAllTags();
 
+            TagsList = new ObservableCollection<Tag>();
+            InitTagsList();
+
+
+        }
+
+        private async void InitTagsList()
+        {
+            proxy = MenUWebAPI.CreateProxy();
+            (List<Tag>, int) proxyResult = await proxy.GetAllTags();
+            List<Tag> tags = proxyResult.Item1;
+            foreach (Tag t in tags)
+                this.TagsList.Add(t);
         }
     }
 }

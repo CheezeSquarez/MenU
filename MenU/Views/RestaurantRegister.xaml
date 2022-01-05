@@ -19,23 +19,25 @@
                             <Entry Grid.Row="1" Grid.Column="0" Placeholder="Street Name" Text="{Binding StreetName}" />
                             <Entry Grid.Row="1" Grid.Column="1" Placeholder="Street No." Text="{Binding HouseNumber}"/>
                             <Entry Grid.Row="2" Grid.ColumnSpan="2" Placeholder="City" Text="{Binding City}"/>
-                            <Picker Grid.Row="3" Title="Add Tag" ItemsSource="{Binding TagList}" ItemDisplayBinding="{Binding TagName}" SelectedItem="{Binding CurrentTag}" />
-                            <CollectionView Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedTags}">
+                            <Button Grid.Row="3" Text="Add Tag" Style="{StaticResource Blue_Btn}" Command="{Binding AddTagClicked}"/>
+                            <CollectionView Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding SelectedTags}" x:Name="SelectedTagsCV">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Frame CornerRadius="9" BackgroundColor="LightGray">
+                                        <Frame CornerRadius="9" BackgroundColor="LightGray" x:Name="TagsFrame">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="auto" />
                                                     <ColumnDefinition Width="25" />
                                                 </Grid.ColumnDefinitions>
-                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding TagName}" />
+                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding TagName}"/>
+                                                
                                                 <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="1" Source="icon_close.svg" HeightRequest="24" WidthRequest="24" Scale="1">
                                                     <ff:CachedImage.Transformations>
                                                         <ffTransf:TintTransformation HexColor="#000000" EnableSolidColor="True"/>
                                                     </ff:CachedImage.Transformations>
                                                     <ffSvg:SvgCachedImage.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding RemoveTag}" CommandParameter="{Binding}" />
+                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference SelectedTagsCV}, Path=BindingContext.RemoveTag}" 
+                                                                              CommandParameter="{Binding}" />
                                                     </ffSvg:SvgCachedImage.GestureRecognizers>
                                                 </ffSvg:SvgCachedImage>
                                             </Grid>
