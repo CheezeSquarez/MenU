@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.AddMenu"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+             Title="Menu">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Menu" HorizontalOptions="Center" VerticalOptions="Start" FontSize="Large" />
+            <Grid>
+                <CollectionView ItemsSource="{Binding Dishes}" EmptyView="No Dished Added" x:Name="DishesCV" Grid.Row="0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="0" CornerRadius="20" IsClippedToBounds="True" BackgroundColor="Beige">
+                                <StackLayout>
+                                    <Grid Padding="5" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="5*" />
+                                            <ColumnDefinition Width="0.5*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Frame CornerRadius="100" IsClippedToBounds="True" Grid.Column="0" HeightRequest="55" Padding="0">
+                                            <Image Source="default_pfp.jpg" />
+                                        </Frame>
+                                        <Label Text="{Binding DishName}" TextColor="Black" FontSize="Large" Grid.Column="1" VerticalOptions="Center"/>
+                                        <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="2" Source="icon_arrow_right.svg" HeightRequest="24" WidthRequest="24" Scale="1" HorizontalOptions="EndAndExpand">
+                                            <ff:CachedImage.Transformations>
+                                                <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                            </ff:CachedImage.Transformations>
+                                            <ffSvg:SvgCachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference DishesCV}, Path=BindingContext.GoToDish}" 
+                                                                              CommandParameter="{Binding}" />
+                                            </ffSvg:SvgCachedImage.GestureRecognizers>
+                                        </ffSvg:SvgCachedImage>
+                                    </Grid>
+                                </StackLayout>
+                            </Frame>
+                            
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Frame Grid.Column="1" CornerRadius="100" IsClippedToBounds="True" Padding="0" HeightRequest="50" WidthRequest="50" HorizontalOptions="End" BorderColor="LightGray" VerticalOptions="End" Grid.Row="0" Margin="10">
+                        <ffSvg:SvgCachedImage Source="icon_plus.svg" HeightRequest="24" WidthRequest="24" Scale="1.17">
+                            <ff:CachedImage.Transformations>
+                                <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                            </ff:CachedImage.Transformations>
+                            <ffSvg:SvgCachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToAddNewDish}" />
+                            </ffSvg:SvgCachedImage.GestureRecognizers>
+                        </ffSvg:SvgCachedImage>
+                    </Frame>
+                    <Button Grid.Column="0" Text="Confirm Menu" Command="{Binding RegisterRestaurant}" Style="{StaticResource Blue_Btn}" VerticalOptions="End"  Margin="10" Padding="5"/>
+                </Grid>
+                
+            </Grid>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

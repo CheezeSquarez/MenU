@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.Unicode;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Linq;
@@ -86,11 +89,13 @@ namespace MenU.Services
                     return (null, StatusCode: (int)response.StatusCode);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return (null, 503);
             }
         }
+
 
 
         public async Task<(bool isSuccess, int StatusCode)> SignUpAsync(Account dummyAcc)
@@ -309,7 +314,7 @@ namespace MenU.Services
 
         public async Task<(List<Tag>, int StatusCode)> GetAllTags()
         {
-            string url = $"{BASE_URI}/accounts/GetAllTags";
+            string url = $"{BASE_URI}/restaurants/GetAllTags";
             try
             {
                 HttpResponseMessage response = await this.client.GetAsync(url);
@@ -330,5 +335,133 @@ namespace MenU.Services
                 return (null, 503);
             }
         }
+        public async Task<(List<Allergen>, int StatusCode)> GetAllAllergens()
+        {
+            string url = $"{BASE_URI}/restaurants/GetAllAllergens";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Allergen> allergens = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Allergen>>(content);
+                    return (allergens, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, StatusCode: (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (null, 503);
+            }
+        }
+        public async Task<(int Id, int StatusCode)> StampDish()
+        {
+            string url = $"{BASE_URI}/restaurants/StampDish";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string content = await response.Content.ReadAsStringAsync();
+                    int dishId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(content);
+                    return (dishId, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (-1, StatusCode: (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (-1, 503);
+            }
+        }
+
+        public async Task<(int Id, int StatusCode)> StampRestaurant()
+        {
+            string url = $"{BASE_URI}/restaurants/StampRestaurant";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string content = await response.Content.ReadAsStringAsync();
+                    int restaurantId = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(content);
+                    return (restaurantId, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (-1, StatusCode: (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (-1, 503);
+            }
+        }
+
+        public async Task<(bool, int)> AddRestaurant(Restaurant r)
+        {
+            HttpResponseMessage response;
+            string url = $"{BASE_URI}/restaurants/AddRestaurant";
+            try
+            {
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    PropertyNameCaseInsensitive = true
+                };
+                string json = System.Text.Json.JsonSerializer.Serialize<Restaurant>(r, options);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                response = await this.client.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    string c = await response.Content.ReadAsStringAsync();
+                    bool b = JsonConvert.DeserializeObject<bool>(c);
+                    return (b, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (false, (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (false, 503);
+            }
+        }
+        public async Task<(bool, int)> AddDish(Dish d)
+        {
+            HttpResponseMessage response;
+
+            try
+            {
+                string json = JsonConvert.SerializeObject(d);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                response = await this.client.PostAsync($"{BASE_URI}/restaurants/AddDish", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    string c = await response.Content.ReadAsStringAsync();
+                    bool b = JsonConvert.DeserializeObject<bool>(c);
+                    return (b, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (false, (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (false, 503);
+            }
+        }
+
     }
 }

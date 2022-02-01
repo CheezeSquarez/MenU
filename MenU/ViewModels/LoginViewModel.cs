@@ -114,7 +114,8 @@ namespace MenU.ViewModels
                 }
                 else
                 {
-                    Push?.Invoke(new ProfilePage());
+                    //Push?.Invoke(new ProfilePage());
+                    Push?.Invoke(new RestaurantRegister());
                     return;
                 }
 

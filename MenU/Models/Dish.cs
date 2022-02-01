@@ -20,8 +20,8 @@ namespace MenU.Models
         public string DishPicture { get; set; }
         public virtual ObjectStatus DishStatusNavigation { get; set; }
         public virtual Restaurant RestaurantNavigation { get; set; }
-        public virtual List<AllergenInDish> AllergenInDishes { get; set; }
-        public virtual List<DishTag> DishTags { get; set; }
-        public virtual List<Review> Reviews { get; set; }
+        public virtual ICollection<AllergenInDish> AllergenInDishes { get; set; }
+        public virtual ICollection<DishTag> DishTags { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

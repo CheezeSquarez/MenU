@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.AddDish"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             NavigationPage.HasBackButton="True">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Add New Dish" HorizontalOptions="Center" VerticalOptions="Start" FontSize="Large"/>
+            <Entry Placeholder="Dish Name" Text="{Binding DishName}" />
+            <Editor Placeholder="Description" Text="{Binding Description}" HeightRequest="100" />
+            <Button Text="Choose Allergens" Command="{Binding AddAllergenClicked}" Style="{StaticResource Blue_Btn}"/>
+            <CollectionView Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="3" ItemsSource="{Binding SelectedAllergens}" x:Name="AllergenCV" EmptyView="No Allergens Yet Selected">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="9" BackgroundColor="LightBlue" x:Name="TagsFrame" Padding="7,5">
+                            <Grid>
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Allergen1}" FontSize="Medium" HorizontalOptions="StartAndExpand"/>
+
+                                <ffSvg:SvgCachedImage Grid.Row="0" Source="icon_close.svg" HeightRequest="24" WidthRequest="24" Scale="1" HorizontalOptions="EndAndExpand">
+                                    <ff:CachedImage.Transformations>
+                                        <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                    </ff:CachedImage.Transformations>
+                                    <ffSvg:SvgCachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference AllergenCV}, Path=BindingContext.RemoveAllergen}" 
+                                                                              CommandParameter="{Binding}" />
+                                    </ffSvg:SvgCachedImage.GestureRecognizers>
+                                </ffSvg:SvgCachedImage>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Grid.Row="3" Grid.ColumnSpan="2" Text="Add Tag" Style="{StaticResource Blue_Btn}" Command="{Binding AddTagClicked}" Margin="0,0,0,5"/>
+            <CollectionView Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="3" ItemsSource="{Binding SelectedTags}" x:Name="SelectedTagsCV" EmptyView="No Tags Yet Selected">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="9" BackgroundColor="LightBlue" x:Name="TagsFrame" Padding="7,5">
+                            <Grid>
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding TagName}" FontSize="Medium" HorizontalOptions="StartAndExpand"/>
+
+                                <ffSvg:SvgCachedImage Grid.Row="0" Source="icon_close.svg" HeightRequest="24" WidthRequest="24" Scale="1" HorizontalOptions="EndAndExpand">
+                                    <ff:CachedImage.Transformations>
+                                        <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                    </ff:CachedImage.Transformations>
+                                    <ffSvg:SvgCachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference SelectedTagsCV}, Path=BindingContext.RemoveTag}" 
+                                                                              CommandParameter="{Binding}" />
+                                    </ffSvg:SvgCachedImage.GestureRecognizers>
+                                </ffSvg:SvgCachedImage>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Add Dish" Command="{Binding AddDishClicked}" Style="{StaticResource Blue_Btn}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

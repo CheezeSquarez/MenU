@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MenU.Views.PickTagsModal" BackgroundColor="#dfe6e9">
+             x:Class="MenU.Views.PickAllergens">
     <ContentPage.Content>
-        <StackLayout Padding="0" BackgroundColor="#dfe6e9">
-            <CollectionView x:Name="TagsCollectionView" SelectionMode="Multiple" Margin="5" SelectedItems="{Binding SelectedTags}" ItemsSource="{Binding TagsList}"
-                            SelectionChangedCommand="{Binding TagsSelectionChanged}" 
-                            SelectionChangedCommandParameter="{Binding  Source={x:Reference TagsCollectionView}, Path=SelectedItems }" BackgroundColor="#dfe6e9">
+        <StackLayout>
+            <CollectionView x:Name="AllergensCollectionView" SelectionMode="Multiple" Margin="5" SelectedItems="{Binding SelectedAllergens}" ItemsSource="{Binding AllergensList}" 
+                            SelectionChangedCommand="{Binding AllergensSelectionChanged}" 
+                            SelectionChangedCommandParameter="{Binding  Source={x:Reference AllergensCollectionView}, Path=SelectedItems }" BackgroundColor="#dfe6e9">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
                         Span="2" VerticalItemSpacing="5" HorizontalItemSpacing="10"/>
@@ -14,13 +14,13 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame CornerRadius="12" Margin="5" Padding="10" BackgroundColor="White">
-                            <Label Text="{Binding TagName}" TextColor="Black" FontSize="Large" VerticalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
+                            <Label Text="{Binding Allergen1}" TextColor="Black" FontSize="Large" VerticalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" />
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Frame WidthRequest="320" CornerRadius="9" BackgroundColor="White" HeightRequest="75" Padding="0">
-                <Button Text="Confirm Tags" Command="{Binding ConfirmTags}" BackgroundColor="Transparent" FontSize="Medium" TextTransform="None" />
+                <Button Text="Confirm Tags" Command="{Binding ConfirmAllergens}" BackgroundColor="Transparent" FontSize="Medium" TextTransform="None" />
             </Frame>
         </StackLayout>
     </ContentPage.Content>

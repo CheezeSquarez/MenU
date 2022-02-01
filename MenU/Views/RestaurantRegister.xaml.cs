@@ -18,6 +18,7 @@ namespace MenU.Views
             context.PushModal += (p) => Navigation.PushModalAsync(p);
             context.Push += (p) => Navigation.PushAsync(p);
             context.PopModal += () => Navigation.PopModalAsync();
+            context.Pop += () => Navigation.PopAsync();
             this.BindingContext = context;
             InitializeComponent();
         }
