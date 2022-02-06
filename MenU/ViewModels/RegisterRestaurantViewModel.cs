@@ -31,8 +31,8 @@ namespace MenU.ViewModels
         #region Register Page 1
         private async void RegisterRestaurantMethod()
         {
-            List<Dish> dishList = new List<Dish>();
-            foreach (Dish dish in this.Dishes)
+            List<DishDTO> dishList = new List<DishDTO>();
+            foreach (DishDTO dish in this.Dishes)
             {
                 dishList.Add(dish);
             }
@@ -42,15 +42,23 @@ namespace MenU.ViewModels
                 RestaurantTag restaurantTag = new RestaurantTag() { RestaurantId = restaurantId, TagId = tag.TagId };
                 tagList.Add(restaurantTag);
             }
-            //Restaurant restaurant = new Restaurant() { City = this.City, OwnerId = ((App)App.Current).User.AccountId, RestaurantId = this.restaurantId, RestaurantName = RestaurantName,
-            //StreetName = streetName, StreetNumber = HouseNumber, Dishes = dishList, RestaurantTags = tagList };
-            Restaurant restaurant = new Restaurant()
+
+            RestaurantDTO restaurant = new RestaurantDTO()
             {
-                //City = this.City,
-                //OwnerId = ((App)App.Current).User.AccountId,
-                //RestaurantId = this.restaurantId,
-                //RestaurantName = RestaurantName,
-                //StreetName = streetName, StreetNumber = HouseNumber, /*Dishes = dishList, RestaurantTags = tagList*/
+                Restaurant = new Restaurant() {
+                    City = this.City,
+                    OwnerId = ((App)App.Current).User.AccountId,
+                    RestaurantId = this.restaurantId,
+                    RestaurantName = RestaurantName,
+                    StreetName = streetName,
+                    StreetNumber = HouseNumber,
+                    RestaurantPicture = "",
+                    RestaurantStatus = 2,
+                },
+                Dishes = dishList,
+                RestaurantTags = tagList
+                
+                
             };
                 (bool, int) registerRestult = await proxy.AddRestaurant(restaurant);
             if (registerRestult.Item1)
@@ -149,7 +157,7 @@ namespace MenU.ViewModels
         #endregion
 
         #region Add Dish
-        public ObservableCollection<Dish> Dishes { get; set; }
+        public ObservableCollection<DishDTO> Dishes { get; set; }
         public string DishName
         {
             get => dishName;
@@ -176,7 +184,7 @@ namespace MenU.ViewModels
                 {
                     tagsInDish.Add(new DishTag() { TagId = tag.TagId, DishId = dishId.Item1 });
                 }
-                Dish d = new Dish() { AllergenInDishes = allergensInDish, DishDescription = Description, DishId = dishId.Item1, DishName = DishName, DishTags = tagsInDish, Restaurant = this.restaurantId };
+                DishDTO d = new DishDTO() { Dish = new Dish() { DishDescription = Description, DishId = dishId.Item1, DishName = DishName, Restaurant = this.restaurantId } , AllergenInDishes = allergensInDish, Tags = tagsInDish };
                 this.Dishes.Add(d);
                 SelectedTags.Clear();
                 Pop?.Invoke();
@@ -201,7 +209,7 @@ namespace MenU.ViewModels
             AllergensList = new ObservableCollection<Allergen>();
             TagsList = new ObservableCollection<Tag>();
             restaurantTags = new List<Tag>();
-            Dishes = new ObservableCollection<Dish>();
+            Dishes = new ObservableCollection<DishDTO>();
             InitTagsList();
             InitAllergensList();
             StampRestaurant();

@@ -5,6 +5,20 @@ namespace MenU.Models
 {
     public partial class Restaurant
     {
+        public Restaurant()
+        {
+            RestaurantId = 0;
+            RestaurantName = "";
+            StreetName = "";
+            OwnerId = 0;
+            City = "";
+            RestaurantPicture = "";
+            StreetName = "";
+            RestaurantStatus = 0;
+            Dishes = new List<Dish>();
+            RestaurantTags = new List<RestaurantTag>();
+        }
+
         public int RestaurantId { get; set; }
         public string RestaurantName { get; set; }
         public string StreetName { get; set; }

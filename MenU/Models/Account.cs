@@ -11,6 +11,20 @@ namespace MenU.Models
             AccountTags = new List<AccountTag>();
             Restaurants = new List<Restaurant>();
             Reviews = new List<Review>();
+            AccountId = 0;
+            Username = "";
+            FirstName = "";
+            LastName = "";
+            Email = "";
+            DateOfBirth = new DateTime();
+            AccountType = 0;
+            ProfilePicture = "";
+            Pass = "";
+            AccountStatus = 0;
+            Salt = "";
+            Iterations = 0;
+            AccountStatusNavigation = new ObjectStatus();
+            AccountTypeNavigation = new AccountType();
         }
 
         public int AccountId { get; set; }

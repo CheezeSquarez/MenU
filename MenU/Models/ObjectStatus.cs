@@ -11,6 +11,8 @@ namespace MenU.Models
             Dishes = new List<Dish>();
             Restaurants = new List<Restaurant>();
             Reviews = new List<Review>();
+            StatusId = 0;
+            StatusName = "";
         }
         public int StatusId { get; set; }
         public string StatusName { get; set; }

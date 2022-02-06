@@ -93,7 +93,22 @@ namespace MenU.ViewModels
 
         private async void LoginMethod()
         {
-            
+            //(Account, int) a = await proxy.LoginAsync(Username, Pass);
+            //RestaurantDTO r = new RestaurantDTO()
+            //{
+            //    City = "aff",
+            //    Dishes = new List<Dish>(),
+            //    OwnerId = 0,
+            //    RestaurantId = 0,
+            //    RestaurantName = "adad",
+            //    RestaurantPicture = "adad",
+            //    RestaurantStatus = 0,
+            //    RestaurantTags = new List<RestaurantTag>(),
+            //    StreetName = "afafa",
+            //    StreetNumber = "1414"
+            //};
+            //await proxy.AddRestaurant(r);
+
             (Account, int) result = await proxy.LoginAsync(Username, Pass); // Logs in with the API
             Account acc = result.Item1;
 

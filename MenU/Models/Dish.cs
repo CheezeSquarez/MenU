@@ -10,6 +10,12 @@ namespace MenU.Models
             AllergenInDishes = new List<AllergenInDish>();
             DishTags = new List<DishTag>();
             Reviews = new List<Review>();
+            DishId = 0;
+            DishName = "";
+            DishDescription = "";
+            Restaurant = 0;
+            DishStatus = 0;
+            DishPicture = "";
         }
 
         public int DishId { get; set; }

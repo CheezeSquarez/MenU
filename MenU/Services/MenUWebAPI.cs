@@ -406,7 +406,7 @@ namespace MenU.Services
             }
         }
 
-        public async Task<(bool, int)> AddRestaurant(Restaurant r)
+        public async Task<(bool, int)> AddRestaurant(RestaurantDTO r)
         {
             HttpResponseMessage response;
             string url = $"{BASE_URI}/restaurants/AddRestaurant";
@@ -417,7 +417,7 @@ namespace MenU.Services
                     ReferenceHandler = ReferenceHandler.Preserve,
                     PropertyNameCaseInsensitive = true
                 };
-                string json = System.Text.Json.JsonSerializer.Serialize<Restaurant>(r, options);
+                string json = System.Text.Json.JsonSerializer.Serialize<RestaurantDTO>(r, options);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 response = await this.client.PostAsync(url, content);
