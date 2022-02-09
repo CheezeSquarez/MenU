@@ -45,28 +45,31 @@ namespace MenU.ViewModels
 
             RestaurantDTO restaurant = new RestaurantDTO()
             {
-                Restaurant = new Restaurant() {
+                Restaurant = new Restaurant()
+                {
                     City = this.City,
                     OwnerId = ((App)App.Current).User.AccountId,
                     RestaurantId = this.restaurantId,
                     RestaurantName = RestaurantName,
                     StreetName = streetName,
                     StreetNumber = HouseNumber,
-                    RestaurantPicture = "",
                     RestaurantStatus = 2,
+                    RestaurantPicture = "abc"
                 },
                 Dishes = dishList,
                 RestaurantTags = tagList
-                
-                
+
+
             };
-                (bool, int) registerRestult = await proxy.AddRestaurant(restaurant);
+            (bool, int) registerRestult = await proxy.AddRestaurant(restaurant);
             if (registerRestult.Item1)
             {
                 await App.Current.MainPage.DisplayAlert("Restaurant Registered Successfully", "Your Restaurant has been successfully been registered and added to our database", "OK");
-                
+
             }
             App.ErrorHandler(registerRestult.Item2, "");
+
+
         }
 
         public Command GoToAddMenu => new Command(() => {
@@ -174,21 +177,33 @@ namespace MenU.ViewModels
             List<AllergenInDish> allergensInDish = new List<AllergenInDish>();
             List<DishTag> tagsInDish = new List<DishTag>();
             (int, int) dishId = await proxy.StampDish();
-            if(dishId.Item2 == 200)
+            if (dishId.Item2 == 200)
             {
                 foreach (Allergen a in SelectedAllergens)
                 {
-                    allergensInDish.Add(new AllergenInDish() { AllergenId = a.AllergenId, DishId = dishId.Item1});
+                    allergensInDish.Add(new AllergenInDish() { AllergenId = a.AllergenId, DishId = dishId.Item1 });
                 }
-                foreach(Tag tag in SelectedTags)
+                foreach (Tag tag in SelectedTags)
                 {
                     tagsInDish.Add(new DishTag() { TagId = tag.TagId, DishId = dishId.Item1 });
                 }
-                DishDTO d = new DishDTO() { Dish = new Dish() { DishDescription = Description, DishId = dishId.Item1, DishName = DishName, Restaurant = this.restaurantId } , AllergenInDishes = allergensInDish, Tags = tagsInDish };
+                DishDTO d = new DishDTO() { Dish = new Dish() 
+                { 
+                    DishDescription = Description, 
+                    DishId = dishId.Item1, 
+                    DishName = DishName, 
+                    DishPicture = "abc",
+                    Restaurant = this.restaurantId 
+                }, 
+                    AllergenInDishes = allergensInDish, 
+                    Tags = tagsInDish };
                 this.Dishes.Add(d);
                 SelectedTags.Clear();
                 Pop?.Invoke();
             }
+
+
+
         }
         #endregion
 
@@ -210,23 +225,15 @@ namespace MenU.ViewModels
             TagsList = new ObservableCollection<Tag>();
             restaurantTags = new List<Tag>();
             Dishes = new ObservableCollection<DishDTO>();
+            proxy = MenUWebAPI.CreateProxy();
             InitTagsList();
             InitAllergensList();
-            StampRestaurant();
+            
 
         }
 
-        private async void StampRestaurant()
-        {
-            (int, int) stampResult = await proxy.StampRestaurant();
-            if(stampResult.Item2 == 200)
-            {
-                restaurantId = stampResult.Item1;
-            }
-        }
         private async void InitTagsList()
         {
-            proxy = MenUWebAPI.CreateProxy();
             (List<Tag>, int) proxyResult = await proxy.GetAllTags();
             List<Tag> tags = proxyResult.Item1;
             foreach (Tag t in tags)
@@ -234,7 +241,6 @@ namespace MenU.ViewModels
         }
         private async void InitAllergensList()
         {
-            proxy = MenUWebAPI.CreateProxy();
             (List<Allergen>, int) proxyResult = await proxy.GetAllAllergens();
             List<Allergen> tags = proxyResult.Item1;
             foreach (Allergen t in tags)

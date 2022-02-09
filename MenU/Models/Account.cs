@@ -16,15 +16,13 @@ namespace MenU.Models
             FirstName = "";
             LastName = "";
             Email = "";
-            DateOfBirth = new DateTime();
             AccountType = 0;
             ProfilePicture = "";
             Pass = "";
             AccountStatus = 0;
             Salt = "";
             Iterations = 0;
-            AccountStatusNavigation = new ObjectStatus();
-            AccountTypeNavigation = new AccountType();
+
         }
 
         public int AccountId { get; set; }

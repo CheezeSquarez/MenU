@@ -7,7 +7,6 @@ namespace MenU.Models
     {
         public Restaurant()
         {
-            RestaurantId = 0;
             RestaurantName = "";
             StreetName = "";
             OwnerId = 0;

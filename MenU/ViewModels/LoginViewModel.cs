@@ -94,18 +94,38 @@ namespace MenU.ViewModels
         private async void LoginMethod()
         {
             //(Account, int) a = await proxy.LoginAsync(Username, Pass);
+            //List<RestaurantTag> tags = new List<RestaurantTag>();
+            //tags.Add(new RestaurantTag() { RestaurantId = 1, TagId = 1 });
+
+            //List<DishTag> dishTags = new List<DishTag>();
+            //dishTags.Add(new DishTag() { DishId = 1, TagId = 1 });
+            //List<AllergenInDish> allergenInDishes = new List<AllergenInDish>();
+            //allergenInDishes.Add(new AllergenInDish() { DishId = 1, AllergenId = 12 });
+            //Dish d = new Dish()
+            //{
+            //    DishDescription = "ad",
+            //    DishName = "dad",
+            //    DishPicture = "afd"
+            //};
+
+            //List<DishDTO> dishes = new List<DishDTO>();
+            //dishes.Add(new DishDTO() { Dish = d, AllergenInDishes = allergenInDishes, Tags = dishTags });
             //RestaurantDTO r = new RestaurantDTO()
             //{
-            //    City = "aff",
-            //    Dishes = new List<Dish>(),
-            //    OwnerId = 0,
-            //    RestaurantId = 0,
-            //    RestaurantName = "adad",
-            //    RestaurantPicture = "adad",
-            //    RestaurantStatus = 0,
-            //    RestaurantTags = new List<RestaurantTag>(),
-            //    StreetName = "afafa",
-            //    StreetNumber = "1414"
+            //    Restaurant = new Restaurant()
+            //    {
+            //        City = "aff",
+            //        OwnerId = a.Item1.AccountId,
+            //        RestaurantId = 0,
+            //        RestaurantName = "adad",
+            //        RestaurantPicture = "adad",
+            //        RestaurantStatus = 0,
+            //        StreetName = "afafa",
+            //        StreetNumber = "1414"
+            //    },
+            //    RestaurantTags = tags,
+            //    Dishes = dishes
+
             //};
             //await proxy.AddRestaurant(r);
 
