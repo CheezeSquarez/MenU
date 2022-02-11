@@ -24,7 +24,7 @@
                                         <Frame CornerRadius="100" IsClippedToBounds="True" Grid.Column="0" HeightRequest="55" Padding="0">
                                             <Image Source="default_pfp.jpg" />
                                         </Frame>
-                                        <Label Text="{Binding DishName}" TextColor="Black" FontSize="Large" Grid.Column="1" VerticalOptions="Center"/>
+                                        <Label Text="{Binding Dish.DishName}" TextColor="Black" FontSize="Large" Grid.Column="1" VerticalOptions="Center"/>
                                         <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="2" Source="icon_arrow_right.svg" HeightRequest="24" WidthRequest="24" Scale="1" HorizontalOptions="EndAndExpand">
                                             <ff:CachedImage.Transformations>
                                                 <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>

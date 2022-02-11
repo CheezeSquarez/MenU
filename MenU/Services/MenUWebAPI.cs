@@ -410,7 +410,6 @@ namespace MenU.Services
         {
             HttpResponseMessage response;
             string url = $"{BASE_URI}/restaurants/AddRestaurant";
-            string url2 = $"{BASE_URI}/accounts/AddRestaurant";
             try
             {
                 JsonSerializerOptions options = new JsonSerializerOptions
@@ -422,7 +421,6 @@ namespace MenU.Services
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 response = await this.client.PostAsync(url, content);
-                response = await this.client.PostAsync(url2, content);
                 if (response.IsSuccessStatusCode)
                 {
                     string c = await response.Content.ReadAsStringAsync();

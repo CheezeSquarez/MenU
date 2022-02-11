@@ -7,7 +7,7 @@
              xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              NavigationPage.HasBackButton="True">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Margin="10">
             <Label Text="Add New Dish" HorizontalOptions="Center" VerticalOptions="Start" FontSize="Large"/>
             <Entry Placeholder="Dish Name" Text="{Binding DishName}" />
             <Editor Placeholder="Description" Text="{Binding Description}" HeightRequest="100" />

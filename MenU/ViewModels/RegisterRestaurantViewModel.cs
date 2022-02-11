@@ -31,25 +31,28 @@ namespace MenU.ViewModels
         #region Register Page 1
         private async void RegisterRestaurantMethod()
         {
+            //Adds all dishes to a new list
             List<DishDTO> dishList = new List<DishDTO>();
             foreach (DishDTO dish in this.Dishes)
             {
                 dishList.Add(dish);
             }
+            //Adds all tags into a list
             List<RestaurantTag> tagList = new List<RestaurantTag>();
             foreach (Tag tag in restaurantTags)
             {
-                RestaurantTag restaurantTag = new RestaurantTag() { RestaurantId = restaurantId, TagId = tag.TagId };
+                RestaurantTag restaurantTag = new RestaurantTag() { TagId = tag.TagId };
                 tagList.Add(restaurantTag);
             }
 
+            //Builds DTO to send to the server
             RestaurantDTO restaurant = new RestaurantDTO()
             {
                 Restaurant = new Restaurant()
                 {
                     City = this.City,
                     OwnerId = ((App)App.Current).User.AccountId,
-                    RestaurantId = this.restaurantId,
+                    //RestaurantId = this.restaurantId,
                     RestaurantName = RestaurantName,
                     StreetName = streetName,
                     StreetNumber = HouseNumber,
@@ -58,9 +61,9 @@ namespace MenU.ViewModels
                 },
                 Dishes = dishList,
                 RestaurantTags = tagList
-
-
             };
+            
+            //Sends a server Request and displays a fitting message
             (bool, int) registerRestult = await proxy.AddRestaurant(restaurant);
             if (registerRestult.Item1)
             {
@@ -174,33 +177,45 @@ namespace MenU.ViewModels
         public Command AddDishClicked => new Command(AddDishMethod);
         public async void AddDishMethod()
         {
+            //Defines lists for allergens and tags (for DTO)
             List<AllergenInDish> allergensInDish = new List<AllergenInDish>();
             List<DishTag> tagsInDish = new List<DishTag>();
-            (int, int) dishId = await proxy.StampDish();
-            if (dishId.Item2 == 200)
-            {
+            //(int, int) dishId = await proxy.StampDish();
+            //if (dishId.Item2 == 200)
+            //{
+                //Adds tags and allergens to lists
                 foreach (Allergen a in SelectedAllergens)
                 {
-                    allergensInDish.Add(new AllergenInDish() { AllergenId = a.AllergenId, DishId = dishId.Item1 });
+                    allergensInDish.Add(new AllergenInDish() { AllergenId = a.AllergenId });
                 }
                 foreach (Tag tag in SelectedTags)
                 {
-                    tagsInDish.Add(new DishTag() { TagId = tag.TagId, DishId = dishId.Item1 });
+                    tagsInDish.Add(new DishTag() { TagId = tag.TagId });
                 }
-                DishDTO d = new DishDTO() { Dish = new Dish() 
+                //Builds DTO
+                DishDTO d = new DishDTO() 
                 { 
-                    DishDescription = Description, 
-                    DishId = dishId.Item1, 
-                    DishName = DishName, 
-                    DishPicture = "abc",
-                    Restaurant = this.restaurantId 
-                }, 
+                    Dish = new Dish() 
+                    { 
+                        DishDescription = Description, 
+                        //DishId = dishId.Item1, 
+                        DishName = DishName, 
+                        DishPicture = "abc",
+                        //Restaurant = this.restaurantId 
+                    }, 
                     AllergenInDishes = allergensInDish, 
-                    Tags = tagsInDish };
+                    Tags = tagsInDish 
+                };
+                //Adds DTO to list of dished (used to send to server and display)
                 this.Dishes.Add(d);
+                //Clears all info (so that the next dish can be added)
+                Description = "";
+                DishName = "";
+                SelectedAllergens.Clear();
                 SelectedTags.Clear();
+
                 Pop?.Invoke();
-            }
+            //}
 
 
 
