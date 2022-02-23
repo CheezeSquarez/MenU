@@ -21,7 +21,8 @@ namespace MenU.Services
     class MenUWebAPI
     {
         private HttpClient client;
-        private const string BASE_URI = "http://10.0.2.2:39135";
+        public const string BASE_URI = "http://10.0.2.2:39135";
+        public const string DEFAULT_IMG_URI = "https://10.0.2.2:44358/imgs/";
         private static MenUWebAPI proxy = null;
 
         public static MenUWebAPI CreateProxy()

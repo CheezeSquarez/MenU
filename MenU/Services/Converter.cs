@@ -15,6 +15,7 @@ namespace MenU.Services
     public class ImageSourceConverter : IValueConverter
     {
         static WebClient Client = new WebClient();
+        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)

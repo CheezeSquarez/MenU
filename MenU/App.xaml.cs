@@ -4,9 +4,12 @@ using Xamarin.Forms.Xaml;
 using MenU.Views;
 using MenU.Models;
 using System.Collections.Generic;
+using MenU.Services;
+using System.Threading;
 
 [assembly: ExportFont("BIGSHOULDERSDISPLAY-REGULAR.TTF", Alias = "Big Shoulders")]
 [assembly: ExportFont("Staatliches-Regular.ttf", Alias = "Staatliches")]
+[assembly: ExportFont("VarelaRound-Regular.ttf", Alias = "Varela")]
 namespace MenU
 {
     
@@ -27,10 +30,12 @@ namespace MenU
                 return currentMessage;
         }
         public Account User { get; set; }
-        public Dictionary<int, string> StatusCodes { get; set; }
+        public Dictionary<int, string> StatusCodes { get; private set; }
+        public List<Tag> Tags { get; set; }
+        public List<Allergen> Allergens { get; set; }
         public App()
         {
-            User = new Account { FirstName = "Ido", LastName = "Rosenfeld-Sadeh", Username = "ProjectFluffy", DateOfBirth = DateTime.Now, Reviews = new List<Review>(), Pass = "aafeeba6959ebeeb96519d5dcf0bcc069f81e4bb56c246d04872db92666e6d4b", Salt = "12345678", Iterations = 1 };
+            //User = new Account { FirstName = "Ido", LastName = "Rosenfeld-Sadeh", Username = "ProjectFluffy", DateOfBirth = DateTime.Now, Reviews = new List<Review>(), Pass = "aafeeba6959ebeeb96519d5dcf0bcc069f81e4bb56c246d04872db92666e6d4b", Salt = "12345678", Iterations = 1 };
             InitializeComponent();
             StatusCodes = new Dictionary<int, string>();
             StatusCodes.Add(404, "This page does not exist.");
@@ -41,8 +46,37 @@ namespace MenU
             StatusCodes.Add(401, "Incorrect credentials. Please try again later");
             StatusCodes.Add(503, "We are having trouble with our web service. Please try again later");
             StatusCodes.Add(200, ""); 
+            
 
-            MainPage = new NavigationPage(new Login());
+            Tags = new List<Tag>();
+            Allergens = new List<Allergen>();
+
+
+           
+            MainPage = new StartupPage();
+        }
+        private async void ResolveLists()
+        {
+            MenUWebAPI proxy = MenUWebAPI.CreateProxy();
+            try
+            {
+                (List<Tag>, int) tags = await proxy.GetAllTags();
+                (List<Allergen>, int) allergens = await proxy.GetAllAllergens();
+                if(tags.Item1 != null && allergens.Item1 != null)
+                {
+                    this.Tags = tags.Item1;
+                    this.Allergens = allergens.Item1;
+                }
+                else
+                {
+                    //Do Something
+                }
+            }
+            catch (Exception ex)
+            {
+                // Do Something
+            }
+            
         }
 
         protected override void OnStart()

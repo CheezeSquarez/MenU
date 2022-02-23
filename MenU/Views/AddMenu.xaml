@@ -14,6 +14,10 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Padding="0" CornerRadius="20" IsClippedToBounds="True" BackgroundColor="Beige">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference DishesCV}, Path=BindingContext.GoToDish}" 
+                                                                              CommandParameter="{Binding}" />
+                                </Frame.GestureRecognizers>
                                 <StackLayout>
                                     <Grid Padding="5" >
                                         <Grid.ColumnDefinitions>
@@ -21,6 +25,7 @@
                                             <ColumnDefinition Width="5*" />
                                             <ColumnDefinition Width="0.5*" />
                                         </Grid.ColumnDefinitions>
+                                        
                                         <Frame CornerRadius="100" IsClippedToBounds="True" Grid.Column="0" HeightRequest="55" Padding="0">
                                             <Image Source="default_pfp.jpg" />
                                         </Frame>
@@ -30,8 +35,7 @@
                                                 <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
                                             </ff:CachedImage.Transformations>
                                             <ffSvg:SvgCachedImage.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={x:Reference DishesCV}, Path=BindingContext.GoToDish}" 
-                                                                              CommandParameter="{Binding}" />
+                                                <TapGestureRecognizer  />
                                             </ffSvg:SvgCachedImage.GestureRecognizers>
                                         </ffSvg:SvgCachedImage>
                                     </Grid>

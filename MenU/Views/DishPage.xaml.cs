@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MenU.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using MenU.ViewModels;
 
 namespace MenU.Views
 {
@@ -14,7 +15,12 @@ namespace MenU.Views
     {
         public DishPage(Dish d)
         {
+            DishPageViewModel context = new DishPageViewModel(d);
+
+
+            this.BindingContext = context;
             InitializeComponent();
         }
+
     }
 }
