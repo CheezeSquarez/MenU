@@ -142,7 +142,10 @@ namespace MenU.ViewModels
                     {
                         // saves token in secure storage
                         await SecureStorage.SetAsync("auth_token", tokenResult.Item1);
-                        Push?.Invoke(new ProfilePage());
+                        //Push?.Invoke(new ContentPage() { Content.Add(new ProfilePage));
+                        ContentPage page = new ContentPage();
+                        page.Content = new ProfilePage();
+                        
                         return;
                     }
                     Error = App.ErrorHandler(tokenResult.Item2, Error);

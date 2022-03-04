@@ -52,8 +52,9 @@ namespace MenU
             Allergens = new List<Allergen>();
 
 
-           
-            MainPage = new StartupPage();
+            ContentPage page = new ContentPage();
+            page.Content = new SearchView();
+            MainPage = new TabControlView();
         }
         private async void ResolveLists()
         {

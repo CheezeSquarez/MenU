@@ -160,7 +160,7 @@ namespace MenU.ViewModels
                     {
                         await App.Current.MainPage.DisplayAlert("Account Info Has Been Saved!", "", "OK");
                         ((App)App.Current).User = currentAcc;
-                        Push?.Invoke(new ProfilePage());
+                        //Push?.Invoke(new ProfilePage());
                     }
                     else
                         Error = App.ErrorHandler(ret.Item2, Error);

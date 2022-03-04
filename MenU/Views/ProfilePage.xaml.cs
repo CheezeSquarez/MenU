@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace MenU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ProfilePage : ContentPage
+    public partial class ProfilePage : ContentView
     {
         public ProfilePage()
         {

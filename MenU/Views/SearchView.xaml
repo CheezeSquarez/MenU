@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.SearchView">
+    <ContentView.Content>
+        <StackLayout>
+            <SearchBar Text="{Binding SearchTerm}" Placeholder="Search for a restaurant" HorizontalOptions="CenterAndExpand" SearchCommand="{Binding SearchCommand}" />
+            <!--<CollectionView ItemsSource="{Binding SearchResult}" Margin="30,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="default_restaurant.jpg" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" />
+                                <Label Grid.Row="0" Grid.Column="1" >
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding RestaurantName}" FontSize="Large" FontAttributes="Bold"/>
+                                            <Span Text=" / " />
+                                            <Span Text="{Binding City}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <StackLayout Grid.Row="1" Grid.Column="1">
+
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>  -->
+            <CollectionView x:Name="RestaurantCV" ItemsSource="{Binding SearchResult}" SelectionChangedCommand="{Binding GoToRestaurant}"
+                                Margin="30,0"
+                                SelectionChangedCommandParameter="{Binding Source={x:Reference RestaurantCV}, Path=SelectedItem.RestaurantId}" SelectionMode="Single" EmptyView="¯\_(ツ)_/¯ No Restaurants Found ¯\_(ツ)_/¯">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <RelativeLayout Padding="10">
+                            <VisualStateManager.VisualStateGroups>
+                                <!-- Visual State Manager changes the selected movie background color from orange to white -->
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Transparent" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Frame x:Name="RestaurantImg" CornerRadius="7" IsClippedToBounds="True" Padding="0" HasShadow="False"
+                           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.3}">
+                                <Image Source="{Binding ImgSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0" />
+                            </Frame>
+
+                            <Label x:Name="TitleView" Text="{Binding RestaurantName}" FontSize="20" FontAttributes="Bold" LineBreakMode="TailTruncation"
+                       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.3, Constant=20}"
+                       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=5}"
+                       RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=26}"
+                       RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.6}"
+                               />
+
+                            <Label x:Name="YearView" Text="{Binding City}" FontSize="20"
+                       RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView, ElementName=TitleView, Property=X}"
+                       RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView, ElementName=TitleView, Property=Y, Constant=25}"/>
+
+
+                        </RelativeLayout>
+
+                        <!-- <Frame Padding="8,0,8,0">
+                            <StackLayout WidthRequest="125">
+                                <Frame CornerRadius="7" IsClippedToBounds="True" Padding="0" HasShadow="False">
+                                    <Image Source="{Binding PosterPath, Converter={StaticResource ImageSourceConverter}}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0" />
+                                </Frame>
+                                <Label Text="{Binding Title}" TextColor="{DynamicResource secondaryText}" HorizontalTextAlignment="Center" WidthRequest="185" />
+                            </StackLayout>
+                        </Frame> -->
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

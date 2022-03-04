@@ -464,5 +464,51 @@ namespace MenU.Services
             }
         }
 
+        public async Task<(List<Restaurant>, int)> GetRestaurantByString(string searchTerm)
+        {
+            string url = $"{BASE_URI}/restaurants/FindRestaurantsByLetters?letters={searchTerm}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Restaurant> restaurants = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Restaurant>>(content);
+                    return (restaurants, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
+
+        public async Task<(Restaurant, int)> FindRestaurantById(int id)
+        {
+            string url = $"{BASE_URI}/restaurants/FindRestaurantById?id={id}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Restaurant restaurant = Newtonsoft.Json.JsonConvert.DeserializeObject<Restaurant>(content);
+                    return (restaurant, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
     }
 }

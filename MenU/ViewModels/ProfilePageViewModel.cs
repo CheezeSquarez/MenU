@@ -18,11 +18,23 @@ namespace MenU.ViewModels
         { 
             this.proxy = MenUWebAPI.CreateProxy();
             acc = ((App)App.Current).User;
-            FName = acc.FirstName;
-            LName = acc.LastName;
-            Username = acc.Username;
-            birthday = acc.DateOfBirth;
-            Reviews = new ObservableCollection<Review>(acc.Reviews);
+            if(acc != null)
+            {
+                FName = acc.FirstName;
+                LName = acc.LastName;
+                Username = acc.Username;
+                birthday = acc.DateOfBirth;
+                Reviews = new ObservableCollection<Review>(acc.Reviews);
+            }
+            else
+            {
+                FName = "";
+                LName = "";
+                Username = "";
+                birthday = DateTime.Now;
+                Reviews = new ObservableCollection<Review>();
+            }
+            
         }
 
         #region Attributes
