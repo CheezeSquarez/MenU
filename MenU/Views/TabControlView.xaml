@@ -34,6 +34,8 @@
                 <views:HomePage />
                 <views:SearchView />
                 <views:ProfilePage />
+                <Label Text="*Insert Admin Page Here ^_^*" />
+                <views:RestaurantOwnerMenu />
 
             </tabs:ViewSwitcher>
 
@@ -52,6 +54,12 @@
 
                     <tabs:BottomTabItem Style="{StaticResource BottomTabStyle}"
                             IconImageSource="tabs_profile.png" />
+                    
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabStyle}"
+                            IconImageSource="tabs_admin.png" IsVisible="{Binding IsAdmin}"/>
+                    
+                    <tabs:BottomTabItem Style="{StaticResource BottomTabStyle}"
+                            IconImageSource="tabs_restaurant_owner.png" IsVisible="{Binding IsRestaurantOwner}"/>
 
                 </tabs:TabHostView.Tabs>
             </tabs:TabHostView>

@@ -21,7 +21,7 @@
                         <ColumnDefinition Width="2.4*"/>
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
-                    <Rectangle Fill="#f03434" Grid.Row="0" Grid.RowSpan="2" Margin="0" Grid.ColumnSpan="3" Scale="1.1" />
+                    <Rectangle Fill="{DynamicResource SecondaryBlue}" Grid.Row="0" Grid.RowSpan="2" Margin="0" Grid.ColumnSpan="3" Scale="1.1" />
                     <Frame BorderColor="white"  CornerRadius="100" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" IsClippedToBounds="True" Padding="0" HeightRequest="100" WidthRequest="100">
                         <Image Source="default_pfp.jpg" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0">
 
@@ -83,7 +83,7 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <BoxView Color="LightGray" HeightRequest="1.7" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" />
+                <BoxView Color="LightGray" HeightRequest="1.7" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="5" />
                 <Label Grid.Row="8" FontSize="Large" Text="Your Reviews" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
             </Grid>
         </StackLayout>

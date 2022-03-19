@@ -38,7 +38,7 @@
             </CollectionView>  -->
             <CollectionView x:Name="RestaurantCV" ItemsSource="{Binding SearchResult}" SelectionChangedCommand="{Binding GoToRestaurant}"
                                 Margin="30,0"
-                                SelectionChangedCommandParameter="{Binding Source={x:Reference RestaurantCV}, Path=SelectedItem.RestaurantId}" SelectionMode="Single" EmptyView="¯\_(ツ)_/¯ No Restaurants Found ¯\_(ツ)_/¯">
+                                SelectionChangedCommandParameter="{Binding Source={x:Reference RestaurantCV}, Path=SelectedItem.RestaurantId}" SelectedItem="{Binding SelectedItem}" SelectionMode="Single" EmptyView="¯\_(ツ)_/¯ No Restaurants Found ¯\_(ツ)_/¯">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <RelativeLayout Padding="10">

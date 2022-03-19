@@ -10,9 +10,10 @@
                 <Setter Property="BackgroundColor" Value="#030D30" />
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="20" />
-                <Setter Property="Font" Value="{}" />
+                <Setter Property="FontFamily" Value="Staatliches" />
                 <Setter Property="CornerRadius" Value="9" />
                 <Setter Property="Padding" Value="0" />
+                <Setter Property="FontAttributes" Value="None" />
                 <Setter Property="HeightRequest" Value="40" />
             </Style>
             <Style TargetType="Label" x:Key="Error_Label">

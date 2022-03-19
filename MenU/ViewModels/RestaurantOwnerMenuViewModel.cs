@@ -23,13 +23,20 @@ namespace MenU.ViewModels
         #endregion
 
         #region Attributes
-        ObservableCollection<Restaurant> RestaurantList;
+        public ObservableCollection<Restaurant> RestaurantList { get; set; }
         #endregion
 
         public RestaurantOwnerMenuViewModel()
         {
             RestaurantList = new ObservableCollection<Restaurant>();
-
+            Account acc = ((App)App.Current).User;
+            if(acc != null)
+            {
+                foreach (Restaurant r in acc.Restaurants)
+                {
+                    RestaurantList.Add(r);
+                }
+            }
         }
     }
 }

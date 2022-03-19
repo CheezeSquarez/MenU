@@ -43,7 +43,7 @@
 
                     <Grid Margin="0,50,0,0" RowSpacing="10">
                         <Button Grid.Column="0" Text="Change Password" Command="{Binding ChangePass}" Style="{StaticResource Blue_Btn}" />
-                        <Button Grid.Column="1" Text="Change Profile Picture" Command="{Binding ChangePFP}" Style="{StaticResource Blue_Btn}" />
+                        <Button Grid.Column="1" Text="Change Profile Picture" Command="{Binding ChangePfp}" Style="{StaticResource Blue_Btn}" />
                         <Button Grid.Row="1" Grid.ColumnSpan="2" Text="Save Changes" Command="{Binding AcceptChanges}" Style="{StaticResource Blue_Btn}" />
                     </Grid>
                     

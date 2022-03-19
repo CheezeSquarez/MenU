@@ -17,6 +17,13 @@ namespace MenU.ViewModels
         public TabControlViewModel()
         {
             SelectedIndex = 0;
+            Account acc = ((App)App.Current).User;
+            if(acc != null)
+            {
+                IsAdmin = acc.AccountType == 3;
+                IsRestaurantOwner = acc.AccountType == 2;
+            }
+            ((App)App.Current).UserChanged += SetTabs;
         }
 
         private int selectedIndex;
@@ -24,6 +31,28 @@ namespace MenU.ViewModels
         {
             get => selectedIndex;
             set => SetValue(ref selectedIndex, value);
+        }
+        private bool isAdmin;
+        public bool IsAdmin
+        {
+            get => isAdmin;
+            set => SetValue(ref isAdmin, value);
+        }
+        private bool isRestaurantOwner;
+        public bool IsRestaurantOwner
+        {
+            get => isRestaurantOwner;
+            set => SetValue(ref isRestaurantOwner, value);
+        }
+
+        public void SetTabs()
+        {
+            Account acc = ((App)App.Current).User;
+            if (acc != null)
+            {
+                IsAdmin = acc.AccountType == 3;
+                IsRestaurantOwner = acc.AccountType == 2;
+            }
         }
     }
 }

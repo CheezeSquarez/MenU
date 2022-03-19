@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MenU.Models;
-using MenU.ViewModels;
+using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using MenU.ViewModels;
 
 namespace MenU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RestaurantOwnerMenu : ContentView
+    public partial class ChangePfpPopup : Rg.Plugins.Popup.Pages.PopupPage
     {
-        public RestaurantOwnerMenu()
+        public ChangePfpPopup(SaveChangesViewModel context)
         {
-            RestaurantOwnerMenuViewModel context = new RestaurantOwnerMenuViewModel();
-            context.Push += (p) => Navigation.PushAsync(p);
             this.BindingContext = context;
             InitializeComponent();
         }

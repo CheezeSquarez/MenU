@@ -15,9 +15,6 @@
             <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
                 <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
                     <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
-
-
-                    
                 </Frame>
 
                 <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="440">

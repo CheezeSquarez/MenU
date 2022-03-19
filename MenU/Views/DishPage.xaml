@@ -59,7 +59,7 @@
 
                 </Grid>
                 <BoxView Color="LightGray" HeightRequest="1.7" Margin="-20, -5, -20, 0"  />
-                <Label Text="Reviews" FontFamily="Varela" FontSize="Large" TextColor="#030D30" />
+                <Label Text="Reviews" FontFamily="Varela" FontSize="Large" TextColor="{DynamicResource ThemeBlue}" />
                 <CollectionView ItemsSource="{Binding Reviews}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

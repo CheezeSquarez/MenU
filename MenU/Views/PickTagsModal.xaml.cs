@@ -17,5 +17,10 @@ namespace MenU.Views
             this.BindingContext = context;
             InitializeComponent();
         }
+        public PickTagsModal(EditRestaurantViewModel context)
+        {
+            this.BindingContext = context;
+            InitializeComponent();
+        }
     }
 }

@@ -4,7 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
-
+using ImageCircle.Forms.Plugin.Droid;
 
 namespace MenU.Droid
 {
@@ -16,9 +16,12 @@ namespace MenU.Droid
             base.OnCreate(savedInstanceState);
 
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(false);
+            Rg.Plugins.Popup.Popup.Init(this);
+            
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            
+            ImageCircleRenderer.Init();
+
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -26,6 +29,10 @@ namespace MenU.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        public override void OnBackPressed()
+        {
+            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
         }
     }
 }

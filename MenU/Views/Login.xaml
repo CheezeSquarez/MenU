@@ -127,7 +127,7 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Button Grid.Column="2" Grid.Row="0" Text="Login" Command="{Binding LoginCommand}" Style="{StaticResource Blue_Btn}"/>
-                            <BoxView Color="#808080" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="2"/>
+                            <BoxView Color="{DynamicResource SvgTint}" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="2"/>
                             <Button Text="Sign Up" Command="{Binding ToSignUpCommand}" Grid.Row="4" Grid.Column="2" Style="{StaticResource Blue_Btn}" />
                         </Grid>
                         </Grid>

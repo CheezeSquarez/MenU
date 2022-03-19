@@ -34,6 +34,7 @@ namespace MenU.ViewModels
                 birthday = DateTime.Now;
                 Reviews = new ObservableCollection<Review>();
             }
+            ((App)App.Current).UserChanged += this.LoadUserValues;
             
         }
 
@@ -81,6 +82,15 @@ namespace MenU.ViewModels
             Push?.Invoke(new ChangeInfo());
         }
         public ICommand ReviewClicked => new Command<string>((s) => Push?.Invoke(new ReviewPage(s)));
+        public void LoadUserValues()
+        {
+            acc = ((App)App.Current).User;
+            FName = acc.FirstName;
+            LName = acc.LastName;
+            Username = acc.Username;
+            birthday = acc.DateOfBirth;
+            Reviews = new ObservableCollection<Review>(acc.Reviews);
+        }
 
         #endregion
     }

@@ -1,6 +1,7 @@
 ﻿using MenU.Models;
 using MenU.Services;
 using MenU.Views;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace MenU.ViewModels
 {
-    class SaveChangesViewModel : BaseViewModel
+    public class SaveChangesViewModel : BaseViewModel
     {
         public SaveChangesViewModel() 
         { 
@@ -28,6 +29,8 @@ namespace MenU.ViewModels
             error = "";
             salt = ((App)App.Current).User.Salt;
             iterations = ((App)App.Current).User.Iterations;
+            ImgSource = "default_pfp.jpg";
+            imgChanged = false;
         }
 
         #region Attributes
@@ -41,6 +44,9 @@ namespace MenU.ViewModels
         private string error;
         private readonly string salt;
         private readonly int iterations;
+        private ImageSource imgSource;
+        private FileResult imageFileResult;
+        private bool imgChanged;
         #endregion
 
         #region Properties and Events
@@ -64,6 +70,11 @@ namespace MenU.ViewModels
             get => lastName;
             set => SetValue(ref lastName, value);
         }
+        public ImageSource ImgSource
+        {
+            get => imgSource;
+            set => SetValue(ref imgSource, value);
+        }
         public DateTime DateOfBirth
         {
             get => dateOfBirth;
@@ -78,7 +89,7 @@ namespace MenU.ViewModels
         #endregion
 
         #region Commands and Methods
-
+        public Command ChangePfp => new Command(async () => await PopupNavigation.PushAsync(new ChangePfpPopup(this)));
         public Command ChangePass => new Command(ChangePassMethod);
         private async Task<bool> Authenticate(string message)
         {
@@ -155,6 +166,13 @@ namespace MenU.ViewModels
                     currentAcc.Username = this.Username;
                     currentAcc.FirstName = this.FirstName;
                     currentAcc.LastName = this.LastName;
+                    if (imgChanged)
+                    {
+                        (bool, int) result = await proxy.UploadImage(new FileInfo()
+                        {
+                            Name = this.imageFileResult.FullPath
+                        }, $"pfp/A{currentAcc.AccountId}.jpg");
+                    }
                     (bool, int) ret = await proxy.UpdateAccountInfo(currentAcc);
                     if (ret.Item1)
                     {
@@ -170,6 +188,47 @@ namespace MenU.ViewModels
             }
             
         }
+
+        public Command OnCamera => new Command(OnCameraMethod);
+        private async void OnCameraMethod()
+        {
+            var result = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+            {
+                Title = "Take a picture"
+            });
+
+            if (result != null)
+            {
+                this.imageFileResult = result;
+                var stream = await result.OpenReadAsync();
+                ImageSource imgSource = ImageSource.FromStream(() => stream);
+                this.ImgSource = imgSource;
+            }
+        }
+
+        public Command OnGallery => new Command(OnGalleryMethod);
+        private async void OnGalleryMethod()
+        {
+            FileResult result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions()
+            {
+                Title = "Pick a photo"
+            });
+
+            if (result != null)
+            {
+                this.imageFileResult = result;
+
+                var stream = await result.OpenReadAsync();
+                ImageSource imgSource = ImageSource.FromStream(() => stream);
+                this.ImgSource = imgSource;
+            }
+        }
+
+        public Command SaveImage => new Command(async () => 
+        {
+            imgChanged = true;
+            await PopupNavigation.PopAsync();
+        });
         #endregion
     }
 }

@@ -10,6 +10,10 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Linq;
+using Xamarin.Forms;
+using Xamarin.Essentials;
+using System.IO;
+using MenU.Models;
 
 namespace MenU.Services
 {
@@ -48,11 +52,18 @@ namespace MenU.Services
             try
             {
                 HttpResponseMessage response = await this.client.GetAsync($"{BASE_URI}/accounts/TokenLogin?token={token}");
+
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    PropertyNameCaseInsensitive = true
+                };
+
                 if (response.IsSuccessStatusCode)
                 {
                     
                     string content = await response.Content.ReadAsStringAsync();
-                    Account acc = Newtonsoft.Json.JsonConvert.DeserializeObject<Account>(content);
+                    Account acc = System.Text.Json.JsonSerializer.Deserialize<Account>(content, options);
                     return (acc, (int)response.StatusCode);
                 }
                 else
@@ -60,7 +71,7 @@ namespace MenU.Services
                     return (null, StatusCode: (int)response.StatusCode);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return (null, 503);
             }
@@ -463,6 +474,37 @@ namespace MenU.Services
                 return (false, 503);
             }
         }
+        public async Task<(Restaurant, int)> UpdateRestaurant(RestaurantDTO rDTO)
+        {
+            HttpResponseMessage response;
+
+            try
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize<RestaurantDTO>(rDTO);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                response = await this.client.PostAsync($"{BASE_URI}/restaurants/UpdateRestaurant", content);
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    PropertyNameCaseInsensitive = true
+                };
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string c = await response.Content.ReadAsStringAsync();
+                    Restaurant b = System.Text.Json.JsonSerializer.Deserialize<Restaurant>(c, options);
+                    return (b, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (null, 503);
+            }
+        }
 
         public async Task<(List<Restaurant>, int)> GetRestaurantByString(string searchTerm)
         {
@@ -508,6 +550,28 @@ namespace MenU.Services
             catch (Exception e)
             {
                 return (null, 503);
+            }
+        }
+
+        public async Task<(bool,int)> UploadImage(Models.FileInfo fileInfo, string targetFileName)
+        {
+            try
+            {
+                var multipartFormDataContent = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(fileInfo.Name));
+                multipartFormDataContent.Add(fileContent, "file", targetFileName);
+                HttpResponseMessage response = await client.PostAsync($"{BASE_URI}/accounts/UploadImage", multipartFormDataContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    return (true, (int)response.StatusCode);
+                }
+                else
+                    return (false, (int)response.StatusCode);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return (false, 503);
             }
         }
     }

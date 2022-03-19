@@ -38,6 +38,7 @@ namespace MenU.ViewModels
         }
         #region Attributes
         private string searchTerm;
+        private SearchItem selectedItem;
         private MenUWebAPI proxy;
         #endregion
 
@@ -46,6 +47,12 @@ namespace MenU.ViewModels
         {
             get => searchTerm;
             set => SetValue(ref searchTerm, value);
+        }
+
+        public SearchItem SelectedItem
+        {
+            get => selectedItem;
+            set => SetValue(ref selectedItem, value);
         }
         public ObservableCollection<SearchItem> SearchResult { get; set; }
         #endregion
@@ -70,6 +77,7 @@ namespace MenU.ViewModels
         private async void GoToRestaurantMethod(int restaurantId)
         {
             (Restaurant, int) result = await proxy.FindRestaurantById(restaurantId);
+            SelectedItem = null;
             Push?.Invoke(new RestaurantPage(result.Item1));
 
             
