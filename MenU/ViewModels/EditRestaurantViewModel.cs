@@ -67,8 +67,8 @@ namespace MenU.ViewModels
         public Command ConfirmTags => new Command(() => PopModal?.Invoke());
         private void RemoveTagMethod(Tag toRemove) => this.SelectedTags.Remove(toRemove);
         public Command<Tag> RemoveTag => new Command<Tag>(RemoveTagMethod);
-        public Command ConfirmChanges => new Command(ConfirmChangesMethod);
-        private async Task ConfirmChangesMethod()
+        public Command ConfirmClicked => new Command(ConfirmChangesMethod);
+        private async void ConfirmChangesMethod()
         {
             List<RestaurantTag> restaurantTags = new List<RestaurantTag>();
             foreach (Tag tag in this.SelectedTags)

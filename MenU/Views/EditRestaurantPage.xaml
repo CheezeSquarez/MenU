@@ -45,7 +45,7 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                            <Button Grid.Row="7" Grid.ColumnSpan="2" Text="Next" Command="{Binding GoToAddMenu}" Style="{StaticResource Blue_Btn}" Margin="0,5,0,0"/>
+                            <Button Grid.Row="7" Grid.ColumnSpan="2" Text="Confirm Changes" Command="{Binding ConfirmClicked}" Style="{StaticResource Blue_Btn}" Margin="0,5,0,0"/>
                         </Grid>
                     </StackLayout>
                 </Frame>
