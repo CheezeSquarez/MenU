@@ -63,21 +63,24 @@ namespace MenU.ViewModels
                     ((App)App.Current).User = acc;
                 else //If the login was not successful, it will push a new login page with an error
                 {
-                    Push?.Invoke(new Login(App.ErrorHandler(result.Item2, "")));
+                    App.Current.MainPage = new NavigationPage(new Login(App.ErrorHandler(result.Item2, "")));
                     return;
                 }
-
-
-
             }
-            //App.Current.MainPage = new NavigationPage(new TabControlView());
-            List<RestaurantTag> rts = new List<RestaurantTag>();
-            rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 1 });
-            rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 2 });
-            rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 3 });
-            Restaurant r = new Restaurant() { City = "abc", RestaurantName = "abc", StreetName="abc", StreetNumber="abc", RestaurantTags = rts };
-            App.Current.MainPage = new NavigationPage(new EditRestaurantPage(r));
-            
+            else
+            {
+                
+                App.Current.MainPage = new NavigationPage(new Login());
+                return;
+            }
+            App.Current.MainPage = new NavigationPage(new TabControlView());
+            //List<RestaurantTag> rts = new List<RestaurantTag>();
+            //rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 1 });
+            //rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 2 });
+            //rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 3 });
+            //Restaurant r = new Restaurant() { City = "abc", RestaurantName = "abc", StreetName="abc", StreetNumber="abc", RestaurantTags = rts };
+            //App.Current.MainPage = new NavigationPage(new EditRestaurantPage(r));
+
             //try
             //{
             //    (List<Tag>, int) tags = await proxy.GetAllTags();

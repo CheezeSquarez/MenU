@@ -20,6 +20,7 @@ namespace MenU.ViewModels
 
         #region Commands and Method
         public Command GoToRegisterRestaurant => new Command(() => Push?.Invoke(new RestaurantRegister()));
+        public Command<Restaurant> GoToRestaurantPage => new Command<Restaurant>((r) => Push?.Invoke(new EditRestaurantPage(r)));
         #endregion
 
         #region Attributes

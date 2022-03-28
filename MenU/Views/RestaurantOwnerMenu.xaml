@@ -22,55 +22,63 @@
                     </ffSvg:SvgCachedImage>
                 </Frame>
             </StackLayout>
-            <CollectionView ItemsSource="{Binding RestaurantList}" EmptyView="No Registered Restaurants">
+            <CollectionView x:Name="RestaurantCV"  ItemsSource="{Binding RestaurantList}" EmptyView="No Registered Restaurants">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Margin="0,0,0,15">
-                            <Frame BackgroundColor="White" CornerRadius="9" Padding="0">
-                                <StackLayout Padding="0" Margin="0">
-                                    <Image Source="default_restaurant.jpg" Margin="0"/>
-                                    <BoxView Color="LightGray" HeightRequest="1.7" HorizontalOptions="FillAndExpand" Margin="0"/>
-                                    <Label Text="{Binding RestaurantName}" TextColor="Black" FontSize="Title" HorizontalOptions="Center" />
-                                    <Grid Margin="15">
-                                        <Label Grid.Row="0" TextColor="Black" Grid.Column="0" HorizontalTextAlignment="Start" HorizontalOptions="Start" >
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding Dishes.Count}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
-                                                    <Span Text=" Dishes Entered" FontSize="Subtitle"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    
-                                        <Label Grid.Row="0" TextColor="Black" Grid.Column="1" HorizontalTextAlignment="End" HorizontalOptions="End" >
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Average Rating " FontSize="Subtitle" />
-                                                    <Span Text="{Binding AverageRating}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    
-                                        <Label Grid.Row="1" TextColor="Black" Grid.Column="0" HorizontalTextAlignment="Start" HorizontalOptions="Start" >
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="{Binding ReviewsCount}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
-                                                    <Span Text=" Reviews Submitted" FontSize="Subtitle" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    
-                                        <Label Grid.Row="1" TextColor="Black" Grid.Column="1" HorizontalTextAlignment="End" HorizontalOptions="End" >
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Overall Opinion " FontSize="Subtitle"/>
-                                                    <Span Text="{Binding OverallRating}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                    </Grid>
-                                </StackLayout>
-                            </Frame>
-                        </StackLayout>
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Edit Restaurant" IconImageSource="icon_edit_png.png" BackgroundColor="LightGreen" Invoked="SwipeItem_Invoked" Command="{Binding Source={x:Reference RestaurantCV}, Path=BindingContext.GoToRestaurantPage}" CommandParameter="{Binding}" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <StackLayout Margin="0,0,0,15">
+                                <Frame BackgroundColor="White" CornerRadius="9" Padding="0">
+                                    <StackLayout Padding="0" Margin="0">
+                                        <Image Source="default_restaurant.jpg" Margin="0"/>
+                                        <BoxView Color="LightGray" HeightRequest="1.7" HorizontalOptions="FillAndExpand" Margin="0"/>
+                                        <Label Text="{Binding RestaurantName}" TextColor="Black" FontSize="Title" HorizontalOptions="Center" />
+                                        <Grid Margin="15">
+                                            <Label Grid.Row="0" TextColor="Black" Grid.Column="0" HorizontalTextAlignment="Start" HorizontalOptions="Start" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Dishes.Count}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                        <Span Text=" Dishes Entered" FontSize="Subtitle"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <Label Grid.Row="0" TextColor="Black" Grid.Column="1" HorizontalTextAlignment="End" HorizontalOptions="End" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Average Rating " FontSize="Subtitle" />
+                                                        <Span Text="{Binding AverageRating}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <Label Grid.Row="1" TextColor="Black" Grid.Column="0" HorizontalTextAlignment="Start" HorizontalOptions="Start" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding ReviewsCount}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                        <Span Text=" Reviews Submitted" FontSize="Subtitle" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <Label Grid.Row="1" TextColor="Black" Grid.Column="1" HorizontalTextAlignment="End" HorizontalOptions="End" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Overall Opinion " FontSize="Subtitle"/>
+                                                        <Span Text="{Binding OverallRating}" TextColor="Black" FontSize="Large" FontAttributes="Bold"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Grid>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </SwipeView>
+                        
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

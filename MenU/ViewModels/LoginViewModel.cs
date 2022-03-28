@@ -142,18 +142,14 @@ namespace MenU.ViewModels
                     {
                         // saves token in secure storage
                         await SecureStorage.SetAsync("auth_token", tokenResult.Item1);
-                        //Push?.Invoke(new ContentPage() { Content.Add(new ProfilePage));
-                        ContentPage page = new ContentPage();
-                        page.Content = new ProfilePage();
-                        
+                        App.Current.MainPage = new NavigationPage(new TabControlView());
                         return;
                     }
                     Error = App.ErrorHandler(tokenResult.Item2, Error);
                 }
                 else
                 {
-                    //Push?.Invoke(new ProfilePage());
-                    Push?.Invoke(new RestaurantRegister());
+                    App.Current.MainPage = new NavigationPage(new TabControlView());
                     return;
                 }
 
