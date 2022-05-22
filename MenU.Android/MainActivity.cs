@@ -17,9 +17,9 @@ namespace MenU.Droid
 
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(false);
             Rg.Plugins.Popup.Popup.Init(this);
-            
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            
             ImageCircleRenderer.Init();
 
             LoadApplication(new App());

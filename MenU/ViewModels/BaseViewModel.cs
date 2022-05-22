@@ -17,6 +17,8 @@ namespace MenU.ViewModels
     //This VM will act as a base for all child classes. The class inherits INPC and has an additional method for setting a value
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
+        public Command OnBackButtonTapped => new Command(() => ((App)App.Current).MainPage.Navigation.PopAsync());
+        public Command OnBackButtonTappedModal => new Command(() => ((App)App.Current).MainPage.Navigation.PopModalAsync());
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(

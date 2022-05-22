@@ -13,14 +13,20 @@ namespace MenU.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DishPage : ContentPage
     {
+        DishPageViewModel context;
         public DishPage(Dish d)
         {
-            DishPageViewModel context = new DishPageViewModel(d);
+            context = new DishPageViewModel(d);
 
 
             this.BindingContext = context;
             InitializeComponent();
         }
 
+        protected override void OnAppearing()
+        {
+            context.LoadReviews();
+        }
     }
+
 }

@@ -5,51 +5,60 @@
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             x:Name="CurrentPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
-                <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
-                    <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
-                </Frame>
+        <Grid>
+            <StackLayout>
+                <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
+                    <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
+                        <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
+                    </Frame>
 
-                <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="430">
-                    <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
-                        <Grid>
-                            <Entry Grid.Row="0" Grid.ColumnSpan="2" Placeholder="Restaurant Name" Text="{Binding RestaurantName}" Margin="0"/>
-                            <Entry Grid.Row="1" Grid.Column="0" Placeholder="Street Name" Text="{Binding StreetName}" />
-                            <Entry Grid.Row="1" Grid.Column="1" Placeholder="Street No." Text="{Binding HouseNumber}"/>
-                            <Entry Grid.Row="2" Grid.ColumnSpan="2" Placeholder="City" Text="{Binding City}"/>
-                            <Button Grid.Row="3" Grid.ColumnSpan="2" Text="Add Tag" Style="{StaticResource Blue_Btn}" Command="{Binding AddTagClicked}" Margin="0,0,0,5"/>
-                            <CollectionView Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="3" ItemsSource="{Binding SelectedTags}" x:Name="SelectedTagsCV" EmptyView="No Tags Yet Selected">
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="5" />
-                                </CollectionView.ItemsLayout>
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Frame CornerRadius="9" BackgroundColor="LightBlue" x:Name="TagsFrame" Padding="7,5">
-                                            <Grid>
-                                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding TagName}" FontSize="Medium" HorizontalOptions="StartAndExpand"/>
+                    <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="430">
+                        <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
+                            <Grid>
+                                <Entry Grid.Row="0" Grid.ColumnSpan="2" Placeholder="Restaurant Name" Text="{Binding RestaurantName}" Margin="0"/>
+                                <Entry Grid.Row="1" Grid.Column="0" Placeholder="Street Name" Text="{Binding StreetName}" />
+                                <Entry Grid.Row="1" Grid.Column="1" Placeholder="Street No." Text="{Binding HouseNumber}"/>
+                                <Entry Grid.Row="2" Grid.ColumnSpan="2" Placeholder="City" Text="{Binding City}"/>
+                                <Button Grid.Row="3" Grid.ColumnSpan="2" Text="Add Tag" Style="{StaticResource Blue_Btn}" Command="{Binding AddTagClicked}" Margin="0,0,0,5"/>
+                                <CollectionView Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="3" ItemsSource="{Binding SelectedTags}" x:Name="SelectedTagsCV" EmptyView="No Tags Yet Selected">
+                                    <CollectionView.ItemsLayout>
+                                        <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="5" />
+                                    </CollectionView.ItemsLayout>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame CornerRadius="9" BackgroundColor="LightBlue" x:Name="TagsFrame" Padding="7,5">
+                                                <Grid>
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding TagName}" FontSize="Medium" HorizontalOptions="StartAndExpand"/>
                                                 
-                                                <ffSvg:SvgCachedImage Grid.Row="0" Source="icon_close.svg" HeightRequest="24" WidthRequest="24" Scale="1" HorizontalOptions="EndAndExpand">
-                                                    <ff:CachedImage.Transformations>
-                                                        <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
-                                                    </ff:CachedImage.Transformations>
-                                                    <ffSvg:SvgCachedImage.GestureRecognizers>
-                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference SelectedTagsCV}, Path=BindingContext.RemoveTag}" 
-                                                                              CommandParameter="{Binding}" />
-                                                    </ffSvg:SvgCachedImage.GestureRecognizers>
-                                                </ffSvg:SvgCachedImage>
-                                            </Grid>
-                                        </Frame>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                            <Button Grid.Row="7" Grid.ColumnSpan="2" Text="Next" Command="{Binding GoToAddMenu}" Style="{StaticResource Blue_Btn}" Margin="0,5,0,0"/>
-                        </Grid>
-                    </StackLayout>
-                </Frame>
-            </Grid>
-        </StackLayout>
+                                                    <ffSvg:SvgCachedImage Grid.Row="0" Source="icon_close.svg" HeightRequest="24" WidthRequest="24" Scale="1" HorizontalOptions="EndAndExpand">
+                                                        <ff:CachedImage.Transformations>
+                                                            <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                                        </ff:CachedImage.Transformations>
+                                                        <ffSvg:SvgCachedImage.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding Source={x:Reference SelectedTagsCV}, Path=BindingContext.RemoveTag}" 
+                                                                                  CommandParameter="{Binding}" />
+                                                        </ffSvg:SvgCachedImage.GestureRecognizers>
+                                                    </ffSvg:SvgCachedImage>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" Text="Next" Command="{Binding GoToAddMenu}" Style="{StaticResource Blue_Btn}" Margin="0,5,0,0"/>
+                                <Button Grid.Row="7" Grid.Column="1"  Grid.ColumnSpan="1" Text="Pick banner Image" Command="{Binding AddBannerPopUp}" Style="{StaticResource Blue_Btn}" Margin="0,5,0,0"/>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+            <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}">
+                <ffSvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.OnBackButtonTapped}" />
+                </ffSvg:SvgCachedImage.GestureRecognizers>
+            </ffSvg:SvgCachedImage>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

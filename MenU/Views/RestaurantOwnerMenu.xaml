@@ -34,7 +34,7 @@
                             <StackLayout Margin="0,0,0,15">
                                 <Frame BackgroundColor="White" CornerRadius="9" Padding="0">
                                     <StackLayout Padding="0" Margin="0">
-                                        <Image Source="default_restaurant.jpg" Margin="0"/>
+                                        <Image Source="{Binding RestaurantPicture}" Margin="0" Aspect="AspectFill"/>
                                         <BoxView Color="LightGray" HeightRequest="1.7" HorizontalOptions="FillAndExpand" Margin="0"/>
                                         <Label Text="{Binding RestaurantName}" TextColor="Black" FontSize="Title" HorizontalOptions="Center" />
                                         <Grid Margin="15">

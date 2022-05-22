@@ -26,21 +26,20 @@ namespace MenU.Services
     {
         private HttpClient client;
         public const string BASE_URI = "http://10.0.2.2:39135";
-        public const string DEFAULT_IMG_URI = "https://10.0.2.2:44358/imgs/";
+        public const string DEFAULT_IMG_URI = "http://10.0.2.2:39135/imgs/";
         private static MenUWebAPI proxy = null;
-
         public static MenUWebAPI CreateProxy()
         {
             if (proxy == null)
-                return new MenUWebAPI();
+                proxy = new MenUWebAPI();
             return proxy;
         }
-        public MenUWebAPI()
+        private MenUWebAPI()
         {
             //Set client handler to support cookies!    !
             HttpClientHandler handler = new HttpClientHandler();     
-            handler.CookieContainer = new System.Net.CookieContainer();             
-            handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            handler.CookieContainer = new System.Net.CookieContainer(); 
+            //handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
             //Create client with the handler!
             this.client = new HttpClient(handler, true) /*{ Timeout = new TimeSpan(150000) } */;
@@ -139,11 +138,11 @@ namespace MenU.Services
                 return (false, 503);
             }
         }
-        public async Task<(bool isSuccess, int StatusCode)> LogOutAsync()
+        public async Task<(bool isSuccess, int StatusCode)> LogOutAsync(string authToken)
         {
             try
             {
-                HttpResponseMessage response = await this.client.GetAsync($"{BASE_URI}/accounts/LogOut");
+                HttpResponseMessage response = await this.client.GetAsync($"{BASE_URI}/accounts/LogOut?token={authToken}");
                 if (response.IsSuccessStatusCode)
                 {
                     return (true, StatusCode: (int)response.StatusCode);
@@ -271,30 +270,30 @@ namespace MenU.Services
             }
         }
 
-        public async Task<(bool, int)> UpdateAccountInfo(Account updatedAcc)
+        public async Task<(Account, int)> UpdateAccountInfo(Account updatedAcc)
         {
             HttpResponseMessage response;
             
             
             try
             {
-                string json = JsonConvert.SerializeObject(updatedAcc);
+                string json = JsonConvert.SerializeObject(updatedAcc, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 response = await this.client.PostAsync($"{BASE_URI}/accounts/UpdateAccountInfo", content);
                 if (response.IsSuccessStatusCode)
                 {
                     string c = await response.Content.ReadAsStringAsync();
-                    bool b = JsonConvert.DeserializeObject<bool>(c);
+                    Account b = JsonConvert.DeserializeObject<Account>(c);
                     return (b, (int)response.StatusCode);
                 }
                 else
                 {
-                    return (false, (int)response.StatusCode);
+                    return (null, (int)response.StatusCode);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return (false, 503);
+                return (null, 503);
             }
         }
         public async Task<(List<string>, int StatusCode)> GetDefaultPfps()
@@ -418,7 +417,7 @@ namespace MenU.Services
             }
         }
 
-        public async Task<(bool, int)> AddRestaurant(RestaurantDTO r)
+        public async Task<(RestaurantResult, int)> AddRestaurant(RestaurantDTO r)
         {
             HttpResponseMessage response;
             string url = $"{BASE_URI}/restaurants/AddRestaurant";
@@ -436,17 +435,17 @@ namespace MenU.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string c = await response.Content.ReadAsStringAsync();
-                    bool b = JsonConvert.DeserializeObject<bool>(c);
+                    RestaurantResult b = JsonConvert.DeserializeObject<RestaurantResult>(c);
                     return (b, (int)response.StatusCode);
                 }
                 else
                 {
-                    return (false, (int)response.StatusCode);
+                    return (null, (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return (false, 503);
+                return (null, 503);
             }
         }
         public async Task<(bool, int)> AddDish(Dish d)
@@ -532,7 +531,7 @@ namespace MenU.Services
 
         public async Task<(Restaurant, int)> FindRestaurantById(int id)
         {
-            string url = $"{BASE_URI}/restaurants/FindRestaurantById?id={id}";
+            string url = $"{BASE_URI}/restaurants/FindRestaurantById?resId={id}";
             try
             {
                 HttpResponseMessage response = await this.client.GetAsync(url);
@@ -553,6 +552,86 @@ namespace MenU.Services
             }
         }
 
+        public async Task<(int,int)> PostReview(Review r)
+        {
+            string url = $"{BASE_URI}/restaurants/PostReview";
+            HttpResponseMessage response;
+
+            try
+            {
+                string json = System.Text.Json.JsonSerializer.Serialize<Review>(r);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                response = await this.client.PostAsync(url, content);
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    PropertyNameCaseInsensitive = true
+                };
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string c = await response.Content.ReadAsStringAsync();
+                    int b = System.Text.Json.JsonSerializer.Deserialize<int>(c, options);
+                    return (b, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (-1, (int)response.StatusCode);
+                }
+            }
+            catch (Exception)
+            {
+                return (-1, 503);
+            }
+        }
+
+        public async Task<(Dish, int)> GetDishById(int id)
+        {
+            string url = $"{BASE_URI}/restaurants/GetDishById?dishId={id}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Dish dish = Newtonsoft.Json.JsonConvert.DeserializeObject<Dish>(content);
+                    return (dish, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
+
+        public async Task<(List<Review>, int)> GetDishReviews(int id)
+        {
+            string url = $"{BASE_URI}/restaurants/GetDishReviews?id={id}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Review> reviews = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Review>>(content);
+                    return (reviews, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
+
+
         public async Task<(bool,int)> UploadImage(Models.FileInfo fileInfo, string targetFileName)
         {
             try
@@ -572,6 +651,20 @@ namespace MenU.Services
             {
                 Console.WriteLine(e.Message);
                 return (false, 503);
+            }
+        }
+
+        public async Task<string> Test()
+        {
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync($"{BASE_URI}/accounts/Test");
+                string content = await response.Content.ReadAsStringAsync();
+                return content;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
             }
         }
     }

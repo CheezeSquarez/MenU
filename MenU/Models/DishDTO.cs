@@ -11,5 +11,6 @@ namespace MenU.Models
         public Dish Dish { get; set; }
         public List<DishTag> Tags { get; set; }
         public List<AllergenInDish> AllergenInDishes { get; set; }
+        public FileInfo Img { get; set; }
     }
 }

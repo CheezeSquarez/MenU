@@ -80,9 +80,11 @@ namespace MenU.ViewModels
                 Restaurant = new Restaurant() 
                 { 
                     RestaurantId = restaurant.RestaurantId, 
-                    City = CityName, RestaurantName = RestaurantName, 
+                    City = CityName, 
+                    RestaurantName = RestaurantName, 
                     StreetName = StreetName, 
-                    StreetNumber = houseNumber 
+                    StreetNumber = houseNumber,
+                    RestaurantPicture = "abc"
                 }, 
                 RestaurantTags = restaurantTags 
             };
@@ -103,7 +105,7 @@ namespace MenU.ViewModels
                 streetName = r.StreetName;
                 cityName = r.City;
                 foreach (RestaurantTag rT in r.RestaurantTags)
-                    SelectedTags.Add(allTags.FirstOrDefault(x => x.TagId == rT.TagId));
+                    SelectedTags.Add(TagsList.FirstOrDefault(x => x.TagId == rT.TagId));
             }
             
 

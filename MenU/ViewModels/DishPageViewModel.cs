@@ -49,6 +49,8 @@ namespace MenU.ViewModels
         }
         public ObservableCollection<Tag> FilteredTags { get; set; }
         public ObservableCollection<Allergen> FilteredAllergens { get; set; }
+
+        public ObservableCollection<Review> Reviews { get; set; }
         #endregion
         public DishPageViewModel(Dish dish)
         {
@@ -58,7 +60,8 @@ namespace MenU.ViewModels
             this.DishDescription = dish.DishDescription;
             this.FilteredTags = new ObservableCollection<Tag>();
             this.FilteredAllergens = new ObservableCollection<Allergen>();
-            imgSource = MenUWebAPI.DEFAULT_IMG_URI + dish.DishPicture;
+            Random random = new Random();
+            ImgSource = MenUWebAPI.DEFAULT_IMG_URI + "dishes/D" + dish.DishId + ".jpg?" + random.Next();
             //imgSource = "pasta.jpg";
             heartSource = OUTLINE_HEART;
             //Filters out the tags and allergens that appear in the dish
@@ -72,8 +75,11 @@ namespace MenU.ViewModels
                 Allergen allergen = ((App) App.Current).Allergens.FirstOrDefault(x => x.AllergenId == ag.AllergenId);
                 FilteredAllergens.Add(allergen);
             }
+            Reviews = new ObservableCollection<Review>();
+            LoadReviews();
         }
 
+        public Command AddReviewTapped => new Command(() => { App.Current.MainPage.Navigation.PushAsync(new AddReview(this.dish.DishId)); });
         public Command HeartTapped => new Command(HeartTappedMethod);
         private void HeartTappedMethod()
         {
@@ -86,6 +92,17 @@ namespace MenU.ViewModels
                 HeartSource = FILLED_HEART;
             }
                 
+        }
+
+        public async void LoadReviews()
+        {
+            Reviews.Clear();
+            (List<Review>, int) result = await proxy.GetDishReviews(this.dish.DishId);
+            List<Review> reviews = result.Item1;
+            foreach (Review review in reviews)
+            {
+                Reviews.Add(review);
+            }
         }
     }
 }

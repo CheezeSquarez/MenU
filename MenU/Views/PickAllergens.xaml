@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MenU.Views.PickAllergens">
+             x:Class="MenU.Views.PickAllergens"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             x:Name="CurrentPage">
     <ContentPage.Resources>
         <Style TargetType="Frame">
             <Setter Property="VisualStateManager.VisualStateGroups">
@@ -20,6 +24,7 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
+        <Grid>
         <StackLayout>
             <CollectionView x:Name="AllergensCollectionView" SelectionMode="Multiple" Margin="5" SelectedItems="{Binding SelectedAllergens}" ItemsSource="{Binding AllergensList}" 
                             SelectionChangedCommand="{Binding AllergensSelectionChanged}" 
@@ -40,5 +45,11 @@
                 <Button Text="Confirm Tags" Command="{Binding ConfirmAllergens}" BackgroundColor="Transparent" FontSize="Medium" TextTransform="None" />
             </Frame>
         </StackLayout>
+            <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}">
+                <ffSvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.OnBackButtonTappedModal}" />
+                </ffSvg:SvgCachedImage.GestureRecognizers>
+            </ffSvg:SvgCachedImage>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

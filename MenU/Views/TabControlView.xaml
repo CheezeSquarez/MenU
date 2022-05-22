@@ -4,6 +4,8 @@
              x:Class="MenU.Views.TabControlView"
              xmlns:tabs="http://sharpnado.com"
              xmlns:views="clr-namespace:MenU.Views"
+            xmlns:viewmodels="clr-namespace:MenU.ViewModels"
+             x:DataType="viewmodels:TabControlViewModel"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Resources>
         <ResourceDictionary>

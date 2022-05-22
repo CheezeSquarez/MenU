@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using MenU.Models;
 using System.Linq;
 
+
 namespace MenU.ViewModels
 {
     class ProfilePageViewModel : BaseViewModel
@@ -20,10 +21,15 @@ namespace MenU.ViewModels
             acc = ((App)App.Current).User;
             if(acc != null)
             {
+                Random random = new Random();
                 FName = acc.FirstName;
                 LName = acc.LastName;
                 Username = acc.Username;
                 birthday = acc.DateOfBirth;
+                if (acc.AccountType == 2)
+                    PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/R" + acc.AccountId + ".jpg?" + random.Next();
+                else
+                    PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/A" + acc.AccountId + ".jpg?" + random.Next();
                 Reviews = new ObservableCollection<Review>(acc.Reviews);
             }
             else
@@ -46,6 +52,7 @@ namespace MenU.ViewModels
         private DateTime birthday;
         private ObservableCollection<Review> Reviews;
         private Account acc;
+        private string pfpImgSource;
         #endregion
 
         #region Properties and Events
@@ -53,6 +60,11 @@ namespace MenU.ViewModels
         {
             get => fName;
             set => SetValue(ref fName, value);
+        }
+        public string PfpImgSource
+        {
+            get => pfpImgSource;
+            set => SetValue(ref pfpImgSource, value);
         }
         public string LName
         {
@@ -76,20 +88,39 @@ namespace MenU.ViewModels
 
         #region Commands and Methods
         public event Action<Page> Push;
-        public Command ChangeInfoClicked => new Command(PushToChangeInfo);
+        public Command ChangeInfoClicked => new Command(() => { Push?.Invoke(new ChangeInfo()); });
+        public Command Logout => new Command(LogoutMethod);
+        private async void LogoutMethod()
+        {
+            string token = await SecureStorage.GetAsync("auth_token");
+            await proxy.LogOutAsync(token);
+            SecureStorage.Remove("auth_token");
+            ((App)App.Current).User = null;
+            App.Current.MainPage = new NavigationPage(new Login());
+        }
+        public Command Test => new Command(async () =>await proxy.Test());
         private void PushToChangeInfo()
         {
-            Push?.Invoke(new ChangeInfo());
+            
         }
         public ICommand ReviewClicked => new Command<string>((s) => Push?.Invoke(new ReviewPage(s)));
         public void LoadUserValues()
         {
             acc = ((App)App.Current).User;
-            FName = acc.FirstName;
-            LName = acc.LastName;
-            Username = acc.Username;
-            birthday = acc.DateOfBirth;
-            Reviews = new ObservableCollection<Review>(acc.Reviews);
+            if(acc != null)
+            {
+                Random random = new Random();
+                FName = acc.FirstName;
+                LName = acc.LastName;
+                Username = acc.Username;
+                birthday = acc.DateOfBirth;
+                Reviews = new ObservableCollection<Review>(acc.Reviews);
+                if (acc.AccountType == 2)
+                    PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/R" + acc.AccountId + ".jpg?" + random.Next();
+                else
+                    PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/A" + acc.AccountId + ".jpg?" + random.Next();
+            }
+            
         }
 
         #endregion

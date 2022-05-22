@@ -17,6 +17,14 @@ namespace MenU.Views
         {
             this.BindingContext = context;
             InitializeComponent();
+           
+        }
+
+        public ChangePfpPopup(RegisterRestaurantViewModel context)
+        {
+            this.BindingContext = context;
+            InitializeComponent();
+
         }
     }
 }

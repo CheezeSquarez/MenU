@@ -60,7 +60,11 @@ namespace MenU.ViewModels
                 (Account, int) result = await proxy.LoginAsync(token); //Logs in using auth token
                 Account acc = result.Item1;
                 if (acc != null) //Checks if login was successful
-                    ((App)App.Current).User = acc;
+                {
+                    ((App)App.Current).User = acc; 
+                    App.Current.MainPage = new NavigationPage(new TabControlView());
+                    return;
+                }
                 else //If the login was not successful, it will push a new login page with an error
                 {
                     App.Current.MainPage = new NavigationPage(new Login(App.ErrorHandler(result.Item2, "")));
@@ -73,7 +77,10 @@ namespace MenU.ViewModels
                 App.Current.MainPage = new NavigationPage(new Login());
                 return;
             }
-            App.Current.MainPage = new NavigationPage(new TabControlView());
+
+            StartUp();
+
+            //App.Current.MainPage = new NavigationPage(new TabControlView());
             //List<RestaurantTag> rts = new List<RestaurantTag>();
             //rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 1 });
             //rts.Add(new RestaurantTag() { RestaurantId = 1, TagId = 2 });

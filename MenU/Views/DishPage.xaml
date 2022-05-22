@@ -2,73 +2,105 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MenU.Views.DishPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             x:Name="CurrentPage"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Padding="20, 10">
-                <Frame IsClippedToBounds="True" Margin="-20,-10,-20,0" HeightRequest="140" Padding="0">
-                    <Image Source="{Binding ImgSource}"  Aspect="AspectFill"/>
-                </Frame>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Text="{Binding DishName}" TextColor="#030D30" FontFamily="Varela" FontSize="30" VerticalOptions="Start" Grid.Column="0" Grid.Row="0"/>
-                    <Image Source="{Binding HeartSource}" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Scale="0.6">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HeartTapped}" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                </Grid>
-                <!-- <Entry Text="{Binding ImgSource}" /> -->
-                <Label VerticalOptions="Start" Text="{Binding DishDescription}" />
-                <Grid Margin="0" HeightRequest="150">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="4*" />
-                    </Grid.RowDefinitions>
-                    <!-- Allergens -->
-                    <Label Grid.Row="0" Grid.Column="0" Text="Allergens" VerticalOptions="Center" />
-                    <ScrollView HeightRequest="150" Grid.Column="0" Grid.Row="1">
-                        <FlexLayout BindableLayout.ItemsSource="{Binding FilteredAllergens}" Wrap="Wrap" Direction="Row" AlignContent="Start" >
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate>
-                                    <Frame CornerRadius="17" Padding="10" HeightRequest="38" Margin="2,2" BackgroundColor="LightGray">
-                                        <Label Text="{Binding Allergen1}"/>
-                                    </Frame>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </FlexLayout>
-                    </ScrollView>
+        <Grid>
+            <ScrollView>
+                <StackLayout Padding="20, 10">
+                    <Frame IsClippedToBounds="True" Margin="-20,-10,-20,0" HeightRequest="140" Padding="0">
+                        <Image Source="{Binding ImgSource}" Aspect="AspectFill" />
+                    </Frame>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding DishName}" TextColor="#030D30" FontFamily="Varela" FontSize="30" VerticalOptions="Start" Grid.Column="0" Grid.Row="0"/>
+                        <Image Source="{Binding HeartSource}" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Scale="0.6">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding HeartTapped}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+                    <!-- <Entry Text="{Binding ImgSource}" /> -->
+                    <Label VerticalOptions="Start" Text="{Binding DishDescription}" />
+                    <Grid Margin="0" HeightRequest="150">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="4*" />
+                        </Grid.RowDefinitions>
+                        <!-- Allergens -->
+                        <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Text="Allergens" VerticalOptions="Center" />
+                        <ScrollView HeightRequest="150" Grid.Column="0" Grid.Row="1" VerticalScrollBarVisibility="Never">
+                            <FlexLayout BindableLayout.ItemsSource="{Binding FilteredAllergens}" Wrap="Wrap" Direction="Row" AlignContent="Start" >
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame CornerRadius="17" Padding="10" HeightRequest="38" Margin="2,2" BackgroundColor="LightGray">
+                                            <Label Text="{Binding Allergen1}"/>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
+                        </ScrollView>
                     
-                    <!-- Tags -->
-                    <Label Grid.Row="0" Grid.Column="1" Text="Tags" VerticalOptions="Center" />
-                    <ScrollView HeightRequest="150" Grid.Column="1" Grid.Row="1">
-                        <FlexLayout BindableLayout.ItemsSource="{Binding FilteredTags}" Wrap="Wrap" Direction="Row" AlignContent="Start">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate>
-                                    <Frame CornerRadius="17" Padding="10" HeightRequest="38" Margin="2,2" BackgroundColor="LightGray">
-                                        <Label Text="{Binding TagName}"/>
-                                    </Frame>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </FlexLayout>
-                    </ScrollView>
+                        <!-- Tags -->
+                        <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="1" Text="Tags" VerticalOptions="Center" />
+                        <ScrollView HeightRequest="150" Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Never">
+                            <FlexLayout BindableLayout.ItemsSource="{Binding FilteredTags}" Wrap="Wrap" Direction="Row" AlignContent="Start">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame CornerRadius="17" Padding="10" HeightRequest="38" Margin="2,2" BackgroundColor="LightGray">
+                                            <Label Text="{Binding TagName}"/>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </FlexLayout>
+                        </ScrollView>
 
 
-                </Grid>
-                <BoxView Color="LightGray" HeightRequest="1.7" Margin="-20, -5, -20, 0"  />
-                <Label Text="Reviews" FontFamily="Varela" FontSize="Large" TextColor="{DynamicResource ThemeBlue}" />
-                <CollectionView ItemsSource="{Binding Reviews}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-        </ScrollView>
-        
+                    </Grid>
+                    <BoxView Color="LightGray" HeightRequest="1.7" Margin="-20, -5, -20, 0"  />
+                    <Label Text="Reviews" FontFamily="Varela" FontSize="Large" TextColor="{DynamicResource ThemeBlue}" />
+                    <CollectionView ItemsSource="{Binding Reviews}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame CornerRadius="10" BorderColor="#909090">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Text="{Binding ReviewTitle}" FontSize="20" TextColor="Black" Margin="0"/>
+                                        <Image Source="{Binding LikedImgSource}" HeightRequest="30" Grid.Row="0" HorizontalOptions="End" />
+                                        <StackLayout Orientation="Horizontal" Grid.Row="1" Margin="0">
+                                            <Image HeightRequest="30" Source="{Binding Stars[0]}" />
+                                            <Image HeightRequest="30" Source="{Binding Stars[1]}" />
+                                            <Image HeightRequest="30" Source="{Binding Stars[2]}" />
+                                            <Image HeightRequest="30" Source="{Binding Stars[3]}" />
+                                            <Image HeightRequest="30" Source="{Binding Stars[4]}" />
+                                        </StackLayout>
+                                        <Label Text="{Binding ReviewBody}" Grid.Row="2" Margin="0"/>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </ScrollView>
+            <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}">
+                <ffSvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.OnBackButtonTapped}" />
+                </ffSvg:SvgCachedImage.GestureRecognizers>
+            </ffSvg:SvgCachedImage>
+            <Button Grid.Row="0" Grid.Column="0" Padding="0" CornerRadius="200" Margin="20" Command="{Binding AddReviewTapped}" HeightRequest="60" Background="#98c1d9" WidthRequest="60" HorizontalOptions="End" FontSize="30" VerticalOptions="End" Text="+" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

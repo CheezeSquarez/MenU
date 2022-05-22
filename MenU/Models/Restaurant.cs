@@ -53,7 +53,7 @@ namespace MenU.Models
                         counter--;
                 }
             }
-            string[] ratings = { "Extremly bad", "Very bad", "Bad", "Mediocre", "Nice", "Very Good", "Extremly God" };
+            string[] ratings = { "Extremly bad", "Very bad", "Bad", "Mediocre", "Nice", "Very Good", "Extremly Good" };
             if (counter > 3) counter = 3;
             if(counter < -3) counter = -3;
             return ratings[3 + counter];

@@ -16,5 +16,9 @@ namespace MenU.Models
         public virtual List<AccountTag> AccountTags { get; set; }
         public virtual List<DishTag> DishTags { get; set; }
         public virtual List<RestaurantTag> RestaurantTags { get; set; }
+        public override string ToString()
+        {
+            return this.TagName;
+        }
     }
 }

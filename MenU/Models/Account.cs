@@ -24,6 +24,20 @@ namespace MenU.Models
             Iterations = 0;
 
         }
+        public Account(Account acc)
+        {
+            this.AccountId = acc.AccountId;
+            this.Username = acc.Username;
+            this.FirstName = acc.FirstName;
+            this.LastName = acc.LastName;
+            this.Email = acc.Email;
+            this.AccountStatus = acc.AccountStatus;
+            this.AccountType = acc.AccountType;
+            this.ProfilePicture = acc.ProfilePicture;
+            this.Pass = acc.Pass;
+            this.Salt = acc.Salt;
+            this.Iterations = acc.Iterations;
+        }
 
         public int AccountId { get; set; }
         public string Username { get; set; }

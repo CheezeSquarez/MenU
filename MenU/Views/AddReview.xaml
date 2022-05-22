@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MenU.Views.AddReview"
+             xmlns:rating="clr-namespace:Rating;assembly=Rating">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="15">
+                <Label HorizontalOptions="Center" VerticalOptions="Start" Text="{Binding DishName}" FontSize="Title"/>
+                <Label HorizontalOptions="Start" VerticalOptions="Start" Text="Tell us what you think!" FontSize="Large" />
+                <StackLayout HeightRequest="20"/>
+                <Label Text="Give this review a title!" />
+                <Entry Text="{Binding ReviewTitle}" Placeholder="Title" />
+                <StackLayout HeightRequest="20"/>
+                
+                <Label HorizontalOptions="Start" Text="How many stars would you rate this dish?" FontSize="Header" />
+                <StackLayout HeightRequest="10"/>
+                <rating:RatingBar x:Name="rating"
+                            HorizontalOptions="Center" 
+                            ImageWidth="30" ImageHeight="30" 
+                            FlowDirection="LeftToRight" 
+                            EmptyStarImage="icon_star_empty.png" 
+                            FillStarImage="icon_star_filled.png" 
+                            SelectedStarValue="{Binding SelectedStarsNum}" />
+                <StackLayout HeightRequest="25"/>
+                
+                <Label HorizontalOptions="Start" Text="Can you tell us a bit about your experience with this dish?" FontSize="Header" />
+                <Editor Text="{Binding ReviewBody}" Placeholder="Enter description here" AutoSize="TextChanges"/>
+                <StackLayout HeightRequest="20"/>
+                
+                <Label Text="Lastly, would you say you liked this dish?" />
+                <Image x:Name="Like" Source="{Binding LikedSource}" HorizontalOptions="Center" HeightRequest="70" Margin="15">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <StackLayout HeightRequest="20"/>
+                
+                <Label Text="Please add a picture of the dish you are reviewing" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="5">
+                    <Button Style="{StaticResource Blue_Btn}" FontSize="20" Text="Gallery" CornerRadius="10" Command="{Binding OnGallery}"/>
+                    <Button Style="{StaticResource Blue_Btn}" FontSize="20" Text="Camera" CornerRadius="10" Command="{Binding OnCamera}"/>
+                </StackLayout>
+
+                <Frame HeightRequest="500" IsClippedToBounds="True" >
+                    <Image Source="{Binding ImgSource}"/>
+                </Frame>
+                <StackLayout HeightRequest="20"/>
+
+                <Button Text="Post!" Style="{StaticResource Blue_Btn}" HeightRequest="50" WidthRequest="200" HorizontalOptions="Center" Command="{Binding PostReview}" />
+            </StackLayout>
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

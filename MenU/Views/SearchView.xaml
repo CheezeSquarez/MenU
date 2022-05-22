@@ -53,9 +53,9 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
 
-                            <Frame x:Name="RestaurantImg" CornerRadius="7" IsClippedToBounds="True" Padding="0" HasShadow="False"
+                            <Frame x:Name="RestaurantImg" CornerRadius="7" IsClippedToBounds="True" Padding="0" HasShadow="False" HeightRequest="50"
                            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.3}">
-                                <Image Source="{Binding ImgSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Margin="0" />
+                                <Image Source="{Binding ImgSource}" HorizontalOptions="FillAndExpand" Aspect="AspectFill" VerticalOptions="FillAndExpand" Margin="0" />
                             </Frame>
 
                             <Label x:Name="TitleView" Text="{Binding RestaurantName}" FontSize="20" FontAttributes="Bold" LineBreakMode="TailTruncation"

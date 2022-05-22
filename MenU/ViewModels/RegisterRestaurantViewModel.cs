@@ -9,6 +9,7 @@ using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Linq;
+using Rg.Plugins.Popup.Services;
 
 
 
@@ -62,11 +63,26 @@ namespace MenU.ViewModels
                 Dishes = dishList,
                 RestaurantTags = tagList
             };
-            
+
+            //Dish images need to be added from client/send file. cant read local files from server
             //Sends a server Request and displays a fitting message
-            (bool, int) registerRestult = await proxy.AddRestaurant(restaurant);
-            if (registerRestult.Item1)
+            (RestaurantResult, int) registerRestult = await proxy.AddRestaurant(restaurant);
+            if (registerRestult.Item1 != null)
             {
+                string imgPath = $"banners/B{registerRestult.Item1.Restaurant.RestaurantId}.jpg";
+                if (imgChanged)
+                {
+                    (bool, int) result = await proxy.UploadImage(new FileInfo()
+                    {
+                        Name = this.imageFileResult.FullPath
+                    }, imgPath);
+                }
+                List<DishDTO> dishes = registerRestult.Item1.Dishes;
+                foreach(DishDTO dish in dishes)
+                {
+                    string fileName = $"dishes/D{dish.Dish.DishId}.jpg";
+                    await proxy.UploadImage(dish.Img, fileName);
+                }
                 await App.Current.MainPage.DisplayAlert("Restaurant Registered Successfully", "Your Restaurant has been successfully been registered and added to our database", "OK");
 
             }
@@ -175,6 +191,58 @@ namespace MenU.ViewModels
             set => SetValue(ref description, value);
         }
         public Command AddDishClicked => new Command(AddDishMethod);
+        
+        public Command AddDishImage => new Command(async () => await PopupNavigation.PushAsync(new DishImage(this)));
+        #region Add Dish Img
+        private ImageSource imgSourceDish;
+        private FileResult imageFileResultDish;
+       
+       
+        public ImageSource ImgSourceDish
+        {
+            get => imgSourceDish;
+            set => SetValue(ref imgSourceDish, value);
+        }
+        public Command OnCameraDish => new Command(OnCameraMethodDish);
+        private async void OnCameraMethodDish()
+        {
+            var result = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+            {
+                Title = "Take a picture"
+            });
+
+            if (result != null)
+            {
+                this.imageFileResultDish = result;
+                var stream = await result.OpenReadAsync();
+                ImageSource imgSourceDish = ImageSource.FromStream(() => stream);
+                this.ImgSourceDish = imgSourceDish;
+            }
+        }
+
+        public Command OnGalleryDish => new Command(OnGalleryMethodDish);
+        private async void OnGalleryMethodDish()
+        {
+            FileResult result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions()
+            {
+                Title = "Pick a photo"
+            });
+
+            if (result != null)
+            {
+                this.imageFileResultDish = result;
+
+                var stream = await result.OpenReadAsync();
+                ImageSource imgSourceDish = ImageSource.FromStream(() => stream);
+                this.ImgSourceDish = imgSourceDish;
+            }
+        }
+
+        public Command SaveImageDish => new Command(async () =>
+        {
+            await PopupNavigation.PopAsync();
+        });
+        #endregion
         public async void AddDishMethod()
         {
             //Defines lists for allergens and tags (for DTO)
@@ -204,12 +272,17 @@ namespace MenU.ViewModels
                         //Restaurant = this.restaurantId 
                     }, 
                     AllergenInDishes = allergensInDish, 
-                    Tags = tagsInDish 
+                    Tags = tagsInDish,
+                    Img = new FileInfo()
+                    {
+                        Name = this.imageFileResultDish.FullPath
+                    }
                 };
                 //Adds DTO to list of dished (used to send to server and display)
                 this.Dishes.Add(d);
                 //Clears all info (so that the next dish can be added)
                 Description = "";
+                imageFileResultDish = null; 
                 DishName = "";
                 SelectedAllergens.Clear();
                 SelectedTags.Clear();
@@ -261,5 +334,57 @@ namespace MenU.ViewModels
             foreach (Allergen t in tags)
                 this.AllergensList.Add(t);
         }
+
+        #region Add Banner Img
+        private ImageSource imgSource;
+        private FileResult imageFileResult;
+        private bool imgChanged;
+        public Command AddBannerPopUp => new Command(async () => await PopupNavigation.PushAsync(new ChangePfpPopup(this)));
+        public ImageSource ImgSource
+        {
+            get => imgSource;
+            set => SetValue(ref imgSource, value);
+        }
+        public Command OnCamera => new Command(OnCameraMethod);
+        private async void OnCameraMethod()
+        {
+            var result = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+            {
+                Title = "Take a picture"
+            });
+
+            if (result != null)
+            {
+                this.imageFileResult = result;
+                var stream = await result.OpenReadAsync();
+                ImageSource imgSource = ImageSource.FromStream(() => stream);
+                this.ImgSource = imgSource;
+            }
+        }
+
+        public Command OnGallery => new Command(OnGalleryMethod);
+        private async void OnGalleryMethod()
+        {
+            FileResult result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions()
+            {
+                Title = "Pick a photo"
+            });
+
+            if (result != null)
+            {
+                this.imageFileResult = result;
+
+                var stream = await result.OpenReadAsync();
+                ImageSource imgSource = ImageSource.FromStream(() => stream);
+                this.ImgSource = imgSource;
+            }
+        }
+
+        public Command SaveImage => new Command(async () =>
+        {
+            imgChanged = true;
+            await PopupNavigation.PopAsync();
+        });
+        #endregion
     }
 }

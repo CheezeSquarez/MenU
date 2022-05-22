@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage 
-    xmlns:pages="http://rotorgames.com"               
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="MenU.Views.ChangePfpPopup"
-    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
-    xmlns:circleImage="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin">
-
+<pages:PopupPage
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="http://rotorgames.com"               
+             x:Class="MenU.Views.DishImage"
+             xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+             xmlns:circleImage="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin">
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation 
             PositionIn="Bottom"
@@ -22,7 +21,7 @@
     <StackLayout 
         VerticalOptions="EndAndExpand" 
         HorizontalOptions="FillAndExpand" >
-        
+
         <Frame CornerRadius="20"  HorizontalOptions="FillAndExpand" HeightRequest="350" TranslationY="20">
             <StackLayout>
                 <Grid VerticalOptions="CenterAndExpand">
@@ -40,10 +39,10 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <circleImage:CircleImage Source="{Binding ImgSource}" Grid.Row="0" Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="CircleImg"/>
-                    <Button Padding="0" Text="Use Camera" FontSize="Medium" Command="{Binding OnCamera}" Grid.Column="0" Grid.Row="2" Style="{StaticResource Blue_Btn}"/>
-                    <Button Padding="0" Text="Use Gallery" FontSize="Medium" Command="{Binding OnGallery}" Grid.Column="2" Grid.Row="2" Style="{StaticResource Blue_Btn}"/>
-                    <Button VerticalOptions="End" Padding="0" Margin="80,0" Text="Save Image" FontSize="Medium" Command="{Binding SaveImage}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" Style="{StaticResource Blue_Btn}"/>
+                    <circleImage:CircleImage Source="{Binding ImgSourceDish}" Grid.Row="0" Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="CircleImg"/>
+                    <Button Padding="0" Text="Use Camera" FontSize="Medium" Command="{Binding OnCameraDish}" Grid.Column="0" Grid.Row="2" Style="{StaticResource Blue_Btn}"/>
+                    <Button Padding="0" Text="Use Gallery" FontSize="Medium" Command="{Binding OnGalleryDish}" Grid.Column="2" Grid.Row="2" Style="{StaticResource Blue_Btn}"/>
+                    <Button VerticalOptions="End" Padding="0" Margin="80,0" Text="Save Image" FontSize="Medium" Command="{Binding SaveImageDish}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" Style="{StaticResource Blue_Btn}"/>
                 </Grid>
             </StackLayout>
         </Frame>

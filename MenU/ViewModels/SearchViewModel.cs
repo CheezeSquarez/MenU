@@ -67,8 +67,9 @@ namespace MenU.ViewModels
 
             if(result.Item1 != null)
             {
+                Random random = new Random();
                 foreach (Restaurant r in result.Item1)
-                    SearchResult.Add(new SearchItem(r.RestaurantName, /* ImgSource = MenUWebAPI.BASE_URI + r. */ "default_restaurant.jpg", r.RestaurantId, r.City));
+                    SearchResult.Add(new SearchItem(r.RestaurantName, MenUWebAPI.DEFAULT_IMG_URI + "/banners/B" + r.RestaurantId + ".jpg?" + random.Next(), r.RestaurantId, r.City));
             }
 
         }

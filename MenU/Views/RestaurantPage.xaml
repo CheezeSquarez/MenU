@@ -2,75 +2,112 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MenU.Views.RestaurantPage"
-             NavigationPage.HasNavigationBar="False">
+             NavigationPage.HasNavigationBar="False"
+             x:Name="CurrentPage"
+             xmlns:local="clr-namespace:MenU.Models"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
     <ContentPage.Content>
-        <ScrollView Margin="0" Padding="0" VerticalScrollBarVisibility="Never">
-            <StackLayout>
-                <StackLayout Margin="0" Padding="0">
-                    <Grid Padding="0" Margin="0" HeightRequest="200">
+        <Grid>
+            <ScrollView Margin="0" Padding="0" VerticalScrollBarVisibility="Never">
+                <StackLayout>
+                    <StackLayout Margin="0" Padding="0">
+                        <Grid Padding="0" Margin="0" HeightRequest="200">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50*" />
+                                <RowDefinition Height="40*" />
+                                <RowDefinition Height="20*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="2.4*"/>
+                                <ColumnDefinition Width="6*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding BannerImg}" BackgroundColor="#67809f" Aspect="AspectFill" Grid.Row="0" Grid.RowSpan="3" Margin="0" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </StackLayout>
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50*" />
-                            <RowDefinition Height="40*" />
-                            <RowDefinition Height="20*" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="1.7" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition Width="2.4*"/>
-                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="0.15*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Image Source="{Binding BannerImg}" BackgroundColor="#67809f"  Grid.Row="0" Grid.RowSpan="3" Margin="0" Grid.ColumnSpan="3"/>
-                    </Grid>
-                </StackLayout>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="0.4*" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="0.15*" />
-                        <RowDefinition Height="1.7" />
-                        <RowDefinition Height="0.15*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.15*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Text="{Binding Name}" Grid.Row="0" FontSize="Large" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" LineBreakMode="WordWrap"  />
-                    <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Top3Tags}" FontSize="Medium"  />
-                    <Label Grid.Row="2" FontSize="Large" FontAttributes="Bold" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" LineBreakMode="WordWrap" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                    <Span Text="{Binding StreetName}" FontSize="Medium"/>
-                                    <Span Text="{Binding StrNumber}" FontSize="Medium"/>
-                                    <Span Text="{Binding City}" FontSize="Medium"/>
-                                </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-
-                    <Label LineBreakMode="WordWrap" Grid.Row="4" Grid.Column="1" >
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="{Binding DishCount}" TextColor="Black" FontAttributes="Bold" FontSize="Medium"/>
-                                <Span Text=" Dishes" FontSize="Medium"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                        <Label LineBreakMode="WordWrap" Grid.Row="4" Grid.Column="2" >
+                        <Label Text="{Binding Name}" Grid.Row="0" FontSize="Large" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" LineBreakMode="WordWrap"  />
+                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Top3Tags}" FontSize="Medium"  />
+                        <Label Grid.Row="2" FontSize="Large" FontAttributes="Bold" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" LineBreakMode="WordWrap" >
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="{Binding ReviewCount}" TextColor="Black" FontAttributes="Bold" FontSize="Medium"/>
-                                    <Span Text=" Reviews" FontSize="Medium"/>
+                                    <Span Text="{Binding StreetName}" FontSize="Medium"/>
+                                    <Span Text=", " FontSize="Medium"/>
+                                    <Span Text="{Binding StrNumber}" FontSize="Medium"/>
+                                    <Span Text=". " FontSize="Medium"/>
+                                    <Span Text="{Binding City}" FontSize="Medium"/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <BoxView Color="LightGray" HeightRequest="1.7" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" />
-                    <Label Grid.Row="8" FontSize="Large" Text="Dishes" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
-                </Grid>
-            </StackLayout>
-        </ScrollView>
+
+                        <Label LineBreakMode="WordWrap" Grid.Row="4" Grid.Column="1" >
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding DishCount}" TextColor="Black" FontAttributes="Bold" FontSize="Medium"/>
+                                    <Span Text=" Dishes" FontSize="Medium"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                            <Label LineBreakMode="WordWrap" Grid.Row="4" Grid.Column="2" >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding ReviewCount}" TextColor="Black" FontAttributes="Bold" FontSize="Medium"/>
+                                        <Span Text=" Reviews" FontSize="Medium"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <BoxView Color="LightGray" HeightRequest="1.7" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" />
+                        <Label Grid.Row="8" FontSize="Large" Text="Dishes" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
+                        <StackLayout x:Name="DishesStack" Margin="10" Grid.Row="9" Grid.ColumnSpan="4" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BindableLayout.ItemsSource="{Binding Dishes}" BindableLayout.EmptyView="This Restaurant Has No Dishes" >
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="local:Dish">
+                                    <Frame BorderColor="LightGray" HeightRequest="80" CornerRadius="16" >
+                                        <Grid>
+                                            <Label Text="{Binding DishName}"  Grid.Row="0" Grid.Column="0" TextColor="Black" FontSize="18"></Label>
+                                            <Label Text="{Binding DishDescription}" Grid.Row="1" Grid.Column="0" TextColor="Gray" />
+                                        </Grid>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference DishesStack}, Path=BindingContext.GoToDish}" CommandParameter="{Binding}" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                    
+                                   
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+            <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}">
+                <ff:CachedImage.Transformations>
+                    <ffTransf:TintTransformation HexColor="#ffffff" EnableSolidColor="True"/>
+                </ff:CachedImage.Transformations>
+                <ffSvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.OnBackButtonTapped}" />
+                </ffSvg:SvgCachedImage.GestureRecognizers>
+            </ffSvg:SvgCachedImage>
+        </Grid>
+            
+
     </ContentPage.Content>
 </ContentPage>

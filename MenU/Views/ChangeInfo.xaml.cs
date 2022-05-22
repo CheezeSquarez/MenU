@@ -16,6 +16,7 @@ namespace MenU.Views
         {
             SaveChangesViewModel context = new SaveChangesViewModel();
             context.Push += (p) => Navigation.PushAsync(p);
+            context.Pop += () => Navigation.PopAsync();
             this.BindingContext = context;
             InitializeComponent();
         }

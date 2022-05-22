@@ -33,8 +33,11 @@ namespace MenU.ViewModels
             Account acc = ((App)App.Current).User;
             if(acc != null)
             {
-                foreach (Restaurant r in acc.Restaurants)
+                Random random = new Random();
+                List<Restaurant> restaurants = new List<Restaurant>(acc.Restaurants);
+                foreach (Restaurant r in restaurants)
                 {
+                    r.RestaurantPicture = $"{MenUWebAPI.DEFAULT_IMG_URI}banners/B{r.RestaurantId}.jpg?{random.Next()}";
                     RestaurantList.Add(r);
                 }
             }

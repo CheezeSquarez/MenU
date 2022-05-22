@@ -5,70 +5,78 @@
              NavigationPage.HasNavigationBar="False"
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             x:Name="CurrentPage">
     <ContentPage.Resources>
         
         
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
-                <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
-                    <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
-                </Frame>
+        <Grid>
+            <StackLayout>
+                <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,50">
+                    <Frame Opacity="1"  Scale="1.3" VerticalOptions="Start" TranslationY="-20">
+                        <Image Source="Restaurant.png"  Scale="1.5" Grid.Column="0"/>
+                    </Frame>
 
-                <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="440">
-                    <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
-                        <Grid>
-                            <Entry Grid.Row="0" Placeholder="Username" Text="{Binding Username}" Margin="0"/>
-                            <Entry Grid.Row="1" Placeholder="Email" Text="{Binding Email}"/>
-                            <Grid Grid.Row="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90*" />
-                                    <ColumnDefinition Width="10*" />
-                                </Grid.ColumnDefinitions>
-                                <Entry  IsPassword="{Binding VisibilityState1}" Grid.Row="0" Grid.Column="0" Placeholder="Password" Text="{Binding Password}"/>
-                                
-                                <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="1" Source="{Binding VisibilityImage1}" HeightRequest="24" WidthRequest="24" Scale="1">
-                                    <ff:CachedImage.Transformations>
-                                        <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
-                                    </ff:CachedImage.Transformations>
-                                    <ffSvg:SvgCachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding VisibilityToggle1}" />
-                                    </ffSvg:SvgCachedImage.GestureRecognizers>
-                                </ffSvg:SvgCachedImage>
+                    <Frame HorizontalOptions="Center" VerticalOptions="End" BackgroundColor="White" HasShadow="True" CornerRadius="20" WidthRequest="350" HeightRequest="440">
+                        <StackLayout VerticalOptions="FillAndExpand" Padding="0,0,0,0">
+                            <Grid>
+                                <Entry Grid.Row="0" Placeholder="Username" Text="{Binding Username}" Margin="0"/>
+                                <Entry Grid.Row="1" Placeholder="Email" Text="{Binding Email}"/>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90*" />
+                                        <ColumnDefinition Width="10*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry  IsPassword="{Binding VisibilityState1}" Grid.Row="0" Grid.Column="0" Placeholder="Password" Text="{Binding Password}"/>
+
+                                    <ffSvg:SvgCachedImage Grid.Row="0" Grid.Column="1" Source="{Binding VisibilityImage1}" HeightRequest="24" WidthRequest="24" Scale="1">
+                                        <ff:CachedImage.Transformations>
+                                            <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                        </ff:CachedImage.Transformations>
+                                        <ffSvg:SvgCachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding VisibilityToggle1}" />
+                                        </ffSvg:SvgCachedImage.GestureRecognizers>
+                                    </ffSvg:SvgCachedImage>
+                                </Grid>
+
+                                <Grid Grid.Row="3" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90*" />
+                                        <ColumnDefinition Width="10*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry IsPassword="{Binding VisibilityState2}" Grid.Row="0" Grid.Column="0" Placeholder="Confirm Password" Text="{Binding PasswordConfirm}"/>
+                                    <ffSvg:SvgCachedImage Grid.Column="1" Source="{Binding VisibilityImage2}" HeightRequest="24" WidthRequest="24" Scale="1">
+                                        <ff:CachedImage.Transformations>
+                                            <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                        </ff:CachedImage.Transformations>
+                                        <ffSvg:SvgCachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding VisibilityToggle2}" />
+                                        </ffSvg:SvgCachedImage.GestureRecognizers>
+                                    </ffSvg:SvgCachedImage>
+                                </Grid>
+
+
+                                <Entry Grid.Row="4" Placeholder="First Name" Text="{Binding FirstName}"/>
+                                <Entry Grid.Row="5" Placeholder="Last Name" Text="{Binding LastName}"/>
+                                <DatePicker Grid.Row="6" MinimumDate="01/01/1918" MaximumDate="12/31/2018" Date="{Binding DateOfBirth}" />
+                                <CheckBox Grid.Row="7" IsChecked="{Binding IsRestaurantOwner}" HorizontalOptions="Start" VerticalOptions="Center"/>
+                                <Label Grid.Row="7" Text="Are you a restaurant owner?" HorizontalOptions="End" VerticalOptions="Center" />
+                                <Label Grid.Row="8" Text="{Binding Error}" Style="{StaticResource Error_Label}" />
+                                <Button Grid.Row="9" Text="Sign Up" Command="{Binding SignUpCommand}" Style="{StaticResource Blue_Btn}" />
                             </Grid>
-                            
-                            <Grid Grid.Row="3" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="90*" />
-                                    <ColumnDefinition Width="10*" />
-                                </Grid.ColumnDefinitions>
-                                <Entry IsPassword="{Binding VisibilityState2}" Grid.Row="0" Grid.Column="0" Placeholder="Confirm Password" Text="{Binding PasswordConfirm}"/>
-                                <ffSvg:SvgCachedImage Grid.Column="1" Source="{Binding VisibilityImage2}" HeightRequest="24" WidthRequest="24" Scale="1">
-                                    <ff:CachedImage.Transformations>
-                                        <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
-                                    </ff:CachedImage.Transformations>
-                                    <ffSvg:SvgCachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding VisibilityToggle2}" />
-                                    </ffSvg:SvgCachedImage.GestureRecognizers>
-                                </ffSvg:SvgCachedImage>
-                            </Grid>
 
 
-                            <Entry Grid.Row="4" Placeholder="First Name" Text="{Binding FirstName}"/>
-                            <Entry Grid.Row="5" Placeholder="Last Name" Text="{Binding LastName}"/>
-                            <DatePicker Grid.Row="6" MinimumDate="01/01/1918" MaximumDate="12/31/2018" Date="{Binding DateOfBirth}" />
-                            <CheckBox Grid.Row="7" IsChecked="{Binding IsRestaurantOwner}" HorizontalOptions="Start" VerticalOptions="Center"/>
-                            <Label Grid.Row="7" Text="Are you a restaurant owner?" HorizontalOptions="End" VerticalOptions="Center" />
-                            <Label Grid.Row="8" Text="{Binding Error}" Style="{StaticResource Error_Label}" />
-                            <Button Grid.Row="9" Text="Sign Up" Command="{Binding SignUpCommand}" Style="{StaticResource Blue_Btn}" />
-                        </Grid>
-                       
-                       
-                    </StackLayout>
-                </Frame>
-            </Grid>
-        </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+            </StackLayout>
+            <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}">
+                <ffSvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.OnBackButtonTapped}" />
+                </ffSvg:SvgCachedImage.GestureRecognizers>
+            </ffSvg:SvgCachedImage>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

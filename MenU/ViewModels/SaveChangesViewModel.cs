@@ -86,24 +86,25 @@ namespace MenU.ViewModels
             set => SetValue(ref error, value);
         }
         public event Action<Page> Push;
+        public event Action Pop;
         #endregion
 
         #region Commands and Methods
         public Command ChangePfp => new Command(async () => await PopupNavigation.PushAsync(new ChangePfpPopup(this)));
         public Command ChangePass => new Command(ChangePassMethod);
-        private async Task<bool> Authenticate(string message)
+        private async Task<(bool,Account)> Authenticate(string message)
         {
             string pass = await App.Current.MainPage.DisplayPromptAsync("Confirm password", message);
             (Account, int) loginResultTuple = await proxy.LoginAsync(((App)App.Current).User.Username, pass);
             if (loginResultTuple.Item1 != null)
-                return true;
-            return false;
+                return (true, loginResultTuple.Item1);
+            return (false, null);
 
         }
         private async void ChangePassMethod()
         {
-            bool authReturn = await Authenticate("Enter current password");
-            if(authReturn)
+            (bool, Account) authReturn = await Authenticate("Enter current password");
+            if(authReturn.Item1)
             {
                 string newPass = await App.Current.MainPage.DisplayPromptAsync("New Password", "Enter your new password:", "OK"); //Prompts the user for the new pass and to confirm it
                 bool validPass = false;
@@ -159,36 +160,42 @@ namespace MenU.ViewModels
 
             if (validInfo)
             {
-                bool authReturn = await Authenticate("Enter password to confirm changes");
-                if (authReturn)
+                (bool,Account) authReturn = await Authenticate("Enter password to confirm changes");
+                if (authReturn.Item1)
                 {
-                    Account currentAcc = ((App)App.Current).User;
+                    
+                    Account currentAcc = authReturn.Item2;
                     currentAcc.Username = this.Username;
                     currentAcc.FirstName = this.FirstName;
                     currentAcc.LastName = this.LastName;
+
+                    string imgPath;
+                    if(currentAcc.AccountType == 2)
+                        imgPath = $"pfp/R{currentAcc.AccountId}.jpg";
+                    else
+                        imgPath = $"pfp/A{currentAcc.AccountId}.jpg";
                     if (imgChanged)
                     {
                         (bool, int) result = await proxy.UploadImage(new FileInfo()
                         {
                             Name = this.imageFileResult.FullPath
-                        }, $"pfp/A{currentAcc.AccountId}.jpg");
+                        }, imgPath);
                     }
-                    (bool, int) ret = await proxy.UpdateAccountInfo(currentAcc);
-                    if (ret.Item1)
+                    (Account, int) ret = await proxy.UpdateAccountInfo(currentAcc);
+                    if (ret.Item2 == 200)
                     {
                         await App.Current.MainPage.DisplayAlert("Account Info Has Been Saved!", "", "OK");
-                        ((App)App.Current).User = currentAcc;
-                        //Push?.Invoke(new ProfilePage());
+                        ((App)App.Current).User = ret.Item1;
+                        Pop?.Invoke();
                     }
                     else
                         Error = App.ErrorHandler(ret.Item2, Error);
                 }
                 else
-                    Error = App.ErrorHandler(28, Error);
+                    Error = App.ErrorHandler(401, Error);
             }
             
         }
-
         public Command OnCamera => new Command(OnCameraMethod);
         private async void OnCameraMethod()
         {
@@ -196,6 +203,7 @@ namespace MenU.ViewModels
             {
                 Title = "Take a picture"
             });
+
 
             if (result != null)
             {
@@ -227,6 +235,7 @@ namespace MenU.ViewModels
         public Command SaveImage => new Command(async () => 
         {
             imgChanged = true;
+            //this.ImgSource = "default_pfp.jpg";
             await PopupNavigation.PopAsync();
         });
         #endregion
