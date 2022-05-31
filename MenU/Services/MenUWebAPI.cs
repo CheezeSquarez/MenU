@@ -631,6 +631,99 @@ namespace MenU.Services
             }
         }
 
+        public async Task<(List<Restaurant>, int)> GetRestaurantsByTag(int tagId)
+        {
+            string url = $"{BASE_URI}/restaurants/GetRestaurantsByTag?tagId={tagId}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Restaurant> restaurants = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Restaurant>>(content);
+                    return (restaurants, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
+
+        public async Task<(List<Dish>, int)> GetDishesByTag(int tagId)
+        {
+            string url = $"{BASE_URI}/restaurants/GetDishesByTag?tagId={tagId}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Dish> dishes = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Dish>>(content);
+                    return (dishes, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
+
+        public async Task<(List<Restaurant>, int)> GetRestaurantsByRating(int rating)
+        {
+            string url = $"{BASE_URI}/restaurants/GetRestaurantsByRating?rating={rating}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Restaurant> restaurants = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Restaurant>>(content);
+                    return (restaurants, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
+
+        public async Task<(List<Review>, int)> GetReviewsByAccountId(int userId)
+        {
+            string url = $"{BASE_URI}/accounts/GetReviewsByAccountId?id={userId}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Review> reviews = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Review>>(content);
+                    return (reviews, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
+
+
 
         public async Task<(bool,int)> UploadImage(Models.FileInfo fileInfo, string targetFileName)
         {

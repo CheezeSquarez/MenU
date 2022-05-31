@@ -135,6 +135,7 @@ namespace MenU.ViewModels
                     Name = this.imageFileResult.FullPath
                 }, "reviews/R" + result.Item1 + ".jpg");
 
+            ((App)App.Current).ReviewAddedEvent();
             await App.Current.MainPage.Navigation.PopAsync();
         }
 

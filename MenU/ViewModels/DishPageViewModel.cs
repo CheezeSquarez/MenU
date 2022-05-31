@@ -77,6 +77,7 @@ namespace MenU.ViewModels
             }
             Reviews = new ObservableCollection<Review>();
             LoadReviews();
+            ((App)App.Current).ReviewAdded += this.LoadReviews;
         }
 
         public Command AddReviewTapped => new Command(() => { App.Current.MainPage.Navigation.PushAsync(new AddReview(this.dish.DishId)); });

@@ -53,7 +53,7 @@ namespace MenU.Models
                 if (this.IsLiked)
                     return "icon_like_filled.png";
                 else
-                    return "icon_like_empty.png";
+                    return "icon_dislike.png";
             }
         }
     }

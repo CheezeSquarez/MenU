@@ -30,7 +30,8 @@ namespace MenU.ViewModels
                     PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/R" + acc.AccountId + ".jpg?" + random.Next();
                 else
                     PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/A" + acc.AccountId + ".jpg?" + random.Next();
-                Reviews = new ObservableCollection<Review>(acc.Reviews);
+                Reviews = new ObservableCollection<Review>();
+                LoadReviews();
             }
             else
             {
@@ -41,6 +42,7 @@ namespace MenU.ViewModels
                 Reviews = new ObservableCollection<Review>();
             }
             ((App)App.Current).UserChanged += this.LoadUserValues;
+            ((App)App.Current).ReviewAdded += this.LoadReviews;
             
         }
 
@@ -50,9 +52,9 @@ namespace MenU.ViewModels
         private string lName;
         private string username;
         private DateTime birthday;
-        private ObservableCollection<Review> Reviews;
         private Account acc;
         private string pfpImgSource;
+        private int reviewsCount;
         #endregion
 
         #region Properties and Events
@@ -80,16 +82,38 @@ namespace MenU.ViewModels
         {
             get => birthday.ToString("dd/MM/yyyy");
         }
-        public int ReviewCount
+        public int ReviewsCount
         {
-            get => Reviews.Count;
+            get => this.reviewsCount;
+            set => SetValue(ref reviewsCount, value);
         }
+        public ObservableCollection<Review> Reviews { get; set; }
+        public event Action<Page> Push;
         #endregion
 
         #region Commands and Methods
-        public event Action<Page> Push;
+
         public Command ChangeInfoClicked => new Command(() => { Push?.Invoke(new ChangeInfo()); });
         public Command Logout => new Command(LogoutMethod);
+        public async void LoadReviews()
+        {
+            this.Reviews.Clear();
+            Account u = ((App)App.Current).User;
+            if (u != null)
+            {
+                (List<Review>, int) result = await proxy.GetReviewsByAccountId(u.AccountId);
+                if(result.Item1 != null)
+                {
+                    foreach (Review review in result.Item1)
+                    {
+                        Reviews.Add(review);
+                    }
+                    ReviewsCount = Reviews.Count;
+                }
+                
+            }
+            
+        }
         private async void LogoutMethod()
         {
             string token = await SecureStorage.GetAsync("auth_token");
@@ -99,10 +123,6 @@ namespace MenU.ViewModels
             App.Current.MainPage = new NavigationPage(new Login());
         }
         public Command Test => new Command(async () =>await proxy.Test());
-        private void PushToChangeInfo()
-        {
-            
-        }
         public ICommand ReviewClicked => new Command<string>((s) => Push?.Invoke(new ReviewPage(s)));
         public void LoadUserValues()
         {

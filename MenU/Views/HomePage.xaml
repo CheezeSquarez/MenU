@@ -3,27 +3,134 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MenU.Views.HomePage">
     <ContentView.Content>
-        <Grid Padding="10" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="48" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Frame Grid.Row="0" CornerRadius="30" BorderColor="#BFBFBF" Padding="20,9" HasShadow="False" >
-                <Label Text="Search" TextColor="#A8A8A8" HorizontalOptions="Start" FontSize="22"/>
-            </Frame>
-            
-            <Image Source="qr_icon.png" Grid.Row="0" Grid.Column="1" Opacity="0.5"/>
-            <StackLayout Grid.Row="1" Margin="0,30,0,0" Grid.ColumnSpan="2">
-                <Label Text="Since you liked King Meat" HorizontalOptions="Start" TextColor="Black" FontSize="22"/>
-                <CollectionView ItemsLayout="HorizontalList" >
+        <ScrollView Padding="20">
+
+            <StackLayout>
+                <Frame Margin="5,0" CornerRadius="30" HeightRequest="20" Padding="10" BorderColor="#ebecf0">
+                    <SearchBar VerticalOptions="Center"  Placeholder="Search" Text="{Binding SearchTerm}" SearchCommand="{Binding SearchCommand}" />
+                </Frame>
+                <StackLayout Grid.Row="1" Margin="0,30,0,0" Grid.ColumnSpan="2">
+                    <Label HorizontalOptions="Start" TextColor="Black" FontSize="22" Margin="0,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Dishes with the tag " />
+                                <Span Text="{Binding DishesTag1.TagName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding DishList1}" HeightRequest="150" WidthRequest="150" Margin="-20,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10,0" Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Frame WidthRequest="80" HorizontalOptions="Center" Grid.Row="0" IsClippedToBounds="True" Padding="0" CornerRadius="10">
+                                        <Image Source="{Binding ImgSource}" Aspect="AspectFill" />
+                                    </Frame>
+                                    <Label Grid.Row="1" Text="{Binding DishName}" HorizontalOptions="Center"  Padding="1"/>
+                                    <Label Grid.Row="2" Text="{Binding RestaurantNavigation.RestaurantName}" HorizontalOptions="Center"  Padding="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+
+
                     
-                </CollectionView>
+                    <Label HorizontalOptions="Start" TextColor="Black" FontSize="22" Margin="0,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Restaurants with the tag " />
+                                <Span Text="{Binding RestaurantsTag1.TagName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding RestaurantList1}" HeightRequest="150" WidthRequest="150">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10,0" Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Frame WidthRequest="80" HorizontalOptions="Center" Grid.Row="0" IsClippedToBounds="True" Padding="0" CornerRadius="10">
+                                        <Image Source="{Binding ImgSource}" Aspect="AspectFill" />
+                                    </Frame>
+                                    <Label Grid.Row="1" Text="{Binding RestaurantName}" Padding="1" HorizontalOptions="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                    <Label HorizontalOptions="Start" TextColor="Black" FontSize="22" Margin="0,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Dishes with the tag " />
+                                <Span Text="{Binding DishesTag2.TagName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding DishList2}" HeightRequest="150">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10,0" Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Frame WidthRequest="80" HorizontalOptions="Center" Grid.Row="0" IsClippedToBounds="True" Padding="0" CornerRadius="10">
+                                        <Image Source="{Binding ImgSource}" Aspect="AspectFill" />
+                                    </Frame>
+                                    <Label Grid.Row="1" Text="{Binding DishName}" Padding="1" HorizontalOptions="Center" />
+                                    <Label Grid.Row="2" Text="{Binding RestaurantNavigation.RestaurantName}" Padding="1" HorizontalOptions="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+
+
+                    <Label HorizontalOptions="Start" TextColor="Black" FontSize="22" Margin="0,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Restaurants with the tag " />
+                                <Span Text="{Binding RestaurantsTag2.TagName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <CollectionView ItemsLayout="HorizontalList" ItemsSource="{Binding RestaurantList2}" HeightRequest="150" WidthRequest="150">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10,0" Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="4*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Frame WidthRequest="80" HorizontalOptions="Center" Grid.Row="0" IsClippedToBounds="True" Padding="0" CornerRadius="10">
+                                        <Image Source="{Binding ImgSource}" Aspect="AspectFill" />
+                                    </Frame>
+                                    <Label Grid.Row="1" Text="{Binding RestaurantName}" HorizontalOptions="Center" Padding="1"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+                </StackLayout>
             </StackLayout>
             
-        </Grid>
+        </ScrollView>
     </ContentView.Content>
 </ContentView>

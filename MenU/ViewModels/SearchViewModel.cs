@@ -35,6 +35,7 @@ namespace MenU.ViewModels
             searchTerm = "";
             SearchResult = new ObservableCollection<SearchItem>();
             proxy = MenUWebAPI.CreateProxy();
+            ((App)App.Current).Searched += SearchEventMethod;
         }
         #region Attributes
         private string searchTerm;
@@ -72,6 +73,12 @@ namespace MenU.ViewModels
                     SearchResult.Add(new SearchItem(r.RestaurantName, MenUWebAPI.DEFAULT_IMG_URI + "/banners/B" + r.RestaurantId + ".jpg?" + random.Next(), r.RestaurantId, r.City));
             }
 
+        }
+
+        public void SearchEventMethod(string searchTerm)
+        {
+            this.SearchTerm = searchTerm;
+            this.Search();
         }
 
         public Command<int> GoToRestaurant => new Command<int>(GoToRestaurantMethod);

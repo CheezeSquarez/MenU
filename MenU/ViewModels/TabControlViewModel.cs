@@ -16,6 +16,7 @@ namespace MenU.ViewModels
     {
         public TabControlViewModel()
         {
+            ((App)App.Current).Searched += this.GoToSearchTab;
             SelectedIndex = 0;
             Account acc = ((App)App.Current).User;
             if(acc != null)
@@ -43,6 +44,11 @@ namespace MenU.ViewModels
         {
             get => isRestaurantOwner;
             set => SetValue(ref isRestaurantOwner, value);
+        }
+
+        public void GoToSearchTab(string s)
+        {
+            SelectedIndex = 1;
         }
 
         public void SetTabs()

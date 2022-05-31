@@ -208,8 +208,8 @@ namespace MenU.ViewModels
             if (result != null)
             {
                 this.imageFileResult = result;
-                var stream = await result.OpenReadAsync();
-                ImageSource imgSource = ImageSource.FromStream(() => stream);
+                //var stream = await result.OpenReadAsync();
+                ImageSource imgSource = ImageSource.FromFile(result.FullPath);//FromStream(() => stream);
                 this.ImgSource = imgSource;
             }
         }
@@ -226,8 +226,8 @@ namespace MenU.ViewModels
             {
                 this.imageFileResult = result;
 
-                var stream = await result.OpenReadAsync();
-                ImageSource imgSource = ImageSource.FromStream(() => stream);
+                //var stream = await result.OpenReadAsync();
+                ImageSource imgSource = ImageSource.FromFile(result.FullPath);//.FromStream(() => stream);
                 this.ImgSource = imgSource;
             }
         }

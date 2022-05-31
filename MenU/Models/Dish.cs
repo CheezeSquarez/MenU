@@ -29,5 +29,14 @@ namespace MenU.Models
         public virtual ICollection<AllergenInDish> AllergenInDishes { get; set; }
         public virtual ICollection<DishTag> DishTags { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public string ImgSource
+        {
+            get
+            {
+                Random random = new Random();
+                return $"{MenU.Services.MenUWebAPI.DEFAULT_IMG_URI}dishes/D{this.DishId}.jpg?{random.Next()}";
+            }
+        }
     }
 }

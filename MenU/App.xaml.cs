@@ -31,7 +31,9 @@ namespace MenU
         }
         private Account user;
         public event Action UserChanged;
-        public Account User { get => user; 
+        public Account User
+        {
+            get => user;
             set
             {
                 user = value;
@@ -39,6 +41,13 @@ namespace MenU
             }
         }
 
+        public event Action<string> Searched;
+        public void SearchEvent(string searchTerm) => Searched.Invoke(searchTerm);
+
+        public event Action ReviewAdded;
+        public void ReviewAddedEvent() => ReviewAdded.Invoke();
+        
+        
         
         public Dictionary<int, string> StatusCodes { get; private set; }
         public List<Tag> Tags { get; set; }

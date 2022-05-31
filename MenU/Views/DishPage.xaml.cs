@@ -23,10 +23,10 @@ namespace MenU.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
-        {
-            context.LoadReviews();
-        }
+        //protected override void OnAppearing()
+        //{
+        //    context.LoadReviews();
+        //}
     }
 
 }
