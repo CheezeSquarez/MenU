@@ -25,6 +25,13 @@ namespace MenU.Views
             InitializeComponent();
             
         }
+        public PickTagsModal(RestaurantPage_ManagerSide_ViewModel context)
+        {
+            this.BindingContext = context;
+           
+            InitializeComponent();
+            
+        }
 
        
 

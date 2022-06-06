@@ -28,9 +28,22 @@
                         <SwipeView>
                             <SwipeView.LeftItems>
                                 <SwipeItems>
-                                    <SwipeItem Text="Edit Restaurant" IconImageSource="icon_edit_png.png" BackgroundColor="LightGreen" Invoked="SwipeItem_Invoked" Command="{Binding Source={x:Reference RestaurantCV}, Path=BindingContext.GoToRestaurantPage}" CommandParameter="{Binding}" />
+                                    <SwipeItem Text="Edit Restaurant" IconImageSource="icon_edit_png.png"
+                                               BackgroundColor="LightGreen" Invoked="SwipeItem_Invoked"
+                                               Command="{Binding Source={x:Reference RestaurantCV}, Path=BindingContext.GoToRestaurantPage}" 
+                                               CommandParameter="{Binding}" />
+
                                 </SwipeItems>
                             </SwipeView.LeftItems>
+                            
+                            <SwipeView.RightItems >
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete Restaurant" IconImageSource="icon_delete.png"
+                                               BackgroundColor="#cf000f" Invoked="SwipeItem_Invoked"
+                                               Command="{Binding Source={x:Reference RestaurantCV}, Path=BindingContext.DeleteRestaurantCommand}" 
+                                               CommandParameter="{Binding}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
                             <StackLayout Margin="0,0,0,15">
                                 <Frame BackgroundColor="White" CornerRadius="9" Padding="0">
                                     <StackLayout Padding="0" Margin="0">
@@ -75,6 +88,11 @@
                                             </Label>
                                         </Grid>
                                     </StackLayout>
+
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference RestaurantCV}, Path=BindingContext.GoToRestaurantSettings}"
+                                                              CommandParameter="{Binding}" />
+                                    </Frame.GestureRecognizers>
                                 </Frame>
                             </StackLayout>
                         </SwipeView>

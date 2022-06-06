@@ -57,7 +57,7 @@ namespace MenU.ViewModels
                     RestaurantName = RestaurantName,
                     StreetName = streetName,
                     StreetNumber = HouseNumber,
-                    RestaurantStatus = 2,
+                    RestaurantStatus = 1,
                     RestaurantPicture = "abc"
                 },
                 Dishes = dishList,
@@ -84,6 +84,8 @@ namespace MenU.ViewModels
                     await proxy.UploadImage(dish.Img, fileName);
                 }
                 await App.Current.MainPage.DisplayAlert("Restaurant Registered Successfully", "Your Restaurant has been successfully been registered and added to our database", "OK");
+                ((App)App.Current).TriggerRestaurantAddedEvent();
+                App.Current.MainPage = new NavigationPage(new TabControlView());
 
             }
             App.ErrorHandler(registerRestult.Item2, "");
@@ -215,7 +217,7 @@ namespace MenU.ViewModels
             {
                 this.imageFileResultDish = result;
                 var stream = await result.OpenReadAsync();
-                ImageSource imgSourceDish = ImageSource.FromStream(() => stream);
+                ImageSource imgSourceDish = ImageSource.FromFile(result.FullPath);
                 this.ImgSourceDish = imgSourceDish;
             }
         }
@@ -233,7 +235,7 @@ namespace MenU.ViewModels
                 this.imageFileResultDish = result;
 
                 var stream = await result.OpenReadAsync();
-                ImageSource imgSourceDish = ImageSource.FromStream(() => stream);
+                ImageSource imgSourceDish = ImageSource.FromFile(result.FullPath);
                 this.ImgSourceDish = imgSourceDish;
             }
         }
@@ -260,24 +262,28 @@ namespace MenU.ViewModels
                 {
                     tagsInDish.Add(new DishTag() { TagId = tag.TagId });
                 }
-                //Builds DTO
-                DishDTO d = new DishDTO() 
-                { 
-                    Dish = new Dish() 
-                    { 
-                        DishDescription = Description, 
-                        //DishId = dishId.Item1, 
-                        DishName = DishName, 
-                        DishPicture = "abc",
-                        //Restaurant = this.restaurantId 
-                    }, 
-                    AllergenInDishes = allergensInDish, 
-                    Tags = tagsInDish,
-                    Img = new FileInfo()
-                    {
-                        Name = this.imageFileResultDish.FullPath
-                    }
-                };
+            ImageSource source = "";
+            if (this.imageFileResult != null)
+               source  = ImageSource.FromFile(this.imageFileResult.FullPath);
+            //Builds DTO
+            DishDTO d = new DishDTO()
+            {
+                Dish = new Dish()
+                {
+                    DishDescription = Description,
+                    //DishId = dishId.Item1, 
+                    DishName = DishName,
+                    DishPicture = "abc",
+                    //Restaurant = this.restaurantId 
+                },
+                AllergenInDishes = allergensInDish,
+                Tags = tagsInDish,
+                Img = new FileInfo()
+                {
+                    Name = this.imageFileResultDish.FullPath
+                },
+                ImgSource = source
+            };
                 //Adds DTO to list of dished (used to send to server and display)
                 this.Dishes.Add(d);
                 //Clears all info (so that the next dish can be added)

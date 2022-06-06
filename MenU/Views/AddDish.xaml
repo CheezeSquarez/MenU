@@ -68,7 +68,7 @@
             </StackLayout>
             <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}">
                 <ffSvg:SvgCachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.OnBackButtonTapped}" />
+                    <TapGestureRecognizer x:Name="BackCommand" />
                 </ffSvg:SvgCachedImage.GestureRecognizers>
             </ffSvg:SvgCachedImage>
         </Grid>

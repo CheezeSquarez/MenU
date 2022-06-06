@@ -443,12 +443,12 @@ namespace MenU.Services
                     return (null, (int)response.StatusCode);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return (null, 503);
             }
         }
-        public async Task<(bool, int)> AddDish(Dish d)
+        public async Task<(int, int)> AddDish(DishDTO d)
         {
             HttpResponseMessage response;
 
@@ -460,17 +460,17 @@ namespace MenU.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string c = await response.Content.ReadAsStringAsync();
-                    bool b = JsonConvert.DeserializeObject<bool>(c);
+                    int b = JsonConvert.DeserializeObject<int>(c);
                     return (b, (int)response.StatusCode);
                 }
                 else
                 {
-                    return (false, (int)response.StatusCode);
+                    return (-1, (int)response.StatusCode);
                 }
             }
             catch (Exception)
             {
-                return (false, 503);
+                return (-1, 503);
             }
         }
         public async Task<(Restaurant, int)> UpdateRestaurant(RestaurantDTO rDTO)
@@ -723,7 +723,74 @@ namespace MenU.Services
             }
         }
 
+        public async Task<(bool, int)> DeleteRestaurant(int restaurantId)
+        {
+            string url = $"{BASE_URI}/restaurants/DeleteRestaurant?restaurantId={restaurantId}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    bool b = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(content);
+                    return (b, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (false, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (false, 503);
+            }
+        }
 
+        public async Task<(bool, int)> DeleteDish(int dishId)
+        {
+            string url = $"{BASE_URI}/restaurants/DeleteDish?dishId={dishId}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    bool b = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(content);
+                    return (b, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (false, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (false, 503);
+            }
+        }
+
+        public async Task<(List<Restaurant>, int)> GetOwnersRestaurants(int accountId)
+        {
+            string url = $"{BASE_URI}/restaurants/GetOwnersRestaurants?ownerId={accountId}";
+            try
+            {
+                HttpResponseMessage response = await this.client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    List<Restaurant> b = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Restaurant>>(content);
+                    return (b, (int)response.StatusCode);
+                }
+                else
+                {
+                    return (null, (int)response.StatusCode);
+                }
+            }
+            catch (Exception e)
+            {
+                return (null, 503);
+            }
+        }
 
         public async Task<(bool,int)> UploadImage(Models.FileInfo fileInfo, string targetFileName)
         {

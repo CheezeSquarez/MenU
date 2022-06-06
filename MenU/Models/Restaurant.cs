@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MenU.Services;
 
 namespace MenU.Models
 {
@@ -77,6 +78,14 @@ namespace MenU.Models
                     }
                 }
                 return counter;
+            }
+        }
+        public string ImgSource
+        {
+            get
+            {
+                Random r = new Random();
+                return $"{MenUWebAPI.DEFAULT_IMG_URI}banners/B{this.RestaurantId}.jpg?{r.Next()}";
             }
         }
         

@@ -16,7 +16,19 @@ namespace MenU.Views
         public AddDish(RegisterRestaurantViewModel context)
         {
             this.BindingContext = context;
+            
             InitializeComponent();
+
+            BackCommand.Command = context.OnBackButtonTapped;
+
+        }
+        public AddDish(RestaurantPage_ManagerSide_ViewModel context)
+        {
+            this.BindingContext = context;
+            
+            InitializeComponent();
+
+            BackCommand.Command = context.OnBackButtonTappedModal;
         }
     }
 }

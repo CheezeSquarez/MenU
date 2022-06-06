@@ -18,5 +18,10 @@ namespace MenU.Views
             this.BindingContext = context;
             InitializeComponent();
         }
+        public PickAllergens(RestaurantPage_ManagerSide_ViewModel context)
+        {
+            this.BindingContext = context;
+            InitializeComponent();
+        }
     }
 }

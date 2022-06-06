@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace MenU.Models
 {
@@ -29,6 +30,7 @@ namespace MenU.Models
         public virtual ICollection<AllergenInDish> AllergenInDishes { get; set; }
         public virtual ICollection<DishTag> DishTags { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        
 
         public string ImgSource
         {

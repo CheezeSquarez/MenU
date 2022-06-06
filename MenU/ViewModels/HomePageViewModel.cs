@@ -24,7 +24,7 @@ namespace MenU.ViewModels
             DishList2 = new ObservableCollection<Dish>();
             RestaurantList1 = new ObservableCollection<Restaurant>();
             RestaurantList2 = new ObservableCollection<Restaurant>();
-
+            ((App)App.Current).RestaurantChanged += PopulateLists;
             PopulateLists();
         }
 

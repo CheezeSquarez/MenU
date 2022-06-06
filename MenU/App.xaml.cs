@@ -46,9 +46,14 @@ namespace MenU
 
         public event Action ReviewAdded;
         public void ReviewAddedEvent() => ReviewAdded.Invoke();
-        
-        
-        
+        public event Action RestaurantChanged;
+        public void TriggerRestaurantChangedEvent() => RestaurantChanged?.Invoke();
+
+
+        public event Action RestaurantAdded;
+        public void TriggerRestaurantAddedEvent() => RestaurantAdded?.Invoke();
+
+
         public Dictionary<int, string> StatusCodes { get; private set; }
         public List<Tag> Tags { get; set; }
         public List<Allergen> Allergens { get; set; }

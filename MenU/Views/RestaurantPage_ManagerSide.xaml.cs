@@ -3,23 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MenU.Models;
 using MenU.ViewModels;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MenU.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DishImage : Rg.Plugins.Popup.Pages.PopupPage
+    public partial class RestaurantPage_ManagerSide : ContentPage
     {
-        public DishImage(RegisterRestaurantViewModel context)
+        public RestaurantPage_ManagerSide(int restaurantId)
         {
-            this.BindingContext = context;
-            InitializeComponent();
-        }
-        public DishImage(RestaurantPage_ManagerSide_ViewModel context)
-        {
+            RestaurantPage_ManagerSide_ViewModel context = new RestaurantPage_ManagerSide_ViewModel(restaurantId);
             this.BindingContext = context;
             InitializeComponent();
         }
