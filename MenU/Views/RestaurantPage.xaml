@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:MenU.Models"
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations">
+             xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:circleImage="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin">
+
     <ContentPage.Content>
         <Grid>
             <ScrollView Margin="0" Padding="0" VerticalScrollBarVisibility="Never">
@@ -78,20 +80,24 @@
                             </Label>
                             <BoxView Color="LightGray" HeightRequest="1.7" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" />
                         <Label Grid.Row="8" FontSize="Large" Text="Dishes" FontAttributes="Bold" TextColor="Black" Grid.Column="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
-                        <StackLayout x:Name="DishesStack" Margin="10" Grid.Row="9" Grid.ColumnSpan="4" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BindableLayout.ItemsSource="{Binding Dishes}" BindableLayout.EmptyView="This Restaurant Has No Dishes" >
+                        
+                        <StackLayout x:Name="DishesStack" Margin="10" Grid.Row="9" Grid.ColumnSpan="4" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BindableLayout.ItemsSource="{Binding Dishes}" BindableLayout.EmptyView="This Restaurant Has No Dishes">
                             <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="local:Dish">
-                                    <Frame BorderColor="LightGray" HeightRequest="80" CornerRadius="16" >
-                                        <Grid>
-                                            <Label Text="{Binding DishName}"  Grid.Row="0" Grid.Column="0" TextColor="Black" FontSize="18"></Label>
-                                            <Label Text="{Binding DishDescription}" Grid.Row="1" Grid.Column="0" TextColor="Gray" />
-                                        </Grid>
+                                <DataTemplate>
+                                    <Frame CornerRadius="12" Margin="5" HasShadow="False" BackgroundColor="#e9ecef" >
+                                        <StackLayout Orientation="Horizontal">
+                                            <circleImage:CircleImage Source="{Binding ImgSource}" HorizontalOptions="Start" HeightRequest="80"/>
+                                            <StackLayout Orientation="Vertical" Margin="10,0" >
+                                                <Label Text="{Binding DishName}" FontSize="Large" TextColor="Black" />
+                                                <Label Text="{Binding DishDescription}" LineBreakMode="TailTruncation" MaxLines="2" />
+                                            </StackLayout>
+
+
+                                        </StackLayout>
                                         <Frame.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference DishesStack}, Path=BindingContext.GoToDish}" CommandParameter="{Binding}" />
                                         </Frame.GestureRecognizers>
                                     </Frame>
-                                    
-                                   
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>
                         </StackLayout>

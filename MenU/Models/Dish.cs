@@ -31,7 +31,6 @@ namespace MenU.Models
         public virtual ICollection<DishTag> DishTags { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         
-
         public string ImgSource
         {
             get

@@ -79,6 +79,9 @@ namespace MenU.ViewModels
             ((App)App.Current).SearchEvent(s);
         }
 
+        public Command<Dish> GoToDish => new Command<Dish>((d) => ((App)App.Current).MainPage.Navigation.PushAsync(new DishPage(d))); 
+        public Command<Restaurant> GoToRestaurant => new Command<Restaurant>((r) => ((App)App.Current).MainPage.Navigation.PushAsync(new RestaurantPage(r))); 
+
         public async void PopulateLists()
         {
             DishList1.Clear();
@@ -88,7 +91,7 @@ namespace MenU.ViewModels
 
             List<Tag> tags = new List<Tag>(((App)App.Current).Tags);
             Random random = new Random();
-            int randomInt = /*random.Next(1, 20)*/ 17;
+            int randomInt = random.Next(1, 20);
             (List<Dish>,int) dishes = await proxy.GetDishesByTag(randomInt);
             int length = Math.Min(20, dishes.Item1.Count);
             for (int i = 0; i < length; i++)

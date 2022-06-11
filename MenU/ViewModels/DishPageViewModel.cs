@@ -50,36 +50,44 @@ namespace MenU.ViewModels
         public ObservableCollection<Tag> FilteredTags { get; set; }
         public ObservableCollection<Allergen> FilteredAllergens { get; set; }
 
-        public ObservableCollection<Review> Reviews { get; set; }
+        public ObservableCollection<ReviewHelper> Reviews { get; set; }
         #endregion
         public DishPageViewModel(Dish dish)
         {
             proxy = MenUWebAPI.CreateProxy();
-            this.dish = dish;
-            this.dishName = dish.DishName;
-            this.DishDescription = dish.DishDescription;
             this.FilteredTags = new ObservableCollection<Tag>();
             this.FilteredAllergens = new ObservableCollection<Allergen>();
-            Random random = new Random();
-            ImgSource = MenUWebAPI.DEFAULT_IMG_URI + "dishes/D" + dish.DishId + ".jpg?" + random.Next();
+            
             //imgSource = "pasta.jpg";
             heartSource = OUTLINE_HEART;
             //Filters out the tags and allergens that appear in the dish
-            foreach (DishTag dt in dish.DishTags)
-            {
-                Tag t = ((App)App.Current).Tags.FirstOrDefault(x => x.TagId == dt.TagId);
-                FilteredTags.Add(t);
-            }
-            foreach(AllergenInDish ag in dish.AllergenInDishes)
-            {
-                Allergen allergen = ((App) App.Current).Allergens.FirstOrDefault(x => x.AllergenId == ag.AllergenId);
-                FilteredAllergens.Add(allergen);
-            }
-            Reviews = new ObservableCollection<Review>();
-            LoadReviews();
+            Reviews = new ObservableCollection<ReviewHelper>();
+            LoadValues(dish.DishId);
             ((App)App.Current).ReviewAdded += this.LoadReviews;
         }
 
+        private async void LoadValues(int id)
+        {
+            (Dish, int) result = await proxy.GetDishById(id);
+            if(result.Item1 != null)
+            {
+                this.dish = result.Item1;
+                this.DishName = dish.DishName;
+                this.DishDescription = dish.DishDescription;
+                foreach (DishTag dt in dish.DishTags)
+                {
+                    Tag t = ((App)App.Current).Tags.FirstOrDefault(x => x.TagId == dt.TagId);
+                    FilteredTags.Add(t);
+                }
+                foreach (AllergenInDish ag in dish.AllergenInDishes)
+                {
+                    Allergen allergen = ((App)App.Current).Allergens.FirstOrDefault(x => x.AllergenId == ag.AllergenId);
+                    FilteredAllergens.Add(allergen);
+                }
+                ImgSource = dish.ImgSource;
+                LoadReviews();
+            }
+        }
         public Command AddReviewTapped => new Command(() => { App.Current.MainPage.Navigation.PushAsync(new AddReview(this.dish.DishId)); });
         public Command HeartTapped => new Command(HeartTappedMethod);
         private void HeartTappedMethod()
@@ -102,7 +110,7 @@ namespace MenU.ViewModels
             List<Review> reviews = result.Item1;
             foreach (Review review in reviews)
             {
-                Reviews.Add(review);
+                Reviews.Add(new ReviewHelper(review));
             }
         }
     }

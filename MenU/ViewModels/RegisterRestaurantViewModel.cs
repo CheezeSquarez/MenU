@@ -78,7 +78,7 @@ namespace MenU.ViewModels
                     }, imgPath);
                 }
                 List<DishDTO> dishes = registerRestult.Item1.Dishes;
-                foreach(DishDTO dish in dishes)
+                foreach (DishDTO dish in dishes)
                 {
                     string fileName = $"dishes/D{dish.Dish.DishId}.jpg";
                     await proxy.UploadImage(dish.Img, fileName);
@@ -93,13 +93,29 @@ namespace MenU.ViewModels
 
         }
 
-        public Command GoToAddMenu => new Command(() => {
-            foreach (Tag tag in SelectedTags)
+        public Command GoToAddMenu => new Command(async () =>
+        {
+        if (SelectedTags.Count > 0 && RestaurantName.Length > 0 && StreetName.Length > 0 && City.Length > 0 && HouseNumber.Length > 0 && imageFileResult != null && imageFileResult.FullPath.Length > 0)
             {
-                restaurantTags.Add(tag);
+                foreach (Tag tag in SelectedTags)
+                {
+                    restaurantTags.Add(tag);
+                }
+                SelectedTags.Clear();
+                Push?.Invoke(new AddMenu(this));
             }
-            SelectedTags.Clear();
-            Push?.Invoke(new AddMenu(this)); } );
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Fill In All Fields", "Please make sure to fill in all requested fields. (Make sure to select at least 1 tag)", "OK");
+
+
+            }
+        });
+            
+    
+        
+    
+
         public Command RegisterRestaurant => new Command(RegisterRestaurantMethod);
         public string HouseNumber
         {
@@ -247,55 +263,70 @@ namespace MenU.ViewModels
         #endregion
         public async void AddDishMethod()
         {
-            //Defines lists for allergens and tags (for DTO)
-            List<AllergenInDish> allergensInDish = new List<AllergenInDish>();
-            List<DishTag> tagsInDish = new List<DishTag>();
-            //(int, int) dishId = await proxy.StampDish();
-            //if (dishId.Item2 == 200)
-            //{
-                //Adds tags and allergens to lists
-                foreach (Allergen a in SelectedAllergens)
-                {
-                    allergensInDish.Add(new AllergenInDish() { AllergenId = a.AllergenId });
-                }
-                foreach (Tag tag in SelectedTags)
-                {
-                    tagsInDish.Add(new DishTag() { TagId = tag.TagId });
-                }
-            ImageSource source = "";
-            if (this.imageFileResult != null)
-               source  = ImageSource.FromFile(this.imageFileResult.FullPath);
-            //Builds DTO
-            DishDTO d = new DishDTO()
+            if(this.imageFileResultDish == null || this.imageFileResultDish.FullPath.Length == 0)
             {
-                Dish = new Dish()
+                await App.Current.MainPage.DisplayAlert("No Image Added", "Please make sure to add an image of the dish.", "OK");
+            }
+            else
+            {
+                if (SelectedAllergens.Count > 0 && SelectedTags.Count > 0 && DishName.Length > 0 && Description.Length > 0) 
                 {
-                    DishDescription = Description,
-                    //DishId = dishId.Item1, 
-                    DishName = DishName,
-                    DishPicture = "abc",
-                    //Restaurant = this.restaurantId 
-                },
-                AllergenInDishes = allergensInDish,
-                Tags = tagsInDish,
-                Img = new FileInfo()
+                    //Defines lists for allergens and tags (for DTO)
+                    List<AllergenInDish> allergensInDish = new List<AllergenInDish>();
+                    List<DishTag> tagsInDish = new List<DishTag>();
+                    //(int, int) dishId = await proxy.StampDish();
+                    //if (dishId.Item2 == 200)
+                    //{
+                    //Adds tags and allergens to lists
+                    foreach (Allergen a in SelectedAllergens)
+                    {
+                        allergensInDish.Add(new AllergenInDish() { AllergenId = a.AllergenId });
+                    }
+                    foreach (Tag tag in SelectedTags)
+                    {
+                        tagsInDish.Add(new DishTag() { TagId = tag.TagId });
+                    }
+                    ImageSource source = "";
+                    if (this.imageFileResult != null)
+                        source = ImageSource.FromFile(this.imageFileResult.FullPath);
+                    //Builds DTO
+                    DishDTO d = new DishDTO()
+                    {
+                        Dish = new Dish()
+                        {
+                            DishDescription = Description,
+                            //DishId = dishId.Item1, 
+                            DishName = DishName,
+                            DishPicture = "abc",
+                            //Restaurant = this.restaurantId 
+                        },
+                        AllergenInDishes = allergensInDish,
+                        Tags = tagsInDish,
+                        Img = new FileInfo()
+                        {
+                            Name = this.imageFileResultDish.FullPath
+                        },
+                        ImgSource = source
+                    };
+                    //Adds DTO to list of dished (used to send to server and display)
+                    this.Dishes.Add(d);
+                    //Clears all info (so that the next dish can be added)
+                    Description = "";
+                    imageFileResultDish = null;
+                    DishName = "";
+                    SelectedAllergens.Clear();
+                    SelectedTags.Clear();
+
+                    Pop?.Invoke();
+                    //}
+
+                }
+                else
                 {
-                    Name = this.imageFileResultDish.FullPath
-                },
-                ImgSource = source
-            };
-                //Adds DTO to list of dished (used to send to server and display)
-                this.Dishes.Add(d);
-                //Clears all info (so that the next dish can be added)
-                Description = "";
-                imageFileResultDish = null; 
-                DishName = "";
-                SelectedAllergens.Clear();
-                SelectedTags.Clear();
-
-                Pop?.Invoke();
-            //}
-
+                    await App.Current.MainPage.DisplayAlert("Fill In All Fields", "Please make sure to fill in all requested fields. (Make sure to select at least 1 allergen and at least 1 tag)", "OK");
+                }
+            }
+            
 
 
         }

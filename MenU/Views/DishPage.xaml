@@ -77,6 +77,8 @@
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
                                         </Grid.RowDefinitions>
                                         <Label Grid.Row="0" Text="{Binding ReviewTitle}" FontSize="20" TextColor="Black" Margin="0"/>
                                         <Image Source="{Binding LikedImgSource}" HeightRequest="30" Grid.Row="0" HorizontalOptions="End" />
@@ -88,6 +90,20 @@
                                             <Image HeightRequest="30" Source="{Binding Stars[4]}" />
                                         </StackLayout>
                                         <Label Text="{Binding ReviewBody}" Grid.Row="2" Margin="0"/>
+                                        
+                                        <StackLayout Grid.Row="3" IsVisible="{Binding StackVisibility}" IsEnabled="{Binding StackVisibility}">
+                                            <Image Source="{Binding ImgSource}" Aspect="AspectFit" />
+                                        </StackLayout>
+                                        <ffSvg:SvgCachedImage Grid.Row="4" HorizontalOptions="End" Source="{Binding ExpandImgSource}" 
+                                                              HeightRequest="24" WidthRequest="24" Scale="1" 
+                                                              IsEnabled="{Binding HasPicture}" IsVisible="{Binding HasPicture}">
+                                            <ff:CachedImage.Transformations>
+                                                <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                            </ff:CachedImage.Transformations>
+                                            <ffSvg:SvgCachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding ExpandPressed}" />
+                                            </ffSvg:SvgCachedImage.GestureRecognizers>
+                                        </ffSvg:SvgCachedImage>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>

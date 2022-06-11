@@ -107,6 +107,8 @@
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
                                         </Grid.RowDefinitions>
                                         <StackLayout Grid.Row="0" Orientation="Horizontal">
                                             <Label TextColor="Black" Margin="0" HorizontalOptions="StartAndExpand">
@@ -129,6 +131,19 @@
                                             <Image HeightRequest="30" Source="{Binding Stars[4]}" />
                                         </StackLayout>
                                         <Label Text="{Binding ReviewBody}" Grid.Row="2" Margin="0" LineBreakMode="TailTruncation" MaxLines="2"/>
+                                        <StackLayout Grid.Row="3" IsVisible="{Binding StackVisibility}" IsEnabled="{Binding StackVisibility}">
+                                            <Image Source="{Binding ImgSource}" Aspect="AspectFit" />
+                                        </StackLayout>
+                                        <ffSvg:SvgCachedImage Grid.Row="4" HorizontalOptions="End" Source="{Binding ExpandImgSource}" 
+                                                              HeightRequest="24" WidthRequest="24" Scale="1" 
+                                                              IsEnabled="{Binding HasPicture}" IsVisible="{Binding HasPicture}">
+                                            <ff:CachedImage.Transformations>
+                                                <ffTransf:TintTransformation HexColor="#808080" EnableSolidColor="True"/>
+                                            </ff:CachedImage.Transformations>
+                                            <ffSvg:SvgCachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding ExpandPressed}" />
+                                            </ffSvg:SvgCachedImage.GestureRecognizers>
+                                        </ffSvg:SvgCachedImage>
                                     </Grid>
                                 </Frame>
                             </DataTemplate>
@@ -137,16 +152,16 @@
                 </Grid>
             </StackLayout>
             <StackLayout Padding="0" Grid.Row="0">
-                <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}" Scale="1.4" HorizontalOptions="End" Source="icon_arrow_right.svg">
+                <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}" Scale="1.4" HorizontalOptions="End" Source="icon_logout.svg">
                     <ffSvg:SvgCachedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.Logout}" />
                     </ffSvg:SvgCachedImage.GestureRecognizers>
                 </ffSvg:SvgCachedImage>
-                <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}" Scale="1.4" HorizontalOptions="End" Source="icon_settings.svg" Margin="15,0">
+                <!-- <ffSvg:SvgCachedImage Style="{StaticResource Back_Button}" Scale="1.4" HorizontalOptions="End" Source="icon_settings.svg" Margin="15,0">
                     <ffSvg:SvgCachedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={x:Reference CurrentPage}, Path=BindingContext.Test}" />
                     </ffSvg:SvgCachedImage.GestureRecognizers>
-                </ffSvg:SvgCachedImage>
+                </ffSvg:SvgCachedImage> -->
             </StackLayout>
             
     </Grid>

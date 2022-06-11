@@ -6,7 +6,8 @@
              xmlns:ffSvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:ffTransf="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
              Title="Menu"
-             x:Name="CurrentPage">
+             x:Name="CurrentPage"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <Grid>
             <StackLayout Padding="10">

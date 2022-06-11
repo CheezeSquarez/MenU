@@ -30,7 +30,7 @@ namespace MenU.ViewModels
                     PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/R" + acc.AccountId + ".jpg?" + random.Next();
                 else
                     PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/A" + acc.AccountId + ".jpg?" + random.Next();
-                Reviews = new ObservableCollection<Review>();
+                Reviews = new ObservableCollection<ReviewHelper>();
                 LoadReviews();
             }
             else
@@ -39,7 +39,7 @@ namespace MenU.ViewModels
                 LName = "";
                 Username = "";
                 birthday = DateTime.Now;
-                Reviews = new ObservableCollection<Review>();
+                Reviews = new ObservableCollection<ReviewHelper>();
             }
             ((App)App.Current).UserChanged += this.LoadUserValues;
             ((App)App.Current).ReviewAdded += this.LoadReviews;
@@ -87,7 +87,7 @@ namespace MenU.ViewModels
             get => this.reviewsCount;
             set => SetValue(ref reviewsCount, value);
         }
-        public ObservableCollection<Review> Reviews { get; set; }
+        public ObservableCollection<ReviewHelper> Reviews { get; set; }
         public event Action<Page> Push;
         #endregion
 
@@ -106,7 +106,7 @@ namespace MenU.ViewModels
                 {
                     foreach (Review review in result.Item1)
                     {
-                        Reviews.Add(review);
+                        Reviews.Add(new ReviewHelper(review));
                     }
                     ReviewsCount = Reviews.Count;
                 }
@@ -134,7 +134,6 @@ namespace MenU.ViewModels
                 LName = acc.LastName;
                 Username = acc.Username;
                 birthday = acc.DateOfBirth;
-                Reviews = new ObservableCollection<Review>(acc.Reviews);
                 if (acc.AccountType == 2)
                     PfpImgSource = MenUWebAPI.DEFAULT_IMG_URI + "pfp/R" + acc.AccountId + ".jpg?" + random.Next();
                 else
